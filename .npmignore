@@ -1,0 +1,10 @@
+# Ignore Komodo files
+*.komodoproject
+
+# Backup files
+*.bak
+*.log
+
+config.js
+node_modules
+spec
