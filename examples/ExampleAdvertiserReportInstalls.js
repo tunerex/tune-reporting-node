@@ -11,7 +11,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-10 07:44:51 $
+ * @version   $Date: 2014-12-12 11:53:57 $
  * @link      http://developers.mobileapptracking.com/tune-reporting-sdks/ @endlink
  */
 "use strict";
@@ -19,38 +19,36 @@
 require('../lib/helpers/Date');
 
 var
-  tune_reporting = require('../lib'),
+  tuneReporting = require('../lib'),
   _ = require('underscore'),
   util = require('util'),
   async = require('async'),
   stackTrace = require('stack-trace'),
   async = require('async'),
-  AdvertiserReportInstalls = tune_reporting.api.AdvertiserReportInstalls,
-  EndpointBase = tune_reporting.base.endpoints.EndpointBase,
-  ReportReaderCSV = tune_reporting.helpers.ReportReaderCSV,
-  ReportReaderJSON = tune_reporting.helpers.ReportReaderJSON,
+  AdvertiserReportInstalls = tuneReporting.api.AdvertiserReportInstalls,
+  EndpointBase = tuneReporting.base.endpoints.EndpointBase,
+  ReportReaderCSV = tuneReporting.helpers.ReportReaderCSV,
+  ReportReaderJSON = tuneReporting.helpers.ReportReaderJSON,
   response;
 
 try {
   var args = process.argv.slice(2);
 
   if (args.length !== 1) {
-    throw new tune_reporting.helpers.InvalidArgument(null, 'api_key');
+    throw new tuneReporting.helpers.InvalidArgument(null, 'api_key');
   }
 
   var
-    api_key = args[0],
+    apiKey = args[0],
     endpointAdvertiserReportInstalls = new AdvertiserReportInstalls(
-      api_key,
+      apiKey,
       true
     ),
-    date = new Date(),
-    yesterday = date.yesterdayDate(),
-    start_date = date.startDateTime(yesterday),
-    end_date = date.endDateTime(yesterday),
-    response_timezone = 'America/Los_Angeles',
-    fields_recommended = null,
-    csv_job_id = null,
+    startDate = new Date().setYesterday().setStartTime().getIsoDateTime(),
+    endDate = new Date().setYesterday().setEndTime().getIsoDateTime(),
+    strResponseTimezone = 'America/Los_Angeles',
+    fieldsRecommended = null,
+    csvJobId = null,
     csv_report_url = null,
     json_job_id = null,
     json_report_url = null;
@@ -64,7 +62,7 @@ try {
       console.log('\n');
       next();
     },
-    fields_recommended: function (next) {
+    fieldsRecommended: function (next) {
       console.log('======================================================');
       console.log(' Fields of Log Installs.                        ');
       console.log('======================================================');
@@ -73,16 +71,16 @@ try {
       var fields_request = endpointAdvertiserReportInstalls.getFields(
         EndpointBase.TUNE_FIELDS_RECOMMENDED
       );
-      fields_request.once('success', function (response) {
+      fields_request.once('success', function onSuccess (response) {
         console.log('\n');
         console.log('= Status: "success"');
         console.log('= TuneManagementResponse:');
         console.log(response);
-        fields_recommended = response;
+        fieldsRecommended = response;
         next();
       });
 
-      fields_request.once('error', function (response) {
+      fields_request.once('error', function onError (response) {
         return next(response);
       });
     },
@@ -93,12 +91,12 @@ try {
       console.log('======================================================');
       console.log('\n');
       var count_request = endpointAdvertiserReportInstalls.count(
-        start_date,
-        end_date,
+        startDate,
+        endDate,
         null,                                           // filter
-        response_timezone
+        strResponseTimezone
       );
-      count_request.once('success', function (response) {
+      count_request.once('success', function onSuccess (response) {
         if ((response.getHttpCode() !== 200) || (response.getErrors() !== null)) {
           next(response);
         } else {
@@ -115,7 +113,7 @@ try {
         }
       });
 
-      count_request.once('error', function (response) {
+      count_request.once('error', function onError (response) {
         return next(response);
       });
 
@@ -127,16 +125,16 @@ try {
       console.log('======================================================');
       console.log('\n');
       var find_request = endpointAdvertiserReportInstalls.find(
-        start_date,
-        end_date,
-        fields_recommended,
+        startDate,
+        endDate,
+        fieldsRecommended,
         null,                                           // filter
         5,                                              // limit
         null,                                           // page
         { 'created': 'DESC' },                          // sort
-        response_timezone
+        strResponseTimezone
       );
-      find_request.once('success', function (response) {
+      find_request.once('success', function onSuccess (response) {
         if ((response.getHttpCode() !== 200) || (response.getErrors() !== null)) {
           next(response);
         } else {
@@ -149,7 +147,7 @@ try {
         }
       });
 
-      find_request.once('error', function (response) {
+      find_request.once('error', function onError (response) {
         return next(response);
       });
 
@@ -161,14 +159,14 @@ try {
       console.log('======================================================');
       console.log('\n');
       var export_request = endpointAdvertiserReportInstalls.exportReport(
-        start_date,
-        end_date,
-        fields_recommended,
+        startDate,
+        endDate,
+        fieldsRecommended,
         null,                                           // filter
         'csv',                                          // format
-        response_timezone
+        strResponseTimezone
       );
-      export_request.once('success', function (response) {
+      export_request.once('success', function onSuccess (response) {
         if ((response.getHttpCode() !== 200) || (response.getErrors() !== null)) {
           next(response);
         } else {
@@ -178,15 +176,15 @@ try {
           console.log('= TuneManagementResponse:');
           console.log(response.toString());
 
-          csv_job_id = endpointAdvertiserReportInstalls.parseResponseReportJobId(response);
+          csvJobId = endpointAdvertiserReportInstalls.parseResponseReportJobId(response);
 
           console.log('\n');
-          console.log(util.format('= CSV Report Job ID: "%s"', csv_job_id));
+          console.log(util.format('= CSV Report Job ID: "%s"', csvJobId));
           next();
         }
       });
 
-      export_request.once('error', function (response) {
+      export_request.once('error', function onError (response) {
         return next(response);
       });
     },
@@ -197,11 +195,11 @@ try {
       console.log('======================================================');
       console.log('\n');
       var fetch_request = endpointAdvertiserReportInstalls.fetchReport(
-        csv_job_id,
+        csvJobId,
         true        // verbose
       );
 
-      fetch_request.once('success', function (response) {
+      fetch_request.once('success', function onSuccess (response) {
         if ((response.getHttpCode() !== 200) || (response.getErrors() !== null)) {
           next(response);
         } else {
@@ -220,7 +218,7 @@ try {
         }
       });
 
-      fetch_request.once('error', function (response) {
+      fetch_request.once('error', function onError (response) {
         return next(response);
       });
     },
@@ -235,12 +233,12 @@ try {
         csv_reader = new ReportReaderCSV(csv_report_url),
         print_request = csv_reader.prettyprint(5);
 
-      print_request.once('success', function (response) {
+      print_request.once('success', function onSuccess (response) {
         console.log(response);
         next();
       });
 
-      print_request.once('error', function (response) {
+      print_request.once('error', function onError (response) {
         return next(response);
       });
 
@@ -252,14 +250,14 @@ try {
       console.log('======================================================');
       console.log('\n');
       var export_request = endpointAdvertiserReportInstalls.exportReport(
-        start_date,
-        end_date,
-        fields_recommended,
+        startDate,
+        endDate,
+        fieldsRecommended,
         null,                                           // filter
         'json',                                          // format
-        response_timezone
+        strResponseTimezone
       );
-      export_request.once('success', function (response) {
+      export_request.once('success', function onSuccess (response) {
         if ((response.getHttpCode() !== 200) || (response.getErrors() !== null)) {
           next(response);
         } else {
@@ -277,7 +275,7 @@ try {
         }
       });
 
-      export_request.once('error', function (response) {
+      export_request.once('error', function onError (response) {
         return next(response);
       });
     },
@@ -292,7 +290,7 @@ try {
         true        // verbose
       );
 
-      fetch_request.once('success', function (response) {
+      fetch_request.once('success', function onSuccess (response) {
         if ((response.getHttpCode() !== 200) || (response.getErrors() !== null)) {
           next(response);
         } else {
@@ -311,7 +309,7 @@ try {
         }
       });
 
-      fetch_request.once('error', function (response) {
+      fetch_request.once('error', function onError (response) {
         return next(response);
       });
     },
@@ -326,12 +324,12 @@ try {
         json_reader = new ReportReaderJSON(json_report_url),
         print_request = json_reader.prettyprint(5);
 
-      print_request.once('success', function (response) {
+      print_request.once('success', function onSuccess (response) {
         console.log(response);
         next();
       });
 
-      print_request.once('error', function (response) {
+      print_request.once('error', function onError (response) {
         return next(response);
       });
 

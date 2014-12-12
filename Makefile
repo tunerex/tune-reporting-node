@@ -26,7 +26,7 @@
 # author    Jeff Tanner <jefft@tune.com>
 # copyright 2014 Tune (http://www.tune.com)
 # license   http://opensource.org/licenses/MIT The MIT License (MIT)
-# version   $Date: 2014-12-10 07:44:51 $
+# version   $Date: 2014-12-12 11:53:57 $
 # link      http://developers.mobileapptracking.com/tune-api-sdks/
 #
 
@@ -36,8 +36,6 @@ clean:
 	sudo rm -fR ./docs/yuidoc/*
 
 examples:
-	node ./examples/ExampleTuneManagementClient $(api_key)
-	node ./examples/ExampleAccountUsers $(api_key)
 	node ./examples/ExampleAdvertiserReportClicks $(api_key)
 	node ./examples/ExampleAdvertiserReportEventItems $(api_key)
 	node ./examples/ExampleAdvertiserReportEvents $(api_key)
@@ -66,7 +64,7 @@ lib-cov:
 	@jscoverage lib lib-cov
 
 lint:
-	node node_modules/nodelint/nodelint ./lib/ ./examples/ | more
+	nodelint --config config.js ./lib/ ./examples/ | more
 
 npm-install:
 	npm install

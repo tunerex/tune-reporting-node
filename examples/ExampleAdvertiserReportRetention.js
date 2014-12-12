@@ -11,7 +11,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-10 07:44:51 $
+ * @version   $Date: 2014-12-12 11:53:57 $
  * @link      http://developers.mobileapptracking.com/tune-reporting-sdks/ @endlink
  */
 "use strict";
@@ -19,44 +19,38 @@
 require('../lib/helpers/Date');
 
 var
-  tune_reporting = require('../lib'),
+  tuneReporting = require('../lib'),
   _ = require('underscore'),
   util = require('util'),
   async = require('async'),
   stackTrace = require('stack-trace'),
   async = require('async'),
-  AdvertiserReportRetention = tune_reporting.api.AdvertiserReportRetention,
-  EndpointBase = tune_reporting.base.endpoints.EndpointBase,
-  ReportReaderCSV = tune_reporting.helpers.ReportReaderCSV,
-  ReportReaderJSON = tune_reporting.helpers.ReportReaderJSON,
+  AdvertiserReportRetention = tuneReporting.api.AdvertiserReportRetention,
+  EndpointBase = tuneReporting.base.endpoints.EndpointBase,
+  ReportReaderCSV = tuneReporting.helpers.ReportReaderCSV,
+  ReportReaderJSON = tuneReporting.helpers.ReportReaderJSON,
   response;
 
 try {
   var args = process.argv.slice(2);
 
   if (args.length !== 1) {
-    throw new tune_reporting.helpers.InvalidArgument(null, 'api_key');
+    throw new tuneReporting.helpers.InvalidArgument(null, 'api_key');
   }
 
   var
-    api_key = args[0],
+    apiKey = args[0],
     endpointAdvertiserReportRetention = new AdvertiserReportRetention(
-      api_key,
+      apiKey,
       true
     ),
-    // Set start date to the start of one week ago.
-    dateWeekAgo = new Date(),
-    week_ago = dateWeekAgo.oneWeekAgoDate(),
-    start_date = dateWeekAgo.startDateTime(week_ago),
 
-    // Set end date to end of yesterday.
-    date_yesterday = new Date(),
-    yesterday = date_yesterday.yesterdayDate(),
-    end_date = date_yesterday.endDateTime(yesterday),
+    startDate = new Date().setOneWeekAgo().setStartTime().getIsoDateTime(),
+    endDate = new Date().setYesterday().setEndTime().getIsoDateTime(),
 
-    response_timezone = 'America/Los_Angeles',
-    fields_recommended = null,
-    csv_job_id = null,
+    strResponseTimezone = 'America/Los_Angeles',
+    fieldsRecommended = null,
+    csvJobId = null,
     csv_report_url = null,
     json_job_id = null,
     json_report_url = null;
@@ -70,7 +64,7 @@ try {
       console.log('\n');
       next();
     },
-    fields_recommended: function (next) {
+    fieldsRecommended: function (next) {
       console.log('======================================================');
       console.log(' Fields of Retention.                                 ');
       console.log('======================================================');
@@ -79,16 +73,16 @@ try {
       var fields_request = endpointAdvertiserReportRetention.getFields(
         EndpointBase.TUNE_FIELDS_RECOMMENDED
       );
-      fields_request.once('success', function (response) {
+      fields_request.once('success', function onSuccess (response) {
         console.log('\n');
         console.log('= Status: "success"');
         console.log('= TuneManagementResponse:');
         console.log(response);
-        fields_recommended = response;
+        fieldsRecommended = response;
         next();
       });
 
-      fields_request.once('error', function (response) {
+      fields_request.once('error', function onError (response) {
         return next(response);
       });
     },
@@ -99,15 +93,15 @@ try {
       console.log('======================================================');
       console.log('\n');
       var count_request = endpointAdvertiserReportRetention.count(
-        start_date,
-        end_date,
-        'click',                                        // cohort_type
-        'year_day',                                     // cohort_interval
+        startDate,
+        endDate,
+        'click',                                        // cohortType
+        'year_day',                                     // cohortInterval
         'site_id,install_publisher_id',                 // group
         '(install_publisher_id > 0)',                   // filter
-        response_timezone
+        strResponseTimezone
       );
-      count_request.once('success', function (response) {
+      count_request.once('success', function onSuccess (response) {
         if ((response.getHttpCode() !== 200) || (response.getErrors() !== null)) {
           next(response);
         } else {
@@ -124,7 +118,7 @@ try {
         }
       });
 
-      count_request.once('error', function (response) {
+      count_request.once('error', function onError (response) {
         return next(response);
       });
 
@@ -136,19 +130,19 @@ try {
       console.log('======================================================');
       console.log('\n');
       var find_request = endpointAdvertiserReportRetention.find(
-        start_date,
-        end_date,
-        'click',                                        // cohort_type
-        'year_day',                                     // cohort_interval
-        fields_recommended,                             // fields
+        startDate,
+        endDate,
+        'click',                                        // cohortType
+        'year_day',                                     // cohortInterval
+        fieldsRecommended,                             // fields
         'site_id,install_publisher_id',                 // group
         '(install_publisher_id > 0)',                   // filter
         5,                                              // limit
         null,                                           // page
         null,                                           // sort
-        response_timezone
+        strResponseTimezone
       );
-      find_request.once('success', function (response) {
+      find_request.once('success', function onSuccess (response) {
         if ((response.getHttpCode() !== 200) || (response.getErrors() !== null)) {
           next(response);
         } else {
@@ -161,7 +155,7 @@ try {
         }
       });
 
-      find_request.once('error', function (response) {
+      find_request.once('error', function onError (response) {
         return next(response);
       });
 
@@ -173,16 +167,16 @@ try {
       console.log('======================================================');
       console.log('\n');
       var export_request = endpointAdvertiserReportRetention.exportReport(
-        start_date,
-        end_date,
-        'click',                                        // cohort_type
-        'year_day',                                     // cohort_interval
-        fields_recommended,                             // fields
+        startDate,
+        endDate,
+        'click',                                        // cohortType
+        'year_day',                                     // cohortInterval
+        fieldsRecommended,                             // fields
         'site_id,install_publisher_id',                 // group
         '(install_publisher_id > 0)',                   // filter
-        response_timezone
+        strResponseTimezone
       );
-      export_request.once('success', function (response) {
+      export_request.once('success', function onSuccess (response) {
         if ((response.getHttpCode() !== 200) || (response.getErrors() !== null)) {
           next(response);
         } else {
@@ -192,15 +186,15 @@ try {
           console.log('= TuneManagementResponse:');
           console.log(response.toString());
 
-          csv_job_id = endpointAdvertiserReportRetention.parseResponseReportJobId(response);
+          csvJobId = endpointAdvertiserReportRetention.parseResponseReportJobId(response);
 
           console.log('\n');
-          console.log(util.format('= CSV Report Job ID: "%s"', csv_job_id));
+          console.log(util.format('= CSV Report Job ID: "%s"', csvJobId));
           next();
         }
       });
 
-      export_request.once('error', function (response) {
+      export_request.once('error', function onError (response) {
         return next(response);
       });
     },
@@ -211,11 +205,11 @@ try {
       console.log('======================================================');
       console.log('\n');
       var fetch_request = endpointAdvertiserReportRetention.fetchReport(
-        csv_job_id,
+        csvJobId,
         true        // verbose
       );
 
-      fetch_request.once('success', function (response) {
+      fetch_request.once('success', function onSuccess (response) {
         if ((response.getHttpCode() !== 200) || (response.getErrors() !== null)) {
           next(response);
         } else {
@@ -234,7 +228,7 @@ try {
         }
       });
 
-      fetch_request.once('error', function (response) {
+      fetch_request.once('error', function onError (response) {
         return next(response);
       });
     },
@@ -249,12 +243,12 @@ try {
         csv_reader = new ReportReaderCSV(csv_report_url),
         print_request = csv_reader.prettyprint(5);
 
-      print_request.once('success', function (response) {
+      print_request.once('success', function onSuccess (response) {
         console.log(response);
         next();
       });
 
-      print_request.once('error', function (response) {
+      print_request.once('error', function onError (response) {
         return next(response);
       });
 

@@ -11,13 +11,13 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-10 07:44:51 $
+ * @version   $Date: 2014-12-12 11:53:57 $
  * @link      http://developers.mobileapptracking.com/tune-reporting-sdks/ @endlink
  */
 "use strict";
 
 var
-  tune_reporting = require('../lib'),
+  tuneReporting = require('../lib'),
   _ = require('underscore'),
   util = require('util'),
   async = require('async'),
@@ -35,15 +35,15 @@ try {
   var args = process.argv.slice(2);
 
   if (args.length !== 1) {
-    throw new tune_reporting.helpers.InvalidArgument(null, 'api_key');
+    throw new tuneReporting.helpers.InvalidArgument(null, 'api_key');
   }
 
   var
-    api_key = args[0],
-    client = new tune_reporting.base.service.TuneManagementClient(
+    apiKey = args[0],
+    client = new tuneReporting.base.service.TuneManagementClient(
       'account/users',
       'find',
-      api_key,
+      apiKey,
       {
         'limit' : 5,
         'filter' : "(first_name LIKE '%a%')"
@@ -90,7 +90,7 @@ try {
       var
         client_request = client.request();
 
-      client_request.on('success', function (response) {
+      client_request.on('success', function onSuccess (response) {
         console.log('\n');
         console.log('= Event: "success"');
         console.log('= TuneManagementResponse:');
@@ -98,7 +98,7 @@ try {
         next();
       });
 
-      client_request.on('error', function (response) {
+      client_request.on('error', function onError (response) {
         console.log('\n');
         console.log('= Event: "error"');
         console.log(response);

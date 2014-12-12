@@ -17,7 +17,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-10 07:44:51 $
+ * @version   $Date: 2014-12-12 11:53:57 $
  * @link      http://developers.mobileapptracking.com/tune-reporting-sdks/ @endlink
  */
 "use strict";
@@ -25,28 +25,26 @@
 require('../lib/helpers/Date');
 
 var
-  tune_reporting = require('../lib'),
-  AdvertiserReportPostbacks = tune_reporting.api.AdvertiserReportPostbacks,
-  EndpointBase = tune_reporting.base.endpoints.EndpointBase,
+  tuneReporting = require('../lib'),
+  AdvertiserReportPostbacks = tuneReporting.api.AdvertiserReportPostbacks,
+  EndpointBase = tuneReporting.base.endpoints.EndpointBase,
   expect = require('chai').expect;
 
 describe('test AdvertiserReportPostbacks', function () {
   this.timeout(20000);
   var
     endpointAdvertiserReportPostbacks,
-    api_key,
-    csv_job_id,
-    date = new Date(),
-    yesterday = date.yesterdayDate(),
-    start_date = date.startDateTime(yesterday),
-    end_date = date.endDateTime(yesterday),
-    response_timezone = 'America/Los_Angeles',
-    fields_recommended = null;
+    apiKey,
+    csvJobId,
+    startDate = new Date().setYesterday().setStartTime().getIsoDateTime(),
+    endDate = new Date().setYesterday().setEndTime().getIsoDateTime(),
+    strResponseTimezone = 'America/Los_Angeles',
+    fieldsRecommended = null;
 
   before(function () {
-    api_key = process.env.API_KEY;
+    apiKey = process.env.API_KEY;
     endpointAdvertiserReportPostbacks = new AdvertiserReportPostbacks(
-      api_key
+      apiKey
     );
   });
 
@@ -54,14 +52,14 @@ describe('test AdvertiserReportPostbacks', function () {
     var fields_request = endpointAdvertiserReportPostbacks.getFields(
       EndpointBase.TUNE_FIELDS_RECOMMENDED
     );
-    fields_request.on('success', function (result) {
+    fields_request.on('success', function onSuccess (result) {
       expect(result).to.be.not.null;
       expect(result).to.be.a('array');
-      fields_recommended = result;
+      fieldsRecommended = result;
       done();
     });
 
-    fields_request.on('error', function (error) {
+    fields_request.on('error', function onError (error) {
       expect(error).to.be.not.null;
       done(error);
     });
@@ -69,12 +67,12 @@ describe('test AdvertiserReportPostbacks', function () {
 
   it('count', function (done) {
     var count_request = endpointAdvertiserReportPostbacks.count(
-      start_date,
-      end_date,
+      startDate,
+      endDate,
       null,                                           // filter
-      response_timezone
+      strResponseTimezone
     );
-    count_request.on('success', function (result) {
+    count_request.on('success', function onSuccess (result) {
       expect(result).to.be.not.null;
       expect(result.getData()).to.be.not.null;
       expect(result.getErrors()).to.be.null;
@@ -84,7 +82,7 @@ describe('test AdvertiserReportPostbacks', function () {
       done();
     });
 
-    count_request.on('error', function (error) {
+    count_request.on('error', function onError (error) {
       expect(error).to.be.not.null;
       done(error);
     });
@@ -92,16 +90,16 @@ describe('test AdvertiserReportPostbacks', function () {
 
   it('find', function (done) {
     var find_request = endpointAdvertiserReportPostbacks.find(
-      start_date,
-      end_date,
-      fields_recommended,
+      startDate,
+      endDate,
+      fieldsRecommended,
       null,                                           // filter
       5,                                              // limit
       null,                                           // page
       { 'created': 'DESC' },                          // sort
-      response_timezone
+      strResponseTimezone
     );
-    find_request.on('success', function (result) {
+    find_request.on('success', function onSuccess (result) {
       expect(result).to.be.not.null;
       expect(result.getData()).to.be.not.null;
       expect(result.getErrors()).to.be.null;
@@ -109,7 +107,7 @@ describe('test AdvertiserReportPostbacks', function () {
       done();
     });
 
-    find_request.on('error', function (error) {
+    find_request.on('error', function onError (error) {
       expect(error).to.be.not.null;
       done(error);
     });
@@ -117,26 +115,26 @@ describe('test AdvertiserReportPostbacks', function () {
 
   it('exportCsvReport', function (done) {
     var export_request = endpointAdvertiserReportPostbacks.exportReport(
-      start_date,
-      end_date,
-      fields_recommended,
+      startDate,
+      endDate,
+      fieldsRecommended,
       null,                                           // filter
       'csv',                                          // format
-      response_timezone
+      strResponseTimezone
     );
-    export_request.on('success', function (result) {
+    export_request.on('success', function onSuccess (result) {
       expect(result).to.be.not.null;
       expect(result.getData()).to.be.not.null;
       expect(result.getErrors()).to.be.null;
       expect(result.getHttpCode()).eql(200);
 
-      csv_job_id = endpointAdvertiserReportPostbacks.parseResponseReportJobId(result);
-      expect(csv_job_id).to.be.a('string');
-      expect(csv_job_id).to.be.not.empty;
+      csvJobId = endpointAdvertiserReportPostbacks.parseResponseReportJobId(result);
+      expect(csvJobId).to.be.a('string');
+      expect(csvJobId).to.be.not.empty;
       done();
     });
 
-    export_request.on('error', function (error) {
+    export_request.on('error', function onError (error) {
       expect(error).to.be.not.null;
       done(error);
     });
@@ -144,9 +142,9 @@ describe('test AdvertiserReportPostbacks', function () {
 
   it('statusCsvReport', function (done) {
     var status_request = endpointAdvertiserReportPostbacks.statusReport(
-      csv_job_id
+      csvJobId
     );
-    status_request.on('success', function (result) {
+    status_request.on('success', function onSuccess (result) {
       expect(result).to.be.not.null;
       expect(result.getData()).to.be.not.null;
       expect(result.getErrors()).to.be.null;
@@ -154,9 +152,33 @@ describe('test AdvertiserReportPostbacks', function () {
       done();
     });
 
-    status_request.on('error', function (error) {
+    status_request.on('error', function onError (error) {
       expect(error).to.be.not.null;
       done(error);
     });
   });
+
+  //it('fetchCsvReport', function (done) {
+  //  var status_request = endpointAdvertiserReportPostbacks.fetchReport(
+  //    csvJobId
+  //  );
+  //  status_request.on('success', function onSuccess (result) {
+  //    expect(result).to.be.not.null;
+  //    expect(result.getData()).to.be.not.null;
+  //    expect(result.getErrors()).to.be.null;
+  //    expect(result.getHttpCode()).eql(200);
+  //
+  //    var csvReportUrl
+  //      = endpointAdvertiserReportPostbacks.parseResponseReportUrl(result);
+  //    expect(csvReportUrl).to.be.not.null;
+  //    expect(csvReportUrl).to.be.a('string');
+  //    expect(csvReportUrl).to.be.not.empty;
+  //    done();
+  //  });
+  //
+  //  status_request.on('error', function onError (error) {
+  //    expect(error).to.be.not.null;
+  //    done(error);
+  //  });
+  //});
 });

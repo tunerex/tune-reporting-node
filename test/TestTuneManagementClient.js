@@ -17,15 +17,15 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-10 07:44:51 $
+ * @version   $Date: 2014-12-12 11:53:57 $
  * @link      http://developers.mobileapptracking.com/tune-reporting-sdks/ @endlink
  */
 "use strict";
 
 var
-  tune_reporting = require('../lib'),
-  TuneManagementClient = tune_reporting.base.service.TuneManagementClient,
-  TuneManagementRequest = tune_reporting.base.service.TuneManagementRequest,
+  tuneReporting = require('../lib'),
+  TuneManagementClient = tuneReporting.base.service.TuneManagementClient,
+  TuneManagementRequest = tuneReporting.base.service.TuneManagementRequest,
   _ = require('underscore'),
   util = require('util'),
   async = require('async'),
@@ -40,13 +40,13 @@ var
 
 describe('test TuneManagementClient', function () {
   var
-    api_key = process.env.API_KEY,
+    apiKey = process.env.API_KEY,
     client = null;
   before(function () {
     client = new TuneManagementClient(
       'account/users',
       'find',
-      api_key,
+      apiKey,
       {
         'limit' : 5,
         'filter' : "(first_name LIKE '%a%')"
@@ -75,7 +75,7 @@ describe('test TuneManagementClient', function () {
       done();
     });
     it('client API Key', function (done) {
-      expect(client.getRequest()).to.have.property('api_key');
+      expect(client.getRequest()).to.have.property('apiKey');
       expect(client.getRequest().getApiKey()).to.be.a('string');
       expect(client.getRequest().getApiKey()).to.be.not.empty;
       done();
@@ -96,7 +96,7 @@ describe('test TuneManagementClient', function () {
 
   it('make request using events', function (done) {
     var client_request = client.request();
-    client_request.on('success', function (result) {
+    client_request.on('success', function onSuccess (result) {
       expect(result).to.be.not.null;
       expect(result.getRequestUrl()).to.be.not.null;
       expect(result.getRequestUrl()).to.be.a('string');
@@ -105,7 +105,7 @@ describe('test TuneManagementClient', function () {
       done();
     });
 
-    client_request.on('error', function (response) {
+    client_request.on('error', function onError (response) {
       done(response);
     });
   });
@@ -115,7 +115,7 @@ describe('test TuneManagementClient', function () {
       callbackSpy = spy(),
       client_request = client.request(callbackSpy);
 
-    client_request.on('success', function (result) {
+    client_request.on('success', function onSuccess (result) {
       expect(result).to.be.not.null;
       expect(result.getRequestUrl()).to.be.not.null;
       expect(result.getRequestUrl()).to.be.a('string');
@@ -125,7 +125,7 @@ describe('test TuneManagementClient', function () {
       done();
     });
 
-    client_request.on('error', function (response) {
+    client_request.on('error', function onError (response) {
       done(response);
     });
   });

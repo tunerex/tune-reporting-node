@@ -1,7 +1,7 @@
 <h2>tune-reporting-node</h2>
 <h2>Tune Reporting SDK for Node.js</h2>
 <h3>Incorporate Tune Reporting API services.</h3>
-<h4>Update:  $Date: 2014-12-10 07:44:51 $</h4>
+<h4>Update:  $Date: 2014-12-12 11:53:57 $</h4>
 <h4>Version: 0.1.0</h4>
 ===
 
@@ -31,13 +31,47 @@ Please see documentation here:
 <a name="sdk_prerequisites"></a>
 #### Prerequisites
 
-    * node >= 0.10.0
-    * npm => 1.3.0
+    * node >= 0.10.*
+    * npm => 1.4.*
 
 <a name="generate_api_key"></a>
 #### Generate API Key
 
 To use SDK, it requires you to [Generate API Key](http://developers.mobileapptracking.com/generate-api-key/)
 
+<a name="sdk_installation"></a>
+### Installation
 
-npm install request
+You can install **tune-reporting-php** via composer or by downloading the source.
+
+<a name="sdk_installation_npm"></a>
+#### Via npm:
+
+
+
+#### Via ZIP file
+Fork and clone the repository: [ZIP](https://github.com/MobileAppTracking/tune-reporting-node/archive/master.zip)
+
+Install dependencies with:
+    
+```bash
+    $ git clone git@github.com:MobileAppTracking/tune-reporting-node
+    $ cd tune-reporting-node
+    $ npm install
+```
+
+Run the existing test spec with `npm test`.
+
+```bash
+    $ make api_key=[API_KEY] tests
+```
+
+<a name="license"></a>
+### License
+
+[MIT License](http://opensource.org/licenses/MIT)
+
+<a name="sdk_reporting_issues"></a>
+### Reporting Issues
+
+Report issues using the [Github Issue Tracker](https://github.com/MobileAppTracking/tune-reporting-node/issues) or Email [sdk@tune.com](mailto:sdk@tune.com).
