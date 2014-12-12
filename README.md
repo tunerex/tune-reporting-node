@@ -1,13 +1,11 @@
-<h2>tune-reporting-node</h2>
+<h2>tune-reporting</h2>
 <h2>Tune Reporting SDK for Node.js</h2>
 <h3>Incorporate Tune Reporting API services.</h3>
-<h4>Update:  $Date: 2014-12-12 11:53:57 $</h4>
-<h4>Version: 0.1.0</h4>
+<h4>Update:  $Date: 2014-12-12 12:30:57 $</h4>
+<h4>Version: 0.1.2</h4>
 ===
 
 [![NPM](https://nodei.co/npm/tune-reporting.png?downloads=true&stars=true)](https://nodei.co/npm/tune-reporting/)
-
-[![Build Status](https://travis-ci.org/MobileAppTracking/tune-reporting-node.svg?branch=master)](https://travis-ci.org/MobileAppTracking/tune-reporting-node)
 
 ### Overview
 
@@ -42,12 +40,17 @@ To use SDK, it requires you to [Generate API Key](http://developers.mobileapptra
 <a name="sdk_installation"></a>
 ### Installation
 
-You can install **tune-reporting-php** via composer or by downloading the source.
+You can install **tune-reporting** via *npm* or by downloading the source from github.
 
 <a name="sdk_installation_npm"></a>
 #### Via npm:
+It is available on [npm](https://www.npmjs.com/): [*tune-reporting*](https://www.npmjs.com/package/tune-reporting)
 
+Install as follows
 
+```bash
+    $ npm install tune-reporting
+```
 
 #### Via ZIP file
 Fork and clone the repository: [ZIP](https://github.com/MobileAppTracking/tune-reporting-node/archive/master.zip)
