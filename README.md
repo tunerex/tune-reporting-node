@@ -1,8 +1,8 @@
 <h2>tune-reporting</h2>
 <h2>Tune Reporting SDK for Node.js</h2>
 <h3>Incorporate Tune Reporting API services.</h3>
-<h4>Update:  $Date: 2014-12-12 12:30:57 $</h4>
-<h4>Version: 0.1.2</h4>
+<h4>Update:  $Date: 2014-12-12 13:00:00 $</h4>
+<h4>Version: 0.1.3</h4>
 ===
 
 [![NPM](https://nodei.co/npm/tune-reporting.png?downloads=true&stars=true)](https://nodei.co/npm/tune-reporting/)
@@ -52,21 +52,46 @@ Install as follows
     $ npm install tune-reporting
 ```
 
-#### Via ZIP file
-Fork and clone the repository: [ZIP](https://github.com/MobileAppTracking/tune-reporting-node/archive/master.zip)
+<a name="sdk_installation_zip"></a>
+##### Via ZIP file:
 
-Install dependencies with:
-    
+[Click here to download the source code
+(.zip)](https://github.com/MobileAppTracking/tune-reporting-node/archive/master.zip) for `tune-reporting`.
+
 ```bash
     $ git clone git@github.com:MobileAppTracking/tune-reporting-node
     $ cd tune-reporting-node
     $ npm install
 ```
 
-Run the existing test spec with `npm test`.
+
+<a name="sdk_examples"></a>
+#### SDK Examples
+
+Run the following script to view execution of all examples:
 
 ```bash
+    $ make api_key=[API_KEY] examples
+```
+
+<a name="sdk_unittests"></a>
+#### SDK Unittests
+
+Run the following script to view execution of all unittests:
+
+```bash
+    $ npm install --save-dev
     $ make api_key=[API_KEY] tests
+```
+
+<a name="sdk_documentation"></a>
+#### SDK Documentation
+
+The following will generate [YUIDoc](http://yui.github.io/yuidoc/) from Node.js codebase:
+
+```bash
+    $ npm install yuidoc
+    $ make docs-yuidoc
 ```
 
 <a name="license"></a>
