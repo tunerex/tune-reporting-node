@@ -1,4 +1,4 @@
-<h2>tune-reporting</h2>
+<h2>tune-reporting-node</h2>
 <h2>Tune Reporting SDK for Node.js</h2>
 <h3>Incorporate Tune Reporting API services.</h3>
 <h4>Update:  $Date: 2014-12-12 13:00:00 $</h4>
@@ -30,7 +30,7 @@ Please see documentation here:
 #### Prerequisites
 
     * node >= 0.10.*
-    * npm => 1.4.*
+    * npm >= 1.4.*
 
 <a name="generate_api_key"></a>
 #### Generate API Key
@@ -40,7 +40,7 @@ To use SDK, it requires you to [Generate API Key](http://developers.mobileapptra
 <a name="sdk_installation"></a>
 ### Installation
 
-You can install **tune-reporting** via *npm* or by downloading the source from github.
+You can install **tune-reporting-node** via *npm* or by downloading the source from github.
 
 <a name="sdk_installation_npm"></a>
 #### Via npm:
@@ -61,7 +61,7 @@ Install as follows
 ```bash
     $ git clone git@github.com:MobileAppTracking/tune-reporting-node
     $ cd tune-reporting-node
-    $ npm install
+    $ npm install .
 ```
 
 
