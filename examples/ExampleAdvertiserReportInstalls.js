@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Examples of Tune Reporting API
+ * Examples of TUNE Reporting API
  *
  * @module tune-reporting
  * @submodule examples
@@ -9,9 +9,9 @@
  * @category  tune-reporting-node
  *
  * @author    Jeff Tanner <jefft@tune.com>
- * @copyright 2014 Tune (http://www.tune.com)
+ * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-12 11:53:57 $
+ * @version   $Date: 2014-12-18 14:57:59 $
  * @link      http://developers.mobileapptracking.com/tune-reporting-sdks/ @endlink
  */
 "use strict";
@@ -57,7 +57,7 @@ try {
     startExample: function (next) {
       console.log('\n');
       console.log('======================================================'.blue.bold);
-      console.log(' Begin: Tune Management API Log Installs              '.blue.bold);
+      console.log(' Begin: TUNE Management API Log Installs              '.blue.bold);
       console.log('======================================================'.blue.bold);
       console.log('\n');
       next();

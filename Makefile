@@ -1,6 +1,6 @@
 #   Makefile
 #
-#   Copyright (c) 2014 Tune, Inc
+#   Copyright (c) 2014 TUNE, Inc.
 #   All rights reserved.
 #
 #   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,12 +21,12 @@
 #   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 #   THE SOFTWARE.
 #
-# category  Tune
+# category  TUNE_Reporting
 # package   tune.tests
 # author    Jeff Tanner <jefft@tune.com>
-# copyright 2014 Tune (http://www.tune.com)
+# copyright 2014 TUNE, Inc. (http://www.tune.com)
 # license   http://opensource.org/licenses/MIT The MIT License (MIT)
-# version   $Date: 2014-12-12 11:53:57 $
+# version   $Date: 2014-12-18 14:57:59 $
 # link      http://developers.mobileapptracking.com/tune-api-sdks/
 #
 
@@ -44,7 +44,6 @@ examples:
 	node ./examples/ExampleAdvertiserReportActuals $(api_key)
 	node ./examples/ExampleAdvertiserReportCohort $(api_key)
 	node ./examples/ExampleAdvertiserReportRetention $(api_key)
-
 
 test-install:
 	npm install mocha, chai, should, sinon -g
