@@ -1,12 +1,15 @@
-# Ignore Komodo files
+# Project files
 *.komodoproject
+
+# Code build files
+config.js
+node_modules
+
+# Code documentation
+docs/yuidoc/
 
 # Backup files
 *.bak
 *.log
-
-config.js
-node_modules
-
-# Ignore Documentation files
-docs/yuidoc/
+*.*~
+*~
