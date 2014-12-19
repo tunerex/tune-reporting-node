@@ -17,7 +17,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-18 14:57:59 $
+ * @version   $Date: 2014-12-18 17:16:13 $
  * @link      http://developers.mobileapptracking.com/tune-reporting-sdks/ @endlink
  */
 "use strict";
@@ -33,7 +33,7 @@ var
 describe('test AdvertiserReportInstalls', function () {
   this.timeout(10000);
   var
-    endpointAdvertiserReportInstalls,
+    advertiserReportInstalls,
     apiKey,
     csvJobId,
     startDate = new Date().setYesterday().setStartTime().getIsoDateTime(),
@@ -43,13 +43,13 @@ describe('test AdvertiserReportInstalls', function () {
 
   before(function () {
     apiKey = process.env.API_KEY;
-    endpointAdvertiserReportInstalls = new AdvertiserReportInstalls(
+    advertiserReportInstalls = new AdvertiserReportInstalls(
       apiKey
     );
   });
 
   it('fields recommended', function (done) {
-    var fields_request = endpointAdvertiserReportInstalls.getFields(
+    var fields_request = advertiserReportInstalls.getFields(
       EndpointBase.TUNE_FIELDS_RECOMMENDED
     );
     fields_request.on('success', function onSuccess (result) {
@@ -66,7 +66,7 @@ describe('test AdvertiserReportInstalls', function () {
   });
 
   it('count', function (done) {
-    var count_request = endpointAdvertiserReportInstalls.count(
+    var count_request = advertiserReportInstalls.count(
       startDate,
       endDate,
       null,                                           // filter
@@ -89,7 +89,7 @@ describe('test AdvertiserReportInstalls', function () {
   });
 
   it('find', function (done) {
-    var find_request = endpointAdvertiserReportInstalls.find(
+    var find_request = advertiserReportInstalls.find(
       startDate,
       endDate,
       fieldsRecommended,
@@ -114,7 +114,7 @@ describe('test AdvertiserReportInstalls', function () {
   });
 
   it('exportCsvReport', function (done) {
-    var export_request = endpointAdvertiserReportInstalls.exportReport(
+    var export_request = advertiserReportInstalls.exportReport(
       startDate,
       endDate,
       fieldsRecommended,
@@ -128,7 +128,7 @@ describe('test AdvertiserReportInstalls', function () {
       expect(result.getErrors()).to.be.null;
       expect(result.getHttpCode()).eql(200);
 
-      csvJobId = endpointAdvertiserReportInstalls.parseResponseReportJobId(result);
+      csvJobId = advertiserReportInstalls.parseResponseReportJobId(result);
       expect(csvJobId).to.be.a('string');
       expect(csvJobId).to.be.not.empty;
       done();
@@ -141,7 +141,7 @@ describe('test AdvertiserReportInstalls', function () {
   });
 
   it('statusCsvReport', function (done) {
-    var status_request = endpointAdvertiserReportInstalls.statusReport(
+    var status_request = advertiserReportInstalls.statusReport(
       csvJobId
     );
     status_request.on('success', function onSuccess (result) {
@@ -159,7 +159,7 @@ describe('test AdvertiserReportInstalls', function () {
   });
 
   //it('fetchCsvReport', function (done) {
-  //  var status_request = endpointAdvertiserReportInstalls.fetchReport(
+  //  var status_request = advertiserReportInstalls.fetchReport(
   //    csvJobId
   //  );
   //  status_request.on('success', function onSuccess (result) {
@@ -169,7 +169,7 @@ describe('test AdvertiserReportInstalls', function () {
   //    expect(result.getHttpCode()).eql(200);
   //
   //    var csvReportUrl
-  //      = endpointAdvertiserReportInstalls.parseResponseReportUrl(result);
+  //      = advertiserReportInstalls.parseResponseReportUrl(result);
   //    expect(csvReportUrl).to.be.not.null;
   //    expect(csvReportUrl).to.be.a('string');
   //    expect(csvReportUrl).to.be.not.empty;
