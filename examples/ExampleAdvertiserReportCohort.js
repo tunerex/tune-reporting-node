@@ -2,8 +2,7 @@
 /**
  * Examples of TUNE Reporting API
  *
- * @module tune-reporting
- * @submodule examples
+ * @module examples
  * @main tune-reporting
  *
  * @category  tune-reporting-node
@@ -11,7 +10,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-18 17:16:13 $
+ * @version   $Date: 2014-12-19 14:28:10 $
  * @link      http://developers.mobileapptracking.com/tune-reporting-sdks/ @endlink
  */
 "use strict";
