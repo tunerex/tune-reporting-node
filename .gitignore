@@ -6,6 +6,7 @@ config.js
 node_modules
 
 # Code documentation
+docs/jsdoc/
 docs/yuidoc/
 
 # Backup files

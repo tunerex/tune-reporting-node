@@ -2,8 +2,7 @@
 /**
  * Examples of TUNE Reporting API
  *
- * @module tune-reporting
- * @submodule examples
+ * @module examples
  * @main tune-reporting
  *
  * @category  tune-reporting-node
@@ -11,7 +10,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-18 17:16:13 $
+ * @version   $Date: 2014-12-19 14:28:10 $
  * @link      http://developers.mobileapptracking.com/tune-reporting-sdks/ @endlink
  */
 "use strict";
@@ -130,7 +129,7 @@ try {
       var find_request = advertiserReportActuals.find(
         startDate,
         endDate,
-        arrayFieldsRecommended,                              // fields
+        arrayFieldsRecommended,                         // fields
         'site_id,publisher_id',                         // group
         '(publisher_id > 0)',                           // filter
         5,                                              // limit
@@ -156,6 +155,42 @@ try {
         return next(response);
       });
     },
+    taskFindComplexFilter: function (next) {
+      console.log('\n');
+      console.log('======================================================');
+      console.log(' Find Advertiser Report Actuals with Complex Filter.  ');
+      console.log('======================================================');
+      console.log('\n');
+      var find_request = advertiserReportActuals.find(
+        startDate,
+        endDate,
+        arrayFieldsRecommended,                             // fields
+        'site_id,publisher_id',                             // group
+        '(ad_network_id = 938) AND (publisher_id = 877)',   // filter
+        5,                                                  // limit
+        null,                                               // page
+        { 'paid_installs': 'DESC' },                        // sort
+        'datehour',                                         // timestamp
+        strResponseTimezone
+      );
+      find_request.once('success', function onSuccess (response) {
+        if ((response.getHttpCode() !== 200) || (response.getErrors() !== null)) {
+          console.log('======================================================'.red);
+          next(response);
+        } else {
+          console.log('\n');
+          console.log('= Status: "success"');
+          console.log('= TuneManagementResponse:');
+          console.log(response.toString());
+          next();
+        }
+      });
+
+      find_request.once('error', function onError (response) {
+        console.log('======================================================'.red);
+        return next(response);
+      });
+    },
     taskExportCsvReport: function (next) {
       console.log('\n');
       console.log('======================================================');
@@ -165,7 +200,7 @@ try {
       var export_request = advertiserReportActuals.exportReport(
         startDate,
         endDate,
-        arrayFieldsRecommended,                             // fields
+        arrayFieldsRecommended,                         // fields
         'site_id,publisher_id',                         // group
         '(publisher_id > 0)',                           // filter
         'datehour',                                     // timestamp
@@ -247,7 +282,6 @@ try {
       print_request.once('error', function onError (response) {
         return next(response);
       });
-
     },
     taskExportJsonReport: function (next) {
       console.log('\n');
@@ -354,14 +388,18 @@ try {
     function (err) {
       if (err) {
         console.log('\n');
+        console.log('======================================================'.red);
         console.log('= Status: "error"'.red);
-        console.log('= TuneManagementResponse:');
+        console.log('= TuneManagementResponse:'.red);
+        console.log('======================================================'.red);
         console.log(err);
       }
     });
 } catch (err) {
   console.log('\n');
+  console.log('======================================================'.red);
   console.log('= Exception: "error"'.red);
   console.log(err);
   console.log(stackTrace.parse(err));
+  console.log('======================================================'.red);
 }

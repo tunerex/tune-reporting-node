@@ -26,13 +26,14 @@
 # author    Jeff Tanner <jefft@tune.com>
 # copyright 2014 TUNE, Inc. (http://www.tune.com)
 # license   http://opensource.org/licenses/MIT The MIT License (MIT)
-# version   $Date: 2014-12-18 14:57:59 $
+# version   $Date: 2014-12-19 14:28:10 $
 # link      http://developers.mobileapptracking.com/tune-api-sdks/
 #
 
 export API_KEY=$(api_key)
 
 clean:
+	sudo rm -fR ./docs/jsdoc/*
 	sudo rm -fR ./docs/yuidoc/*
 
 examples:
@@ -76,9 +77,14 @@ nvm-install:
 	node -v
 	npm -v
 
+docs-jsdoc:
+	sudo rm -fR ./docs/jsdoc/*
+	jsdoc -c config/jsdoc.json
+	x-www-browser docs/jsdoc/index.html
+
 docs-yuidoc:
 	sudo rm -fR ./docs/yuidoc/*
-	yuidoc ./lib/
+	yuidoc ./lib/ -c config/yuidoc.json
 	x-www-browser docs/yuidoc/index.html
 
 .PHONY: lint npm-install nvm-install docs-yuidoc test test-w examples

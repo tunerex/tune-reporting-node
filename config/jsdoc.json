@@ -1,0 +1,33 @@
+{
+    "tags": {
+        "allowUnknownTags": true
+    },
+    "source": {
+        "include": ["./lib"],
+        "includePattern": ".+\\.js(doc)?$",
+        "excludePattern": "docs"
+    },
+    "plugins": [],
+    "templates": {
+        "cleverLinks": false,
+        "monospaceLinks": false,
+        "default": {
+            "outputSourceFiles": true
+        },
+        "systemName"      : "TUNE Reporting SDK for Node.js",
+        "footer"          : "Jeff Tanner, jefft@tune.com",
+        "copyright"       : "TUNE Reporting SDK Copyright © 2014, TUNE, Inc.",
+        "navType"         : "vertical",
+        "theme"           : "cerulean",
+        "linenums"        : true,
+        "collapseSymbols" : false,
+        "inverseNav"      : true
+    },
+    "opts": {
+        "template": "./node_modules/ink-docstrap/template",
+        "encoding": "utf8",
+        "destination": "docs/jsdoc",
+        "recurse": true,
+        "private": true
+    }
+}
