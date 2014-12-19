@@ -11,7 +11,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-18 14:57:59 $
+ * @version   $Date: 2014-12-18 17:16:13 $
  * @link      http://developers.mobileapptracking.com/tune-reporting-sdks/ @endlink
  */
 "use strict";
@@ -40,7 +40,7 @@ try {
 
   var
     apiKey = args[0],
-    endpointAdvertiserReportRetention = new AdvertiserReportRetention(
+    advertiserReportRetention = new AdvertiserReportRetention(
       apiKey,
       true
     ),
@@ -49,28 +49,28 @@ try {
     endDate = new Date().setYesterday().setEndTime().getIsoDateTime(),
 
     strResponseTimezone = 'America/Los_Angeles',
-    fieldsRecommended = null,
+    arrayFieldsRecommended = null,
     csvJobId = null,
     csv_report_url = null,
     json_job_id = null,
     json_report_url = null;
 
   async.series({
-    startExample: function (next) {
+    taskStartExample: function (next) {
       console.log('\n');
       console.log('======================================================'.blue.bold);
-      console.log(' Begin: TUNE Management API Retention                 '.blue.bold);
+      console.log(' Begin: TUNE Advertiser Report Retention              '.blue.bold);
       console.log('======================================================'.blue.bold);
       console.log('\n');
       next();
     },
-    fieldsRecommended: function (next) {
+    taskFieldsRecommended: function (next) {
       console.log('======================================================');
-      console.log(' Fields of Retention.                                 ');
+      console.log(' Recommended Fields of Advertiser Report Retention.   ');
       console.log('======================================================');
       console.log('\n');
 
-      var fields_request = endpointAdvertiserReportRetention.getFields(
+      var fields_request = advertiserReportRetention.getFields(
         EndpointBase.TUNE_FIELDS_RECOMMENDED
       );
       fields_request.once('success', function onSuccess (response) {
@@ -78,7 +78,7 @@ try {
         console.log('= Status: "success"');
         console.log('= TuneManagementResponse:');
         console.log(response);
-        fieldsRecommended = response;
+        arrayFieldsRecommended = response;
         next();
       });
 
@@ -86,13 +86,13 @@ try {
         return next(response);
       });
     },
-    count: function (next) {
+    taskCount: function (next) {
       console.log('\n');
       console.log('======================================================');
-      console.log(' Count Retention.                            ');
+      console.log(' Count Advertiser Report Retention.                   ');
       console.log('======================================================');
       console.log('\n');
-      var count_request = endpointAdvertiserReportRetention.count(
+      var count_request = advertiserReportRetention.count(
         startDate,
         endDate,
         'click',                                        // cohortType
@@ -123,18 +123,18 @@ try {
       });
 
     },
-    find: function (next) {
+    taskFind: function (next) {
       console.log('\n');
       console.log('======================================================');
-      console.log(' Find Retention.                            ');
+      console.log(' Find Advertiser Report Retention.                    ');
       console.log('======================================================');
       console.log('\n');
-      var find_request = endpointAdvertiserReportRetention.find(
+      var find_request = advertiserReportRetention.find(
         startDate,
         endDate,
         'click',                                        // cohortType
         'year_day',                                     // cohortInterval
-        fieldsRecommended,                             // fields
+        arrayFieldsRecommended,                             // fields
         'site_id,install_publisher_id',                 // group
         '(install_publisher_id > 0)',                   // filter
         5,                                              // limit
@@ -160,18 +160,18 @@ try {
       });
 
     },
-    exportCsvReport: function (next) {
+    taskExportCsvReport: function (next) {
       console.log('\n');
       console.log('======================================================');
-      console.log(' Export Retention CSV report.                            ');
+      console.log(' Export Advertiser Report Retention CSV report.       ');
       console.log('======================================================');
       console.log('\n');
-      var export_request = endpointAdvertiserReportRetention.exportReport(
+      var export_request = advertiserReportRetention.exportReport(
         startDate,
         endDate,
         'click',                                        // cohortType
         'year_day',                                     // cohortInterval
-        fieldsRecommended,                             // fields
+        arrayFieldsRecommended,                             // fields
         'site_id,install_publisher_id',                 // group
         '(install_publisher_id > 0)',                   // filter
         strResponseTimezone
@@ -186,7 +186,7 @@ try {
           console.log('= TuneManagementResponse:');
           console.log(response.toString());
 
-          csvJobId = endpointAdvertiserReportRetention.parseResponseReportJobId(response);
+          csvJobId = advertiserReportRetention.parseResponseReportJobId(response);
 
           console.log('\n');
           console.log(util.format('= CSV Report Job ID: "%s"', csvJobId));
@@ -198,13 +198,13 @@ try {
         return next(response);
       });
     },
-    fetchCsvReport: function (next) {
+    taskFetchCsvReport: function (next) {
       console.log('\n');
       console.log('======================================================');
-      console.log(' Fetch Retention CSV report.                         ');
+      console.log(' Fetch Advertiser Report Retention CSV report.        ');
       console.log('======================================================');
       console.log('\n');
-      var fetch_request = endpointAdvertiserReportRetention.fetchReport(
+      var fetch_request = advertiserReportRetention.fetchReport(
         csvJobId,
         true        // verbose
       );
@@ -219,7 +219,7 @@ try {
           console.log('= TuneManagementResponse:');
           console.log(response.toString());
 
-          csv_report_url = endpointAdvertiserReportRetention.parseResponseReportUrl(response);
+          csv_report_url = advertiserReportRetention.parseResponseReportUrl(response);
 
           console.log('\n');
           console.log(util.format('= CSV Report URL: "%s"', csv_report_url));
@@ -232,11 +232,11 @@ try {
         return next(response);
       });
     },
-    readCsvReport: function (next) {
+    taskReadCsvReport: function (next) {
 
       console.log('\n');
       console.log('======================================================');
-      console.log(' Read Account Users CSV report.                       ');
+      console.log(' Read Advertiser Report Retention CSV report.         ');
       console.log('======================================================');
       console.log('\n');
       var
@@ -253,7 +253,7 @@ try {
       });
 
     },
-    endExample: function (next) {
+    taskEndExample: function (next) {
       console.log('\n');
       console.log('======================================================'.green);
       console.log(' End Example                                          '.green);
@@ -267,7 +267,7 @@ try {
         console.log('\n');
         console.log('= Status: "error"'.red);
         console.log('= TuneManagementResponse:');
-        console.log(err.toString());
+        console.log(err);
       }
     });
 } catch (err) {

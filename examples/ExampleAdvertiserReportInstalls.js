@@ -11,7 +11,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-18 14:57:59 $
+ * @version   $Date: 2014-12-18 17:16:13 $
  * @link      http://developers.mobileapptracking.com/tune-reporting-sdks/ @endlink
  */
 "use strict";
@@ -40,35 +40,35 @@ try {
 
   var
     apiKey = args[0],
-    endpointAdvertiserReportInstalls = new AdvertiserReportInstalls(
+    advertiserReportInstalls = new AdvertiserReportInstalls(
       apiKey,
       true
     ),
     startDate = new Date().setYesterday().setStartTime().getIsoDateTime(),
     endDate = new Date().setYesterday().setEndTime().getIsoDateTime(),
     strResponseTimezone = 'America/Los_Angeles',
-    fieldsRecommended = null,
+    arrayFieldsRecommended = null,
     csvJobId = null,
     csv_report_url = null,
     json_job_id = null,
     json_report_url = null;
 
   async.series({
-    startExample: function (next) {
+    taskStartExample: function (next) {
       console.log('\n');
       console.log('======================================================'.blue.bold);
-      console.log(' Begin: TUNE Management API Log Installs              '.blue.bold);
+      console.log(' Begin: TUNE Advertiser Report Installs               '.blue.bold);
       console.log('======================================================'.blue.bold);
       console.log('\n');
       next();
     },
-    fieldsRecommended: function (next) {
+    taskFieldsRecommended: function (next) {
       console.log('======================================================');
-      console.log(' Fields of Log Installs.                        ');
+      console.log(' Recommended Fields of Advertiser Report Installs.    ');
       console.log('======================================================');
       console.log('\n');
 
-      var fields_request = endpointAdvertiserReportInstalls.getFields(
+      var fields_request = advertiserReportInstalls.getFields(
         EndpointBase.TUNE_FIELDS_RECOMMENDED
       );
       fields_request.once('success', function onSuccess (response) {
@@ -76,7 +76,7 @@ try {
         console.log('= Status: "success"');
         console.log('= TuneManagementResponse:');
         console.log(response);
-        fieldsRecommended = response;
+        arrayFieldsRecommended = response;
         next();
       });
 
@@ -84,13 +84,13 @@ try {
         return next(response);
       });
     },
-    count: function (next) {
+    taskCount: function (next) {
       console.log('\n');
       console.log('======================================================');
-      console.log(' Count Log Installs.                            ');
+      console.log(' Count Advertiser Report Installs.                    ');
       console.log('======================================================');
       console.log('\n');
-      var count_request = endpointAdvertiserReportInstalls.count(
+      var count_request = advertiserReportInstalls.count(
         startDate,
         endDate,
         null,                                           // filter
@@ -118,16 +118,16 @@ try {
       });
 
     },
-    find: function (next) {
+    taskFind: function (next) {
       console.log('\n');
       console.log('======================================================');
-      console.log(' Find Log Installs.                            ');
+      console.log(' Find Advertiser Report Installs.                     ');
       console.log('======================================================');
       console.log('\n');
-      var find_request = endpointAdvertiserReportInstalls.find(
+      var find_request = advertiserReportInstalls.find(
         startDate,
         endDate,
-        fieldsRecommended,
+        arrayFieldsRecommended,
         null,                                           // filter
         5,                                              // limit
         null,                                           // page
@@ -152,16 +152,16 @@ try {
       });
 
     },
-    exportCsvReport: function (next) {
+    taskExportCsvReport: function (next) {
       console.log('\n');
       console.log('======================================================');
-      console.log(' Export Log Installs CSV report.                            ');
+      console.log(' Export Advertiser Report Installs CSV report.        ');
       console.log('======================================================');
       console.log('\n');
-      var export_request = endpointAdvertiserReportInstalls.exportReport(
+      var export_request = advertiserReportInstalls.exportReport(
         startDate,
         endDate,
-        fieldsRecommended,
+        arrayFieldsRecommended,
         null,                                           // filter
         'csv',                                          // format
         strResponseTimezone
@@ -176,7 +176,7 @@ try {
           console.log('= TuneManagementResponse:');
           console.log(response.toString());
 
-          csvJobId = endpointAdvertiserReportInstalls.parseResponseReportJobId(response);
+          csvJobId = advertiserReportInstalls.parseResponseReportJobId(response);
 
           console.log('\n');
           console.log(util.format('= CSV Report Job ID: "%s"', csvJobId));
@@ -188,13 +188,13 @@ try {
         return next(response);
       });
     },
-    fetchCsvReport: function (next) {
+    taskFetchCsvReport: function (next) {
       console.log('\n');
       console.log('======================================================');
-      console.log(' Fetch Log Installs CSV report.                         ');
+      console.log(' Fetch Advertiser Report Installs CSV report.         ');
       console.log('======================================================');
       console.log('\n');
-      var fetch_request = endpointAdvertiserReportInstalls.fetchReport(
+      var fetch_request = advertiserReportInstalls.fetchReport(
         csvJobId,
         true        // verbose
       );
@@ -209,7 +209,7 @@ try {
           console.log('= TuneManagementResponse:');
           console.log(response.toString());
 
-          csv_report_url = endpointAdvertiserReportInstalls.parseResponseReportUrl(response);
+          csv_report_url = advertiserReportInstalls.parseResponseReportUrl(response);
 
           console.log('\n');
           console.log(util.format('= CSV Report URL: "%s"', csv_report_url));
@@ -222,11 +222,11 @@ try {
         return next(response);
       });
     },
-    readCsvReport: function (next) {
+    taskReadCsvReport: function (next) {
 
       console.log('\n');
       console.log('======================================================');
-      console.log(' Read Account Users CSV report.                       ');
+      console.log(' Read Advertiser Report Installs CSV report.          ');
       console.log('======================================================');
       console.log('\n');
       var
@@ -243,16 +243,16 @@ try {
       });
 
     },
-    exportJsonReport: function (next) {
+    taskExportJsonReport: function (next) {
       console.log('\n');
       console.log('======================================================');
-      console.log(' Export Log Installs JSON report.                            ');
+      console.log(' Export Advertiser Report Installs JSON report.       ');
       console.log('======================================================');
       console.log('\n');
-      var export_request = endpointAdvertiserReportInstalls.exportReport(
+      var export_request = advertiserReportInstalls.exportReport(
         startDate,
         endDate,
-        fieldsRecommended,
+        arrayFieldsRecommended,
         null,                                           // filter
         'json',                                          // format
         strResponseTimezone
@@ -267,7 +267,7 @@ try {
           console.log('= TuneManagementResponse:');
           console.log(response.toString());
 
-          json_job_id = endpointAdvertiserReportInstalls.parseResponseReportJobId(response);
+          json_job_id = advertiserReportInstalls.parseResponseReportJobId(response);
 
           console.log('\n');
           console.log(util.format('= JSON Report Job ID: "%s"', json_job_id));
@@ -279,13 +279,13 @@ try {
         return next(response);
       });
     },
-    fetchJsonReport: function (next) {
+    taskFetchJsonReport: function (next) {
       console.log('\n');
       console.log('======================================================');
-      console.log(' Fetch Log Installs JSON report.                         ');
+      console.log(' Fetch Advertiser Report Installs JSON report.        ');
       console.log('======================================================');
       console.log('\n');
-      var fetch_request = endpointAdvertiserReportInstalls.fetchReport(
+      var fetch_request = advertiserReportInstalls.fetchReport(
         json_job_id,
         true        // verbose
       );
@@ -300,7 +300,7 @@ try {
           console.log('= TuneManagementResponse:');
           console.log(response.toString());
 
-          json_report_url = endpointAdvertiserReportInstalls.parseResponseReportUrl(response);
+          json_report_url = advertiserReportInstalls.parseResponseReportUrl(response);
 
           console.log('\n');
           console.log(util.format('= JSON Report URL: "%s"', json_report_url));
@@ -313,11 +313,11 @@ try {
         return next(response);
       });
     },
-    readJsonReport: function (next) {
+    taskReadJsonReport: function (next) {
 
       console.log('\n');
       console.log('======================================================');
-      console.log(' Read Account Users JSON report.                       ');
+      console.log(' Read Advertiser Report Installs JSON report.         ');
       console.log('======================================================');
       console.log('\n');
       var
@@ -334,7 +334,7 @@ try {
       });
 
     },
-    endExample: function (next) {
+    taskEndExample: function (next) {
       console.log('\n');
       console.log('======================================================'.green);
       console.log(' End Example                                          '.green);
@@ -348,7 +348,7 @@ try {
         console.log('\n');
         console.log('= Status: "error"'.red);
         console.log('= TuneManagementResponse:');
-        console.log(err.toString());
+        console.log(err);
       }
     });
 } catch (err) {

@@ -1,8 +1,8 @@
-<h2>tune-reporting-node</h2>
+<h2>tune-reporting</h2>
 <h2>TUNE Reporting SDK for Node.js</h2>
 <h3>Incorporate TUNE Reporting services.</h3>
-<h4>Update:  $Date: 2014-12-18 14:57:59 $
-<h4>Version: 0.1.5
+<h4>Update:  $Date: 2014-12-18 17:24:58 $</h4>
+<h4>Version: 0.1.6</h4>
 ===
 
 <a id="TOP"></a>
@@ -107,7 +107,7 @@
 <a id="sdk_overview" name="sdk_overview"></a>
 ### Overview
 
-The **TUNE Reporting SDKs** addressed in this posting are for creating hosted applications which require handling requests to **TUNE Management API services** with utility focus is upon Advertiser Reporting endpoints.
+The **TUNE Reporting SDKs** addressed in this posting are for creating hosted applications which require handling requests to **TUNE Advertiser Report services** with utility focus is upon Advertiser Reporting endpoints.
 
 Even though the the breadth of the Management API goes beyond just reports, it is these reporting endpoints that our customers primarily access.
 
@@ -172,7 +172,7 @@ These are the basic requirements to use this SDK:
 <a id="sdk_install_prereq_apikey" name="sdk_install_prereq_apikey"></a>
 ##### Generate API Key
 
-To use SDK to access Advertiser Reporting endpoints of TUNE Management API, it requires a MobileAppTracking API Key: [Generate API Key](http://developers.mobileapptracking.com/generate-api-key/).
+To use SDK to access Advertiser Reporting endpoints of TUNE Advertiser Report, it requires a MobileAppTracking API Key: [Generate API Key](http://developers.mobileapptracking.com/generate-api-key/).
 
 <a id="sdk_install_choices" name="sdk_install_choices"></a>
 #### Installation Choices
@@ -352,7 +352,7 @@ File **index.js** is the root of this Library.
 
 Library folder **lib** contains the key functionality related to **Advertiser Reporting classes** are defined within folder **/lib/api/**.
 
-Client classes that connect with the **TUNE Management API Service** are defined within folder **/lib/base/service/**.
+Client classes that connect with the **TUNE Advertiser Report Service** are defined within folder **/lib/base/service/**.
 
 Helper class for both the Library and Examples are defined within folder **/lib/helpers/**.
 ```
@@ -402,7 +402,7 @@ lib/
 
 Run the following script to view execution of all examples:
 ```bash
-    $ make api_key=[API_KEY] ant-examples
+    $ make api_key=[API_KEY] ant-examplesfieldsRecommended
 ```
 
 Each Advertiser Report class defined in **/lib/api/** has an example:
@@ -455,13 +455,13 @@ test/
 <a id="sdk_classes" name="sdk_classes"></a>
 ### SDK Classes
 
-<!-- TUNE Management API Service -->
+<!-- TUNE Advertiser Report Service -->
 <a id="sdk_classes_service" name="sdk_classes_service"></a>
-#### TUNE Management API Service Classes
+#### TUNE Advertiser Report Service Classes
 
 <ul>
-    <li><code>TuneManagementClient</code> - Connects with <a href="http://developers.mobileapptracking.com/management-api/" target="_blank">TUNE Management API Service</a></li>
-    <li><code>TuneManagementRequest</code> - Defines request to TUNE Management API Service containing:
+    <li><code>TuneManagementClient</code> - Connects with <a href="http://developers.mobileapptracking.com/management-api/" target="_blank">TUNE Advertiser Report Service</a></li>
+    <li><code>TuneManagementRequest</code> - Defines request to TUNE Advertiser Report Service containing:
         <ul>
             <li>Controller / Endpoint</li>
             <li>Action</li>
@@ -472,7 +472,7 @@ test/
             </li>
         </ul>
     </li>
-    <li><code>TuneManagementResponse</code> - Complete response from TUNE Management API Service containing:
+    <li><code>TuneManagementResponse</code> - Complete response from TUNE Advertiser Report Service containing:
         <ul>
             <li>Status Code</li>
             <li>Data</li>
@@ -529,12 +529,12 @@ Finds all existing records matching provided filter criteria and returns total c
 
 <!-- Node.js -->
 ```javascript
-    var endpointAdvertiserReportClicks = new AdvertiserReportClicks(
+    var advertiserReportClicks = new AdvertiserReportClicks(
       apiKey,
       true
     );
 
-    var count_request = endpointAdvertiserReportClicks.count(
+    var count_request = advertiserReportClicks.count(
       startDate,
       endDate,
       null,                                           // filter
@@ -572,12 +572,12 @@ Gathers all existing records that match filter criteria and returns an array of 
 
 <!-- Node.js -->
 ```javascript
-    var endpointAdvertiserReportClicks = new AdvertiserReportClicks(
+    var advertiserReportClicks = new AdvertiserReportClicks(
       apiKey,
       true
     );
 
-    var find_request = endpointAdvertiserReportClicks.find(
+    var find_request = advertiserReportClicks.find(
       startDate,
       endDate,
       fieldsRecommended,
@@ -606,7 +606,7 @@ Gathers all existing records that match filter criteria and returns an array of 
 ```
 
 <a id="sdk_method_export" name="sdk_method_export"></a>
-##### Method <code>export()</code>
+##### Method <code>export()</code>fieldsRecommended
 
 Provides the same signature as function find(), accept parameters <code>limit</code> and <code>page</code>, because this function's intent is to request export of a full report. It returns a populated instance of <code>class Response</code> with <strong>job identifier</strong> of report in queue and ready to be processed. Format of content can be requested to be either CSV or JSON.
 
@@ -615,12 +615,12 @@ Provides the same signature as function find(), accept parameters <code>limit</c
 
 <!-- Node.js -->
 ```javascript
-    var endpointAdvertiserReportClicks = new AdvertiserReportClicks(
+    var advertiserReportClicks = new AdvertiserReportClicks(
       apiKey,
       true
     );
 
-    var export_request = endpointAdvertiserReportClicks.exportReport(
+    var export_request = advertiserReportClicks.exportReport(
       startDate,
       endDate,
       fieldsRecommended,
@@ -638,7 +638,7 @@ Provides the same signature as function find(), accept parameters <code>limit</c
         console.log('= TuneManagementResponse:');
         console.log(response.toString());
 
-        csvJobId = endpointAdvertiserReportClicks.parseResponseReportJobId(response);
+        csvJobId = advertiserReportClicks.parseResponseReportJobId(response);
 
         console.log('\n');
         console.log(util.format('= CSV Report Job ID: "%s"', csvJobId));
@@ -668,12 +668,12 @@ A helper function that creates a threaded worker that handles the status request
 
 <!-- Node.js -->
 ```javascript
-    var endpointAdvertiserReportClicks = new AdvertiserReportClicks(
+    var advertiserReportClicks = new AdvertiserReportClicks(
       apiKey,
       true
     );
 
-    var fetch_request = endpointAdvertiserReportClicks.fetchReport(
+    var fetch_request = advertiserReportClicks.fetchReport(
       csvJobId,
       true        // verbose
     );
@@ -688,7 +688,7 @@ A helper function that creates a threaded worker that handles the status request
         console.log('= TuneManagementResponse:');
         console.log(response.toString());
 
-        csv_report_url = endpointAdvertiserReportClicks.parseResponseReportUrl(response);
+        csv_report_url = advertiserReportClicks.parseResponseReportUrl(response);
 
         console.log('\n');
         console.log(util.format('= CSV Report URL: "%s"', csv_report_url));
@@ -709,12 +709,12 @@ Method <strong>fields()</strong> returns a listing of all the fields that can be
 
 <!-- Node.js -->
 ```javascript
-    var endpointAdvertiserReportClicks = new AdvertiserReportClicks(
+    var advertiserReportClicks = new AdvertiserReportClicks(
       apiKey,
       true
     );
 
-    var fields_request = endpointAdvertiserReportClicks.getFields(
+    var fields_request = advertiserReportClicks.getFields(
       EndpointBase.TUNE_FIELDS_RECOMMENDED
     );
     fields_request.once('success', function onSuccess (response) {
