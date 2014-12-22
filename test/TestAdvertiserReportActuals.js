@@ -6,7 +6,7 @@
 /* jshint -W030 -W036 */
 
 /**
- * Tests of TUNE Reporting API
+ * TestAdvertiserReportActuals.js, Test of TUNE Reporting API.
  *
  * @module tune-reporting
  * @submodule test
@@ -17,7 +17,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-18 17:16:13 $
+ * @version   $Date: 2014-12-22 13:38:30 $
  * @link      http://developers.mobileapptracking.com/tune-reporting-sdks/ @endlink
  */
 "use strict";
@@ -55,14 +55,14 @@ describe('test AdvertiserReportActuals', function () {
     var fields_request = advertiserReportActuals.getFields(
       EndpointBase.TUNE_FIELDS_ALL
     );
-    fields_request.on('success', function onSuccess (result) {
+    fields_request.on('success', function onSuccess(result) {
       expect(result).to.be.not.null;
       expect(result).to.be.a('array');
       expect(result).to.be.not.empty;
       done();
     });
 
-    fields_request.on('error', function onError (error) {
+    fields_request.on('error', function onError(error) {
       expect(error).to.be.not.null;
       done(error);
     });
@@ -72,7 +72,7 @@ describe('test AdvertiserReportActuals', function () {
     var fields_request = advertiserReportActuals.getFields(
       EndpointBase.TUNE_FIELDS_RECOMMENDED
     );
-    fields_request.on('success', function onSuccess (result) {
+    fields_request.on('success', function onSuccess(result) {
       expect(result).to.be.not.null;
       expect(result).to.be.a('array');
       fieldsRecommended = result;
@@ -80,7 +80,7 @@ describe('test AdvertiserReportActuals', function () {
       done();
     });
 
-    fields_request.on('error', function onError (error) {
+    fields_request.on('error', function onError(error) {
       expect(error).to.be.not.null;
       done(error);
     });
@@ -94,7 +94,7 @@ describe('test AdvertiserReportActuals', function () {
       '(publisher_id > 0)',                           // filter
       strResponseTimezone
     );
-    count_request.on('success', function onSuccess (result) {
+    count_request.on('success', function onSuccess(result) {
       expect(result).to.be.not.null;
       expect(result.getData()).to.be.not.null;
       expect(result.getErrors()).to.be.null;
@@ -104,7 +104,7 @@ describe('test AdvertiserReportActuals', function () {
       done();
     });
 
-    count_request.on('error', function onError (error) {
+    count_request.on('error', function onError(error) {
       expect(error).to.be.not.null;
       done(error);
     });
@@ -123,7 +123,7 @@ describe('test AdvertiserReportActuals', function () {
       'datehour',                                     // timestamp
       strResponseTimezone
     );
-    find_request.on('success', function onSuccess (result) {
+    find_request.on('success', function onSuccess(result) {
       expect(result).to.be.not.null;
       expect(result.getData()).to.be.not.null;
       expect(result.getErrors()).to.be.null;
@@ -131,7 +131,7 @@ describe('test AdvertiserReportActuals', function () {
       done();
     });
 
-    find_request.on('error', function onError (error) {
+    find_request.on('error', function onError(error) {
       expect(error).to.be.not.null;
       done(error);
     });
@@ -148,7 +148,7 @@ describe('test AdvertiserReportActuals', function () {
       'csv',                                          // format
       strResponseTimezone
     );
-    export_request.on('success', function onSuccess (result) {
+    export_request.on('success', function onSuccess(result) {
       expect(result).to.be.not.null;
       expect(result.getData()).to.be.not.null;
       expect(result.getErrors()).to.be.null;
@@ -161,7 +161,7 @@ describe('test AdvertiserReportActuals', function () {
       done();
     });
 
-    export_request.on('error', function onError (error) {
+    export_request.on('error', function onError(error) {
       expect(error).to.be.not.null;
       done(error);
     });
@@ -171,7 +171,7 @@ describe('test AdvertiserReportActuals', function () {
     var status_request = advertiserReportActuals.statusReport(
       csvJobId
     );
-    status_request.on('success', function onSuccess (result) {
+    status_request.on('success', function onSuccess(result) {
       expect(result).to.be.not.null;
       expect(result.getData()).to.be.not.null;
       expect(result.getErrors()).to.be.null;
@@ -179,7 +179,7 @@ describe('test AdvertiserReportActuals', function () {
       done();
     });
 
-    status_request.on('error', function onError (error) {
+    status_request.on('error', function onError(error) {
       expect(error).to.be.not.null;
       done(error);
     });
@@ -189,7 +189,7 @@ describe('test AdvertiserReportActuals', function () {
   //  var status_request = advertiserReportActuals.fetchReport(
   //    csvJobId
   //  );
-  //  status_request.on('success', function onSuccess (result) {
+  //  status_request.on('success', function onSuccess(result) {
   //    expect(result).to.be.not.null;
   //    expect(result.getData()).to.be.not.null;
   //    expect(result.getErrors()).to.be.null;
@@ -202,7 +202,7 @@ describe('test AdvertiserReportActuals', function () {
   //    done();
   //  });
   //
-  //  status_request.on('error', function onError (error) {
+  //  status_request.on('error', function onError(error) {
   //    expect(error).to.be.not.null;
   //    done(error);
   //  });

@@ -10,7 +10,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-19 14:28:10 $
+ * @version   $Date: 2014-12-22 13:38:30 $
  * @link      http://developers.mobileapptracking.com/tune-reporting-sdks/ @endlink
  */
 "use strict";
@@ -60,9 +60,9 @@ try {
     },
     request_via_callback: function (next) {
       console.log('\n');
-      console.log('======================================================');
+      console.log('==========================================================');
       console.log(' Handle TUNE Reporting API Client Request callback.             ');
-      console.log('======================================================');
+      console.log('==========================================================');
 
       var
         client_request = client.request(function (error, response) {
@@ -82,14 +82,14 @@ try {
     },
     request: function (next) {
       console.log('\n');
-      console.log('======================================================');
+      console.log('==========================================================');
       console.log(' Handle TUNE Reporting API Client Request events.               ');
-      console.log('======================================================');
+      console.log('==========================================================');
 
       var
         client_request = client.request();
 
-      client_request.on('success', function onSuccess (response) {
+      client_request.on('success', function onSuccess(response) {
         console.log('\n');
         console.log('= Event: "success"');
         console.log('= TuneManagementResponse:');
@@ -97,7 +97,7 @@ try {
         next();
       });
 
-      client_request.on('error', function onError (response) {
+      client_request.on('error', function onError(response) {
         console.log('\n');
         console.log('= Event: "error"');
         console.log(response);

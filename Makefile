@@ -26,7 +26,7 @@
 # author    Jeff Tanner <jefft@tune.com>
 # copyright 2014 TUNE, Inc. (http://www.tune.com)
 # license   http://opensource.org/licenses/MIT The MIT License (MIT)
-# version   $Date: 2014-12-19 14:28:10 $
+# version   $Date: 2014-12-22 13:38:30 $
 # link      http://developers.mobileapptracking.com/tune-api-sdks/
 #
 
@@ -37,14 +37,14 @@ clean:
 	sudo rm -fR ./docs/yuidoc/*
 
 examples:
-	node ./examples/ExampleAdvertiserReportClicks $(api_key)
-	node ./examples/ExampleAdvertiserReportEventItems $(api_key)
-	node ./examples/ExampleAdvertiserReportEvents $(api_key)
-	node ./examples/ExampleAdvertiserReportInstalls $(api_key)
-	node ./examples/ExampleAdvertiserReportPostbacks $(api_key)
-	node ./examples/ExampleAdvertiserReportActuals $(api_key)
-	node ./examples/ExampleAdvertiserReportCohort $(api_key)
-	node ./examples/ExampleAdvertiserReportRetention $(api_key)
+	node ./examples/ExampleAdvertiserReportClickLogs $(api_key)
+	node ./examples/ExampleAdvertiserReportEventItemLogs $(api_key)
+	node ./examples/ExampleAdvertiserReportEventLogs $(api_key)
+	node ./examples/ExampleAdvertiserReportInstallLogs $(api_key)
+	node ./examples/ExampleAdvertiserReportPostbackLogs $(api_key)
+	node ./examples/ExampleAdvertiserReportActualLogs $(api_key)
+	node ./examples/ExampleAdvertiserReportCohortRetention $(api_key)
+	node ./examples/ExampleAdvertiserReportCohortValue $(api_key)
 
 test-install:
 	npm install mocha, chai, should, sinon -g
