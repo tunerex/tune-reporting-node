@@ -1,7 +1,7 @@
 <h2>tune-reporting Authors</h2>
 <h2>TUNE Reporting SDK for Node.js</h2>
 <h3>Incorporate TUNE Reporting services.</h3>
-<h4>Update:  $Date: 2014-12-18 17:24:58 $</h4>
+<h4>Update:  $Date: 2014-12-22 13:38:30 $</h4>
 <h4>Version: 0.1.6</h4>
 =======================
 

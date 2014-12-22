@@ -1,7 +1,7 @@
 <h2>tune-reporting Change Log</h2>
 <h2>TUNE Reporting SDK for Node.js</h2>
 <h3>Incorporate TUNE Reporting services.</h3>
-<h4>Update:  $Date: 2014-12-19 14:28:10 $</h4>
+<h4>Update:  $Date: 2014-12-22 13:38:30 $</h4>
 <h4>Version: 0.1.6</h4>
 =======================
 
@@ -26,3 +26,11 @@ Version 0.1.7
 Beta release on December 19, 2014
 * Fix to validate filter.
 * JSDoc+Docstrap make.
+
+Version 0.1.8
+--------------
+
+Beta release on December 22, 2014
+* Refactor /advertiser/stats/ltv as Cohort Value reporting.
+* Refactor /advertiser/stats/retention as Cohort Retention reporting.
+* Refactor all Advertiser Report Logs to be labeled with *Logs.

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Examples of TUNE Reporting API
+ * ExampleAdvertiserReportActuals.js, Example of TUNE Reporting API.
  *
  * @module examples
  * @main tune-reporting
@@ -10,7 +10,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-19 14:28:10 $
+ * @version   $Date: 2014-12-22 13:38:30 $
  * @link      http://developers.mobileapptracking.com/tune-reporting-sdks/ @endlink
  */
 "use strict";
@@ -64,15 +64,15 @@ try {
       next();
     },
     taskFieldsRecommended: function (next) {
-      console.log('======================================================');
+      console.log('==========================================================');
       console.log(' Recommended Fields of Advertiser Report Actuals.     ');
-      console.log('======================================================');
+      console.log('==========================================================');
       console.log('\n');
 
       var fields_request = advertiserReportActuals.getFields(
         EndpointBase.TUNE_FIELDS_RECOMMENDED
       );
-      fields_request.once('success', function onSuccess (response) {
+      fields_request.once('success', function onSuccess(response) {
         console.log('\n');
         console.log('= Status: "success"');
         console.log('= TuneManagementResponse:');
@@ -81,15 +81,15 @@ try {
         next();
       });
 
-      fields_request.once('error', function onError (response) {
+      fields_request.once('error', function onError(response) {
         return next(response);
       });
     },
     taskCount: function (next) {
       console.log('\n');
-      console.log('======================================================');
+      console.log('==========================================================');
       console.log(' Count Advertiser Report Actuals.                     ');
-      console.log('======================================================');
+      console.log('==========================================================');
       console.log('\n');
       var count_request = advertiserReportActuals.count(
         startDate,
@@ -98,7 +98,7 @@ try {
         '(publisher_id > 0)',                           // filter
         strResponseTimezone
       );
-      count_request.once('success', function onSuccess (response) {
+      count_request.once('success', function onSuccess(response) {
         if ((response.getHttpCode() !== 200) || (response.getErrors() !== null)) {
           next(response);
         } else {
@@ -115,16 +115,16 @@ try {
         }
       });
 
-      count_request.once('error', function onError (response) {
+      count_request.once('error', function onError(response) {
         return next(response);
       });
 
     },
     taskFind: function (next) {
       console.log('\n');
-      console.log('======================================================');
+      console.log('==========================================================');
       console.log(' Find Advertiser Report Actuals.                      ');
-      console.log('======================================================');
+      console.log('==========================================================');
       console.log('\n');
       var find_request = advertiserReportActuals.find(
         startDate,
@@ -138,7 +138,7 @@ try {
         'datehour',                                     // timestamp
         strResponseTimezone
       );
-      find_request.once('success', function onSuccess (response) {
+      find_request.once('success', function onSuccess(response) {
         if ((response.getHttpCode() !== 200) || (response.getErrors() !== null)) {
           next(response);
         } else {
@@ -151,15 +151,15 @@ try {
         }
       });
 
-      find_request.once('error', function onError (response) {
+      find_request.once('error', function onError(response) {
         return next(response);
       });
     },
     taskFindComplexFilter: function (next) {
       console.log('\n');
-      console.log('======================================================');
+      console.log('==========================================================');
       console.log(' Find Advertiser Report Actuals with Complex Filter.  ');
-      console.log('======================================================');
+      console.log('==========================================================');
       console.log('\n');
       var find_request = advertiserReportActuals.find(
         startDate,
@@ -173,7 +173,7 @@ try {
         'datehour',                                         // timestamp
         strResponseTimezone
       );
-      find_request.once('success', function onSuccess (response) {
+      find_request.once('success', function onSuccess(response) {
         if ((response.getHttpCode() !== 200) || (response.getErrors() !== null)) {
           console.log('======================================================'.red);
           next(response);
@@ -186,16 +186,16 @@ try {
         }
       });
 
-      find_request.once('error', function onError (response) {
+      find_request.once('error', function onError(response) {
         console.log('======================================================'.red);
         return next(response);
       });
     },
     taskExportCsvReport: function (next) {
       console.log('\n');
-      console.log('======================================================');
+      console.log('==========================================================');
       console.log(' Export Advertiser Report Actuals CSV report.         ');
-      console.log('======================================================');
+      console.log('==========================================================');
       console.log('\n');
       var export_request = advertiserReportActuals.exportReport(
         startDate,
@@ -207,7 +207,7 @@ try {
         'csv',                                          // format
         strResponseTimezone
       );
-      export_request.once('success', function onSuccess (response) {
+      export_request.once('success', function onSuccess(response) {
         if ((response.getHttpCode() !== 200) || (response.getErrors() !== null)) {
           next(response);
         } else {
@@ -225,22 +225,22 @@ try {
         }
       });
 
-      export_request.once('error', function onError (response) {
+      export_request.once('error', function onError(response) {
         return next(response);
       });
     },
     taskFetchCsvReport: function (next) {
       console.log('\n');
-      console.log('======================================================');
+      console.log('==========================================================');
       console.log(' Fetch Advertiser Report Actuals CSV report.          ');
-      console.log('======================================================');
+      console.log('==========================================================');
       console.log('\n');
       var fetch_request = advertiserReportActuals.fetchReport(
         csvJobId,
         true        // verbose
       );
 
-      fetch_request.once('success', function onSuccess (response) {
+      fetch_request.once('success', function onSuccess(response) {
         if ((response.getHttpCode() !== 200) || (response.getErrors() !== null)) {
           next(response);
         } else {
@@ -259,35 +259,35 @@ try {
         }
       });
 
-      fetch_request.once('error', function onError (response) {
+      fetch_request.once('error', function onError(response) {
         return next(response);
       });
     },
     taskReadCsvReport: function (next) {
 
       console.log('\n');
-      console.log('======================================================');
+      console.log('==========================================================');
       console.log(' Read Advertiser Report Actuals CSV report.           ');
-      console.log('======================================================');
+      console.log('==========================================================');
       console.log('\n');
       var
         csv_reader = new ReportReaderCSV(csv_report_url),
         print_request = csv_reader.prettyprint(5);
 
-      print_request.once('success', function onSuccess (response) {
+      print_request.once('success', function onSuccess(response) {
         console.log(response);
         next();
       });
 
-      print_request.once('error', function onError (response) {
+      print_request.once('error', function onError(response) {
         return next(response);
       });
     },
     taskExportJsonReport: function (next) {
       console.log('\n');
-      console.log('======================================================');
+      console.log('==========================================================');
       console.log(' Export Advertiser Report Actuals JSON report.        ');
-      console.log('======================================================');
+      console.log('==========================================================');
       console.log('\n');
       var export_request = advertiserReportActuals.exportReport(
         startDate,
@@ -299,7 +299,7 @@ try {
         'json',                                         // format
         strResponseTimezone
       );
-      export_request.once('success', function onSuccess (response) {
+      export_request.once('success', function onSuccess(response) {
         if ((response.getHttpCode() !== 200) || (response.getErrors() !== null)) {
           next(response);
         } else {
@@ -317,22 +317,22 @@ try {
         }
       });
 
-      export_request.once('error', function onError (response) {
+      export_request.once('error', function onError(response) {
         return next(response);
       });
     },
     taskFetchJsonReport: function (next) {
       console.log('\n');
-      console.log('======================================================');
+      console.log('==========================================================');
       console.log(' Fetch Advertiser Report Actuals JSON report.         ');
-      console.log('======================================================');
+      console.log('==========================================================');
       console.log('\n');
       var fetch_request = advertiserReportActuals.fetchReport(
         json_job_id,
         true        // verbose
       );
 
-      fetch_request.once('success', function onSuccess (response) {
+      fetch_request.once('success', function onSuccess(response) {
         if ((response.getHttpCode() !== 200) || (response.getErrors() !== null)) {
           next(response);
         } else {
@@ -351,27 +351,27 @@ try {
         }
       });
 
-      fetch_request.once('error', function onError (response) {
+      fetch_request.once('error', function onError(response) {
         return next(response);
       });
     },
     taskReadJsonReport: function (next) {
 
       console.log('\n');
-      console.log('======================================================');
+      console.log('==========================================================');
       console.log(' Read Advertiser Report Actuals JSON report.          ');
-      console.log('======================================================');
+      console.log('==========================================================');
       console.log('\n');
       var
         json_reader = new ReportReaderJSON(json_report_url),
         print_request = json_reader.prettyprint(5);
 
-      print_request.once('success', function onSuccess (response) {
+      print_request.once('success', function onSuccess(response) {
         console.log(response);
         next();
       });
 
-      print_request.once('error', function onError (response) {
+      print_request.once('error', function onError(response) {
         return next(response);
       });
 

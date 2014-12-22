@@ -17,7 +17,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-18 14:57:59 $
+ * @version   $Date: 2014-12-22 13:38:30 $
  * @link      http://developers.mobileapptracking.com/tune-reporting-sdks/ @endlink
  */
 "use strict";
@@ -96,7 +96,7 @@ describe('test TuneManagementClient', function () {
 
   it('make request using events', function (done) {
     var client_request = client.request();
-    client_request.on('success', function onSuccess (result) {
+    client_request.on('success', function onSuccess(result) {
       expect(result).to.be.not.null;
       expect(result.getRequestUrl()).to.be.not.null;
       expect(result.getRequestUrl()).to.be.a('string');
@@ -105,7 +105,7 @@ describe('test TuneManagementClient', function () {
       done();
     });
 
-    client_request.on('error', function onError (response) {
+    client_request.on('error', function onError(response) {
       done(response);
     });
   });
@@ -115,7 +115,7 @@ describe('test TuneManagementClient', function () {
       callbackSpy = spy(),
       client_request = client.request(callbackSpy);
 
-    client_request.on('success', function onSuccess (result) {
+    client_request.on('success', function onSuccess(result) {
       expect(result).to.be.not.null;
       expect(result.getRequestUrl()).to.be.not.null;
       expect(result.getRequestUrl()).to.be.a('string');
@@ -125,7 +125,7 @@ describe('test TuneManagementClient', function () {
       done();
     });
 
-    client_request.on('error', function onError (response) {
+    client_request.on('error', function onError(response) {
       done(response);
     });
   });
