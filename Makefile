@@ -26,7 +26,7 @@
 # author    Jeff Tanner <jefft@tune.com>
 # copyright 2014 TUNE, Inc. (http://www.tune.com)
 # license   http://opensource.org/licenses/MIT The MIT License (MIT)
-# version   $Date: 2014-12-22 13:38:30 $
+# version   $Date: 2014-12-23 07:55:28 $
 # link      http://developers.mobileapptracking.com/tune-api-sdks/
 #
 
@@ -37,12 +37,12 @@ clean:
 	sudo rm -fR ./docs/yuidoc/*
 
 examples:
-	node ./examples/ExampleAdvertiserReportClickLogs $(api_key)
-	node ./examples/ExampleAdvertiserReportEventItemLogs $(api_key)
-	node ./examples/ExampleAdvertiserReportEventLogs $(api_key)
-	node ./examples/ExampleAdvertiserReportInstallLogs $(api_key)
-	node ./examples/ExampleAdvertiserReportPostbackLogs $(api_key)
-	node ./examples/ExampleAdvertiserReportActualLogs $(api_key)
+	node ./examples/ExampleAdvertiserReportLogsClick $(api_key)
+	node ./examples/ExampleAdvertiserReportLogsEventItem $(api_key)
+	node ./examples/ExampleAdvertiserReportLogsEvent $(api_key)
+	node ./examples/ExampleAdvertiserReportLogsInstall $(api_key)
+	node ./examples/ExampleAdvertiserReportLogsPostback $(api_key)
+	node ./examples/ExampleAdvertiserReportActuals $(api_key)
 	node ./examples/ExampleAdvertiserReportCohortRetention $(api_key)
 	node ./examples/ExampleAdvertiserReportCohortValue $(api_key)
 

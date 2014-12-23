@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * ExampleAdvertiserReportPostbackLogs.js, Example of TUNE Reporting API.
+ * ExampleAdvertiserReportLogsEventItem.js, Example of TUNE Reporting API.
  *
  * @module examples
  * @main tune-reporting
@@ -10,12 +10,10 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-22 13:38:30 $
+ * @version   $Date: 2014-12-23 07:55:28 $
  * @link      http://developers.mobileapptracking.com/tune-reporting-sdks/ @endlink
  */
 "use strict";
-
-require('../lib/helpers/Date');
 
 var
   tuneReporting = require('../lib'),
@@ -24,11 +22,13 @@ var
   async = require('async'),
   stackTrace = require('stack-trace'),
   async = require('async'),
-  AdvertiserReportPostbackLogs = tuneReporting.api.AdvertiserReportPostbackLogs,
+  AdvertiserReportLogsEventItem = tuneReporting.api.AdvertiserReportLogsEventItem,
   EndpointBase = tuneReporting.base.endpoints.EndpointBase,
   ReportReaderCSV = tuneReporting.helpers.ReportReaderCSV,
   ReportReaderJSON = tuneReporting.helpers.ReportReaderJSON,
   response;
+
+require('../lib/helpers/Date');
 
 try {
   var args = process.argv.slice(2);
@@ -39,7 +39,7 @@ try {
 
   var
     apiKey = args[0],
-    advertiserReport = new AdvertiserReportPostbackLogs(
+    advertiserReport = new AdvertiserReportLogsEventItem(
       apiKey,
       true
     ),
@@ -57,15 +57,15 @@ try {
   async.series({
     taskStartExample: function (next) {
       console.log('\n');
-      console.log('==========================================================');
-      console.log(' Begin: TUNE Advertiser Report Postback Logs              ');
-      console.log('==========================================================');
+      console.log('======================================================'.blue.bold);
+      console.log(' Begin: TUNE Advertiser Report Event Item Logs        '.blue.bold);
+      console.log('======================================================'.blue.bold);
       console.log('\n');
       next();
     },
     taskFieldsRecommended: function (next) {
       console.log('==========================================================');
-      console.log(' Recommended Fields of Advertiser Report Postback Logs.   ');
+      console.log(' Recommended Fields of Advertiser Report Event Item Logs. ');
       console.log('==========================================================');
       console.log('\n');
 
@@ -87,9 +87,9 @@ try {
     },
     taskCount: function (next) {
       console.log('\n');
-      console.log('======================================================'.blue.bold);
-      console.log(' Count Advertiser Report Postback Logs.               '.blue.bold);
-      console.log('======================================================'.blue.bold);
+      console.log('==========================================================');
+      console.log(' Count Advertiser Report Event Item Logs.                 ');
+      console.log('==========================================================');
       console.log('\n');
       var count_request = advertiserReport.count(
         startDate,
@@ -122,7 +122,7 @@ try {
     taskFind: function (next) {
       console.log('\n');
       console.log('==========================================================');
-      console.log(' Find Advertiser Report Postback Logs.                    ');
+      console.log(' Find Advertiser Report Event Item Logs.                  ');
       console.log('==========================================================');
       console.log('\n');
       var find_request = advertiserReport.find(
@@ -156,7 +156,7 @@ try {
     taskExportCsvReport: function (next) {
       console.log('\n');
       console.log('==========================================================');
-      console.log(' Export Advertiser Report Postback Logs CSV report.       ');
+      console.log(' Export Advertiser Report Event Item Logs CSV report.     ');
       console.log('==========================================================');
       console.log('\n');
       var export_request = advertiserReport.exportReport(
@@ -192,7 +192,7 @@ try {
     taskFetchCsvReport: function (next) {
       console.log('\n');
       console.log('==========================================================');
-      console.log(' Fetch Advertiser Report Postback Logs CSV report.        ');
+      console.log(' Fetch Advertiser Report Event Item Logs CSV report.      ');
       console.log('==========================================================');
       console.log('\n');
       var fetch_request = advertiserReport.fetchReport(
@@ -227,7 +227,7 @@ try {
 
       console.log('\n');
       console.log('==========================================================');
-      console.log(' Read Advertiser Report Postback Logs CSV report.         ');
+      console.log(' Read Advertiser Report Event Item Logs CSV report.       ');
       console.log('==========================================================');
       console.log('\n');
       var
@@ -247,7 +247,7 @@ try {
     taskExportJsonReport: function (next) {
       console.log('\n');
       console.log('==========================================================');
-      console.log(' Export Advertiser Report Postback Logs JSON report.      ');
+      console.log(' Export Advertiser Report Event Item Logs JSON report.    ');
       console.log('==========================================================');
       console.log('\n');
       var export_request = advertiserReport.exportReport(
@@ -283,7 +283,7 @@ try {
     taskFetchJsonReport: function (next) {
       console.log('\n');
       console.log('==========================================================');
-      console.log(' Fetch Advertiser Report Postback Logs JSON report.       ');
+      console.log(' Fetch Advertiser Report Event Item Logs JSON report.     ');
       console.log('==========================================================');
       console.log('\n');
       var fetch_request = advertiserReport.fetchReport(
@@ -318,7 +318,7 @@ try {
 
       console.log('\n');
       console.log('==========================================================');
-      console.log(' Read Advertiser Report Postback Logs JSON report.        ');
+      console.log(' Read Advertiser Report Event Item Logs JSON report.      ');
       console.log('==========================================================');
       console.log('\n');
       var
@@ -337,9 +337,9 @@ try {
     },
     taskEndExample: function (next) {
       console.log('\n');
-      console.log('======================================================'.green);
-      console.log(' End Example                                          '.green);
-      console.log('======================================================'.green);
+      console.log('======================================================'.green.bold);
+      console.log(' End Example                                          '.green.bold);
+      console.log('======================================================'.green.bold);
       console.log('\n');
       next();
     }

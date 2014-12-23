@@ -6,7 +6,7 @@
 /* jshint -W030 -W036 */
 
 /**
- * TestAdvertiserReportClickLogs.js, Test of TUNE Reporting API.
+ * TestAdvertiserReportLogsPostback.js, Test of TUNE Reporting API.
  *
  * @module tune-reporting
  * @submodule test
@@ -17,7 +17,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-22 13:38:30 $
+ * @version   $Date: 2014-12-23 07:55:28 $
  * @link      http://developers.mobileapptracking.com/tune-reporting-sdks/ @endlink
  */
 "use strict";
@@ -26,12 +26,12 @@ require('../lib/helpers/Date');
 
 var
   tuneReporting = require('../lib'),
-  AdvertiserReportClickLogs = tuneReporting.api.AdvertiserReportClickLogs,
+  AdvertiserReportLogsPostback = tuneReporting.api.AdvertiserReportLogsPostback,
   EndpointBase = tuneReporting.base.endpoints.EndpointBase,
   expect = require('chai').expect;
 
-describe('test AdvertiserReportClickLogs', function () {
-  this.timeout(10000);
+describe('test AdvertiserReportLogsPostback', function () {
+  this.timeout(20000);
   var
     advertiserReport,
     apiKey,
@@ -43,7 +43,7 @@ describe('test AdvertiserReportClickLogs', function () {
 
   before(function () {
     apiKey = process.env.API_KEY;
-    advertiserReport = new AdvertiserReportClickLogs(
+    advertiserReport = new AdvertiserReportLogsPostback(
       apiKey
     );
   });
@@ -168,7 +168,8 @@ describe('test AdvertiserReportClickLogs', function () {
   //    expect(result.getErrors()).to.be.null;
   //    expect(result.getHttpCode()).eql(200);
   //
-  //    var csvReportUrl = advertiserReport.parseResponseReportUrl(result);
+  //    var csvReportUrl
+  //      = advertiserReport.parseResponseReportUrl(result);
   //    expect(csvReportUrl).to.be.not.null;
   //    expect(csvReportUrl).to.be.a('string');
   //    expect(csvReportUrl).to.be.not.empty;

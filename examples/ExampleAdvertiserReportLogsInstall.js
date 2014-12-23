@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * ExampleAdvertiserReportInstallLogs.js, Example of TUNE Reporting API.
+ * ExampleAdvertiserReportLogsInstall.js, Example of TUNE Reporting API.
  *
  * @module examples
  * @main tune-reporting
@@ -10,7 +10,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-22 13:38:30 $
+ * @version   $Date: 2014-12-23 07:55:28 $
  * @link      http://developers.mobileapptracking.com/tune-reporting-sdks/ @endlink
  */
 "use strict";
@@ -24,7 +24,7 @@ var
   async = require('async'),
   stackTrace = require('stack-trace'),
   async = require('async'),
-  AdvertiserReportInstallLogs = tuneReporting.api.AdvertiserReportInstallLogs,
+  AdvertiserReportLogsInstall = tuneReporting.api.AdvertiserReportLogsInstall,
   EndpointBase = tuneReporting.base.endpoints.EndpointBase,
   ReportReaderCSV = tuneReporting.helpers.ReportReaderCSV,
   ReportReaderJSON = tuneReporting.helpers.ReportReaderJSON,
@@ -39,7 +39,7 @@ try {
 
   var
     apiKey = args[0],
-    advertiserReport = new AdvertiserReportInstallLogs(
+    advertiserReport = new AdvertiserReportLogsInstall(
       apiKey,
       true
     ),
@@ -335,9 +335,9 @@ try {
     },
     taskEndExample: function (next) {
       console.log('\n');
-      console.log('======================================================'.green);
-      console.log(' End Example                                          '.green);
-      console.log('======================================================'.green);
+      console.log('======================================================'.green.bold);
+      console.log(' End Example                                          '.green.bold);
+      console.log('======================================================'.green.bold);
       console.log('\n');
       next();
     }
