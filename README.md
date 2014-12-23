@@ -1,8 +1,8 @@
 <h2>tune-reporting</h2>
 <h2>TUNE Reporting SDK for Node.js</h2>
 <h3>Incorporate TUNE Reporting services.</h3>
-<h4>Update:  $Date: 2014-12-22 13:38:30 $</h4>
-<h4>Version: 0.1.8</h4>
+<h4>Update:  $Date: 2014-12-23 07:55:28 $</h4>
+<h4>Version: 0.1.9</h4>
 ===
 
 <a id="TOP"></a>
@@ -254,11 +254,11 @@ Log reports provide measurement records for each Click, Install, Event, Event It
 
 Advertiser Reporting classes that perform Log Reports are:
 <ul>
-    <li><code>AdvertiserReportClickLogs</code>: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__clicks/">/advertiser/stats/clicks/</a></li>
-    <li><code>AdvertiserReportEventItemLogs</code>:<a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__event__items/">/advertiser/stats/event/items/</a></li>
-    <li><code>AdvertiserReportEventLogs</code>:<a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__events/">/advertiser/stats/events/</a></li>
-    <li><code>AdvertiserReportInstallLogs</code>:<a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__installs/">/advertiser/stats/installs/</a></li>
-    <li><code>AdvertiserReportPostbackLogs</code>:<a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__postbacks/">/advertiser/stats/postbacks/</a></li>
+    <li><code>AdvertiserReportLogsClick</code>: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__clicks/">/advertiser/stats/clicks/</a></li>
+    <li><code>AdvertiserReportLogsEventItem</code>:<a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__event__items/">/advertiser/stats/event/items/</a></li>
+    <li><code>AdvertiserReportLogsEvent</code>:<a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__events/">/advertiser/stats/events/</a></li>
+    <li><code>AdvertiserReportLogsInstall</code>:<a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__installs/">/advertiser/stats/installs/</a></li>
+    <li><code>AdvertiserReportLogsPostback</code>:<a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__postbacks/">/advertiser/stats/postbacks/</a></li>
 </ul>
 
 </dd>
@@ -359,12 +359,12 @@ Helper class for both the Library and Examples are defined within folder **/lib/
 lib/
 ├── api
 │   ├── AdvertiserReportActuals.js
-│   ├── AdvertiserReportClickLogs.js
+│   ├── AdvertiserReportLogsClick.js
 │   ├── AdvertiserReportCohortValue.js
-│   ├── AdvertiserReportEventItemLogs.js
-│   ├── AdvertiserReportEventLogs.js
-│   ├── AdvertiserReportInstallLogs.js
-│   ├── AdvertiserReportPostbackLogs.js
+│   ├── AdvertiserReportLogsEventItem.js
+│   ├── AdvertiserReportLogsEvent.js
+│   ├── AdvertiserReportLogsInstall.js
+│   ├── AdvertiserReportLogsPostback.js
 │   ├── AdvertiserReportCohortRetention.js
 │   ├── Export.js
 │   └── index.js
@@ -512,7 +512,7 @@ test/
 <a id="sdk_methods" name="sdk_methods"></a>
 ### Advertiser Reporting Methods
 
-<strong>Important to note on Sample Code:</strong> The example provided pertain to only Advertiser Reports class <code>AdvertiserReportClickLogs</code>. The fields used theses sample primarily pertain to the available fields for the record and related records for the the associated endpoint <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__clicks/">/advertiser/stats/clicks</a> of this class. Do not expect that these fields will be available if used with other Advertiser Records classes.
+<strong>Important to note on Sample Code:</strong> The example provided pertain to only Advertiser Reports class <code>AdvertiserReportLogsClick</code>. The fields used theses sample primarily pertain to the available fields for the record and related records for the the associated endpoint <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__clicks/">/advertiser/stats/clicks</a> of this class. Do not expect that these fields will be available if used with other Advertiser Records classes.
 
 The benefit of using TUNE Reporting API SDKs is it provides the same interface across all advertiser reports. The following class diagram lists what are all the expected functions. The signature of the expected parameters for each function will be consistent with the action it is interfacing.
 
@@ -529,7 +529,7 @@ Finds all existing records matching provided filter criteria and returns total c
 
 <!-- Node.js -->
 ```javascript
-    var advertiserReport = new AdvertiserReportClickLogs(
+    var advertiserReport = new AdvertiserReportLogsClick(
       apiKey,
       true
     );
@@ -572,7 +572,7 @@ Gathers all existing records that match filter criteria and returns an array of 
 
 <!-- Node.js -->
 ```javascript
-    var advertiserReport = new AdvertiserReportClickLogs(
+    var advertiserReport = new AdvertiserReportLogsClick(
       apiKey,
       true
     );
@@ -615,7 +615,7 @@ Provides the same signature as function find(), accept parameters <code>limit</c
 
 <!-- Node.js -->
 ```javascript
-    var advertiserReport = new AdvertiserReportClickLogs(
+    var advertiserReport = new AdvertiserReportLogsClick(
       apiKey,
       true
     );
@@ -668,7 +668,7 @@ A helper function that creates a threaded worker that handles the status request
 
 <!-- Node.js -->
 ```javascript
-    var advertiserReport = new AdvertiserReportClickLogs(
+    var advertiserReport = new AdvertiserReportLogsClick(
       apiKey,
       true
     );
@@ -709,7 +709,7 @@ Method <strong>fields()</strong> returns a listing of all the fields that can be
 
 <!-- Node.js -->
 ```javascript
-    var advertiserReport = new AdvertiserReportClickLogs(
+    var advertiserReport = new AdvertiserReportLogsClick(
       apiKey,
       true
     );
@@ -756,11 +756,11 @@ Another tool is to pre-build your request using <a href="/management-api/explore
 <img src="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-node/master/docs/images/api_explorer_record_fields-600x436.png" alt="API Explorer -- Record and Related Record&#039;s Fields for a specific endpoint." width="600" height="436" title="Click to Expand" /></a>
 
 <ul>
-    <li>AdvertiserReportClickLogs' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__clicks/">/advertiser/stats/clicks fields</a></li>
-    <li>AdvertiserReportEventItemLogs' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__event__items/">/advertiser/stats/event/items fields</a></li>
-    <li>AdvertiserReportEventLogs' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__events/">/advertiser/stats/events fields</a></li>
-    <li>AdvertiserReportInstallLogs' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__installs/">/advertiser/stats/installs fields</a></li>
-    <li>AdvertiserReportPostbackLogs' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__postbacks/">/advertiser/stats/postbacks fields</a></li>
+    <li>AdvertiserReportLogsClick' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__clicks/">/advertiser/stats/clicks fields</a></li>
+    <li>AdvertiserReportLogsEventItem' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__event__items/">/advertiser/stats/event/items fields</a></li>
+    <li>AdvertiserReportLogsEvent' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__events/">/advertiser/stats/events fields</a></li>
+    <li>AdvertiserReportLogsInstall' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__installs/">/advertiser/stats/installs fields</a></li>
+    <li>AdvertiserReportLogsPostback' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__postbacks/">/advertiser/stats/postbacks fields</a></li>
     <li>AdvertiserReportActuals' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats/">/advertiser/stats fields</a></li>
     <li>AdvertiserReportCohorts' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__ltv/">/advertiser/stats/ltv fields</a></li>
     <li>AdvertiserReportCohortRetention' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__retention/">/advertiser/stats/retention fields</a></li>

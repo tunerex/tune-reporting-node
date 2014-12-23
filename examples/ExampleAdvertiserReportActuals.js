@@ -10,7 +10,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-22 13:38:30 $
+ * @version   $Date: 2014-12-23 07:55:28 $
  * @link      http://developers.mobileapptracking.com/tune-reporting-sdks/ @endlink
  */
 "use strict";
@@ -118,12 +118,11 @@ try {
       count_request.once('error', function onError(response) {
         return next(response);
       });
-
     },
-    taskFind: function (next) {
+    taskFindFilter1: function (next) {
       console.log('\n');
       console.log('==========================================================');
-      console.log(' Find Advertiser Report Actuals.                      ');
+      console.log(' Find Advertiser Report Actuals with Filter #1.           ');
       console.log('==========================================================');
       console.log('\n');
       var find_request = advertiserReportActuals.find(
@@ -155,10 +154,10 @@ try {
         return next(response);
       });
     },
-    taskFindComplexFilter: function (next) {
+    taskFindFilter2: function (next) {
       console.log('\n');
       console.log('==========================================================');
-      console.log(' Find Advertiser Report Actuals with Complex Filter.  ');
+      console.log(' Find Advertiser Report Actuals with Filter #2.           ');
       console.log('==========================================================');
       console.log('\n');
       var find_request = advertiserReportActuals.find(
@@ -173,6 +172,56 @@ try {
         'datehour',                                         // timestamp
         strResponseTimezone
       );
+      find_request.once('success', function onSuccess(response) {
+        if ((response.getHttpCode() !== 200) || (response.getErrors() !== null)) {
+          console.log('======================================================'.red);
+          next(response);
+        } else {
+          console.log('\n');
+          console.log('= Status: "success"');
+          console.log('= TuneManagementResponse:');
+          console.log(response.toString());
+          next();
+        }
+      });
+
+      find_request.once('error', function onError(response) {
+        console.log('======================================================'.red);
+        return next(response);
+      });
+    },
+    taskFindFilter3: function (next) {
+      console.log('\n');
+      console.log('==========================================================');
+      console.log(' Find Advertiser Report Actuals with Filter #3.           ');
+      console.log('==========================================================');
+      console.log('\n');
+      var
+        fields = [
+          'site_id',
+          'site.name',
+          'publisher_id',
+          'publisher.name',
+          'publisher_sub_campaign_id',
+          'publisher_sub_campaign.name',
+          'ad_clicks_unique,installs',
+          'events',
+          'payouts',
+          'revenues_usd',
+          'publisher_sub_campaign.ref'
+        ],
+        find_request = advertiserReportActuals.find(
+          startDate,
+          endDate,
+          fields,                                                         // fields
+          'site_id,publisher_id',                                         // group
+          "(publisher_id > 0) AND (publisher.name = 'App Alliances')",    // filter
+          5,                                                              // limit
+          null,                                                           // page
+          { 'installs': 'DESC' },                                         // sort
+          'datehour',                                                     // timestamp
+          'UTC'                                                           // response_timezone
+        );
       find_request.once('success', function onSuccess(response) {
         if ((response.getHttpCode() !== 200) || (response.getErrors() !== null)) {
           console.log('======================================================'.red);
@@ -378,9 +427,9 @@ try {
     },
     taskEndExample: function (next) {
       console.log('\n');
-      console.log('======================================================'.green);
-      console.log(' End Example                                          '.green);
-      console.log('======================================================'.green);
+      console.log('======================================================'.green.bold);
+      console.log(' End Example                                          '.green.bold);
+      console.log('======================================================'.green.bold);
       console.log('\n');
       next();
     }

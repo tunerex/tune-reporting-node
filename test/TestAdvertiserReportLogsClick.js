@@ -6,7 +6,7 @@
 /* jshint -W030 -W036 */
 
 /**
- * TestAdvertiserReportEventLogs.js, Test of TUNE Reporting API.
+ * TestAdvertiserReportLogsClick.js, Test of TUNE Reporting API.
  *
  * @module tune-reporting
  * @submodule test
@@ -17,7 +17,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-22 13:38:30 $
+ * @version   $Date: 2014-12-23 07:55:28 $
  * @link      http://developers.mobileapptracking.com/tune-reporting-sdks/ @endlink
  */
 "use strict";
@@ -26,11 +26,11 @@ require('../lib/helpers/Date');
 
 var
   tuneReporting = require('../lib'),
-  AdvertiserReportEventLogs = tuneReporting.api.AdvertiserReportEventLogs,
+  AdvertiserReportLogsClick = tuneReporting.api.AdvertiserReportLogsClick,
   EndpointBase = tuneReporting.base.endpoints.EndpointBase,
   expect = require('chai').expect;
 
-describe('test AdvertiserReportEventLogs', function () {
+describe('test AdvertiserReportLogsClick', function () {
   this.timeout(10000);
   var
     advertiserReport,
@@ -43,7 +43,7 @@ describe('test AdvertiserReportEventLogs', function () {
 
   before(function () {
     apiKey = process.env.API_KEY;
-    advertiserReport = new AdvertiserReportEventLogs(
+    advertiserReport = new AdvertiserReportLogsClick(
       apiKey
     );
   });
@@ -128,8 +128,7 @@ describe('test AdvertiserReportEventLogs', function () {
       expect(result.getErrors()).to.be.null;
       expect(result.getHttpCode()).eql(200);
 
-      csvJobId
-        = advertiserReport.parseResponseReportJobId(result);
+      csvJobId = advertiserReport.parseResponseReportJobId(result);
       expect(csvJobId).to.be.a('string');
       expect(csvJobId).to.be.not.empty;
       done();
@@ -169,8 +168,7 @@ describe('test AdvertiserReportEventLogs', function () {
   //    expect(result.getErrors()).to.be.null;
   //    expect(result.getHttpCode()).eql(200);
   //
-  //    var csvReportUrl
-  //      = advertiserReport.parseResponseReportUrl(result);
+  //    var csvReportUrl = advertiserReport.parseResponseReportUrl(result);
   //    expect(csvReportUrl).to.be.not.null;
   //    expect(csvReportUrl).to.be.a('string');
   //    expect(csvReportUrl).to.be.not.empty;

@@ -6,7 +6,7 @@
 /* jshint -W030 -W036 */
 
 /**
- * TestAdvertiserReportInstallLogs.js, Test of TUNE Reporting API.
+ * TestAdvertiserReportLogsInstall.js, Test of TUNE Reporting API.
  *
  * @module tune-reporting
  * @submodule test
@@ -17,7 +17,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-22 13:38:30 $
+ * @version   $Date: 2014-12-23 07:55:28 $
  * @link      http://developers.mobileapptracking.com/tune-reporting-sdks/ @endlink
  */
 "use strict";
@@ -26,11 +26,11 @@ require('../lib/helpers/Date');
 
 var
   tuneReporting = require('../lib'),
-  AdvertiserReportInstallLogs = tuneReporting.api.AdvertiserReportInstallLogs,
+  AdvertiserReportLogsInstall = tuneReporting.api.AdvertiserReportLogsInstall,
   EndpointBase = tuneReporting.base.endpoints.EndpointBase,
   expect = require('chai').expect;
 
-describe('test AdvertiserReportInstallLogs', function () {
+describe('test AdvertiserReportLogsInstall', function () {
   this.timeout(10000);
   var
     advertiserReport,
@@ -43,7 +43,7 @@ describe('test AdvertiserReportInstallLogs', function () {
 
   before(function () {
     apiKey = process.env.API_KEY;
-    advertiserReport = new AdvertiserReportInstallLogs(
+    advertiserReport = new AdvertiserReportLogsInstall(
       apiKey
     );
   });
