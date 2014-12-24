@@ -1,7 +1,7 @@
 {
   "name": "tune-reporting",
   "description": "TUNE Reporting SDK for Node.js",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "author": {
     "name": "Jeff Tanner",
     "email": "jefft@tune.com"
@@ -49,7 +49,6 @@
     "jsdoc": "^3.3.0-alpha11",
     "mocha": "^2.0.1",
     "nodelint": "^0.6.2",
-    "request-debug": "~0.1.18",
     "should": "^4.4.0",
     "sinon": "^1.12.1",
     "supertest": "^0.15.0"

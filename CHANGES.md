@@ -47,3 +47,9 @@ Version 0.1.10
 Beta release on December 23, 2014
 * Callbacks instead of expecting Events.
 * Provided .toJson for responses.
+
+Version 0.1.11
+--------------
+
+Beta release on December 23, 2014
+* Dockerfile for Jenkins CI.
