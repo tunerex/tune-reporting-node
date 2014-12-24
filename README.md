@@ -1,8 +1,8 @@
 <h2>tune-reporting</h2>
 <h2>TUNE Reporting SDK for Node.js</h2>
 <h3>Incorporate TUNE Reporting services.</h3>
-<h4>Update:  $Date: 2014-12-23 07:55:28 $</h4>
-<h4>Version: 0.1.9</h4>
+<h4>Update:  $Date: 2014-12-23 15:54:36 $</h4>
+<h4>Version: 0.1.10</h4>
 ===
 
 <a id="TOP"></a>
@@ -688,10 +688,10 @@ A helper function that creates a threaded worker that handles the status request
         console.log('= TuneManagementResponse:');
         console.log(response.toString());
 
-        csv_report_url = advertiserReport.parseResponseReportUrl(response);
+        csvReportUrl = advertiserReport.parseResponseReportUrl(response);
 
         console.log('\n');
-        console.log(util.format('= CSV Report URL: "%s"', csv_report_url));
+        console.log(util.format('= CSV Report URL: "%s"', csvReportUrl));
 
         next();
       }

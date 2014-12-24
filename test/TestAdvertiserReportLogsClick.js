@@ -17,7 +17,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-23 07:55:28 $
+ * @version   $Date: 2014-12-23 15:54:36 $
  * @link      http://developers.mobileapptracking.com/tune-reporting-sdks/ @endlink
  */
 "use strict";
@@ -49,47 +49,35 @@ describe('test AdvertiserReportLogsClick', function () {
   });
 
   it('fields recommended', function (done) {
-    var fields_request = advertiserReport.getFields(
-      EndpointBase.TUNE_FIELDS_RECOMMENDED
+    advertiserReport.getFields(
+      EndpointBase.TUNE_FIELDS_RECOMMENDED,
+      function (error, response) {
+        expect(error).to.be.null;
+        expect(response).to.be.not.null;
+        fieldsRecommended = response;
+        expect(fieldsRecommended).to.be.not.empty;
+        done();
+      }
     );
-    fields_request.on('success', function onSuccess(result) {
-      expect(result).to.be.not.null;
-      expect(result).to.be.a('array');
-      fieldsRecommended = result;
-      done();
-    });
-
-    fields_request.on('error', function onError(error) {
-      expect(error).to.be.not.null;
-      done(error);
-    });
   });
 
   it('count', function (done) {
-    var count_request = advertiserReport.count(
+    advertiserReport.count(
       startDate,
       endDate,
       null,                                           // filter
-      strResponseTimezone
+      strResponseTimezone,
+      function (error, response) {
+        expect(error).to.be.null;
+        expect(response).to.be.not.null;
+        expect(response.getHttpCode()).eql(200);
+        done();
+      }
     );
-    count_request.on('success', function onSuccess(result) {
-      expect(result).to.be.not.null;
-      expect(result.getData()).to.be.not.null;
-      expect(result.getErrors()).to.be.null;
-      expect(result.getHttpCode()).eql(200);
-      var count = result.getData();
-      expect(count).least(0);
-      done();
-    });
-
-    count_request.on('error', function onError(error) {
-      expect(error).to.be.not.null;
-      done(error);
-    });
   });
 
   it('find', function (done) {
-    var find_request = advertiserReport.find(
+    advertiserReport.find(
       startDate,
       endDate,
       fieldsRecommended,
@@ -97,87 +85,48 @@ describe('test AdvertiserReportLogsClick', function () {
       5,                                              // limit
       null,                                           // page
       { 'created': 'DESC' },                          // sort
-      strResponseTimezone
+      strResponseTimezone,
+      function (error, response) {
+        expect(error).to.be.null;
+        expect(response).to.be.not.null;
+        expect(response.getHttpCode()).eql(200);
+        done();
+      }
     );
-    find_request.on('success', function onSuccess(result) {
-      expect(result).to.be.not.null;
-      expect(result.getData()).to.be.not.null;
-      expect(result.getErrors()).to.be.null;
-      expect(result.getHttpCode()).eql(200);
-      done();
-    });
-
-    find_request.on('error', function onError(error) {
-      expect(error).to.be.not.null;
-      done(error);
-    });
   });
 
-  it('exportCsvReport', function (done) {
-    var export_request = advertiserReport.exportReport(
+  it('exportReport CSV', function (done) {
+    advertiserReport.exportReport(
       startDate,
       endDate,
       fieldsRecommended,
       null,                                           // filter
       'csv',                                          // format
-      strResponseTimezone
+      strResponseTimezone,
+      function (error, response) {
+        expect(error).to.be.null;
+        expect(response).to.be.not.null;
+        expect(response.getHttpCode()).eql(200);
+
+        csvJobId = advertiserReport.parseResponseReportJobId(response);
+        expect(csvJobId).to.be.not.null;
+        expect(csvJobId).to.be.a('string');
+        expect(csvJobId).to.be.not.empty;
+
+        done();
+      }
     );
-    export_request.on('success', function onSuccess(result) {
-      expect(result).to.be.not.null;
-      expect(result.getData()).to.be.not.null;
-      expect(result.getErrors()).to.be.null;
-      expect(result.getHttpCode()).eql(200);
-
-      csvJobId = advertiserReport.parseResponseReportJobId(result);
-      expect(csvJobId).to.be.a('string');
-      expect(csvJobId).to.be.not.empty;
-      done();
-    });
-
-    export_request.on('error', function onError(error) {
-      expect(error).to.be.not.null;
-      done(error);
-    });
   });
 
   it('statusCsvReport', function (done) {
-    var status_request = advertiserReport.statusReport(
-      csvJobId
+    advertiserReport.statusReport(
+      csvJobId,
+      function (error, response) {
+        expect(error).to.be.null;
+        expect(response).to.be.not.null;
+        expect(response.getHttpCode()).eql(200);
+        done();
+      }
     );
-    status_request.on('success', function onSuccess(result) {
-      expect(result).to.be.not.null;
-      expect(result.getData()).to.be.not.null;
-      expect(result.getErrors()).to.be.null;
-      expect(result.getHttpCode()).eql(200);
-      done();
-    });
-
-    status_request.on('error', function onError(error) {
-      expect(error).to.be.not.null;
-      done(error);
-    });
   });
-
-  //it('fetchCsvReport', function (done) {
-  //  var status_request = advertiserReport.fetchReport(
-  //    csvJobId
-  //  );
-  //  status_request.on('success', function onSuccess(result) {
-  //    expect(result).to.be.not.null;
-  //    expect(result.getData()).to.be.not.null;
-  //    expect(result.getErrors()).to.be.null;
-  //    expect(result.getHttpCode()).eql(200);
-  //
-  //    var csvReportUrl = advertiserReport.parseResponseReportUrl(result);
-  //    expect(csvReportUrl).to.be.not.null;
-  //    expect(csvReportUrl).to.be.a('string');
-  //    expect(csvReportUrl).to.be.not.empty;
-  //    done();
-  //  });
-  //
-  //  status_request.on('error', function onError(error) {
-  //    expect(error).to.be.not.null;
-  //    done(error);
-  //  });
-  //});
 });
