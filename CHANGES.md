@@ -1,7 +1,7 @@
 <h2>tune-reporting Change Log</h2>
 <h2>TUNE Reporting SDK for Node.js</h2>
 <h3>Incorporate TUNE Reporting services.</h3>
-<h4>Update:  $Date: 2014-12-23 07:55:28 $</h4>
+<h4>Update:  $Date: 2014-12-23 15:54:36 $</h4>
 =======================
 
 Here you can see the full list of changes between each tune-api-php release.
@@ -37,6 +37,13 @@ Beta release on December 22, 2014
 Version 0.1.9
 --------------
 
-Beta release on December 23, 2014
+Beta release on December 22, 2014
 * Fixes to Filter building.
 * Refactor all Advertiser Report Logs to be labeled with Logs.
+
+Version 0.1.10
+--------------
+
+Beta release on December 23, 2014
+* Callbacks instead of expecting Events.
+* Provided .toJson for responses.

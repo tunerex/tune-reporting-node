@@ -17,7 +17,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-22 13:38:30 $
+ * @version   $Date: 2014-12-23 15:54:36 $
  * @link      http://developers.mobileapptracking.com/tune-reporting-sdks/ @endlink
  */
 "use strict";
@@ -83,25 +83,25 @@ describe('test TuneManagementClient', function () {
   });
 
   it('make request using callback', function (done) {
-    client.request(function(error, result) {
+    client.request(function (error, response) {
       expect(error).to.be.null;
-      expect(result).to.be.not.null;
-      expect(result.getRequestUrl()).to.be.not.null;
-      expect(result.getRequestUrl()).to.be.a('string');
-      expect(result.getRequestUrl()).to.be.not.empty;
-      expect(result.getData()).to.be.not.null;
+      expect(response).to.be.not.null;
+      expect(response.getRequestUrl()).to.be.not.null;
+      expect(response.getRequestUrl()).to.be.a('string');
+      expect(response.getRequestUrl()).to.be.not.empty;
+      expect(response.getData()).to.be.not.null;
       done();
     });
   });
 
   it('make request using events', function (done) {
     var client_request = client.request();
-    client_request.on('success', function onSuccess(result) {
-      expect(result).to.be.not.null;
-      expect(result.getRequestUrl()).to.be.not.null;
-      expect(result.getRequestUrl()).to.be.a('string');
-      expect(result.getRequestUrl()).to.be.not.empty;
-      expect(result.getData()).to.be.not.null;
+    client_request.on('success', function onSuccess(response) {
+      expect(response).to.be.not.null;
+      expect(response.getRequestUrl()).to.be.not.null;
+      expect(response.getRequestUrl()).to.be.a('string');
+      expect(response.getRequestUrl()).to.be.not.empty;
+      expect(response.getData()).to.be.not.null;
       done();
     });
 
@@ -115,12 +115,12 @@ describe('test TuneManagementClient', function () {
       callbackSpy = spy(),
       client_request = client.request(callbackSpy);
 
-    client_request.on('success', function onSuccess(result) {
-      expect(result).to.be.not.null;
-      expect(result.getRequestUrl()).to.be.not.null;
-      expect(result.getRequestUrl()).to.be.a('string');
-      expect(result.getRequestUrl()).to.be.not.empty;
-      expect(result.getData()).to.be.not.null;
+    client_request.on('success', function onSuccess(response) {
+      expect(response).to.be.not.null;
+      expect(response.getRequestUrl()).to.be.not.null;
+      expect(response.getRequestUrl()).to.be.a('string');
+      expect(response.getRequestUrl()).to.be.not.empty;
+      expect(response.getData()).to.be.not.null;
       assert.equal(callbackSpy.called, true);
       done();
     });

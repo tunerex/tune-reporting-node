@@ -10,7 +10,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-23 07:55:28 $
+ * @version   $Date: 2014-12-23 15:54:36 $
  * @link      http://developers.mobileapptracking.com/tune-reporting-sdks/ @endlink
  */
 "use strict";
@@ -50,9 +50,9 @@ try {
     strResponseTimezone = 'America/Los_Angeles',
     arrayFieldsRecommended = null,
     csvJobId = null,
-    csv_report_url = null,
-    json_job_id = null,
-    json_report_url = null;
+    csvReportUrl = null,
+    jsonJobId = null,
+    jsonReportUrl = null;
 
   async.series({
     taskStartExample: function (next) {
@@ -63,27 +63,47 @@ try {
       console.log('\n');
       next();
     },
+    taskDefine: function (next) {
+      console.log('\n');
+      console.log('==========================================================');
+      console.log(' Define Metadata of Advertiser Report Click Logs.         ');
+      console.log('==========================================================');
+      console.log('\n');
+
+      advertiserReport.getDefine(function (error, response) {
+        if (error) {
+          return next(error);
+        }
+
+        console.log('\n');
+        console.log('= Status: "success"');
+        console.log('= TuneManagementResponse:');
+        console.log(response);
+        return next();
+      });
+    },
     taskFieldsRecommended: function (next) {
+      console.log('\n');
       console.log('==========================================================');
       console.log(' Recommended Fields of Advertiser Report Click Logs.      ');
       console.log('==========================================================');
       console.log('\n');
 
-      var fields_request = advertiserReport.getFields(
-        EndpointBase.TUNE_FIELDS_RECOMMENDED
-      );
-      fields_request.once('success', function onSuccess(response) {
-        console.log('\n');
-        console.log('= Status: "success"');
-        console.log('= TuneManagementResponse:');
-        console.log(response);
-        arrayFieldsRecommended = response;
-        next();
-      });
+      advertiserReport.getFields(
+        EndpointBase.TUNE_FIELDS_RECOMMENDED,
+        function (error, response) {
+          if (error) {
+            return next(error);
+          }
 
-      fields_request.once('error', function onError(response) {
-        return next(response);
-      });
+          console.log('\n');
+          console.log('= Status: "success"');
+          console.log('= TuneManagementResponse:');
+          console.log(response);
+          arrayFieldsRecommended = response;
+          return next();
+        }
+      );
     },
     taskCount: function (next) {
       console.log('\n');
@@ -91,33 +111,32 @@ try {
       console.log(' Count Advertiser Report Click Logs.                      ');
       console.log('==========================================================');
       console.log('\n');
-      var count_request = advertiserReport.count(
+
+      advertiserReport.count(
         startDate,
         endDate,
         null,                                           // filter
-        strResponseTimezone
-      );
-      count_request.once('success', function onSuccess(response) {
-        if ((response.getHttpCode() !== 200) || (response.getErrors() !== null)) {
-          next(response);
-        } else {
+        strResponseTimezone,
+        function (error, response) {
+          if (error) {
+            return next(error);
+          }
+
+          if ((response.getHttpCode() !== 200) || (response.getErrors() !== null)) {
+            return next(response);
+          }
+
           var count = response.getData();
 
-          console.log('\n');
           console.log('= Status: "success"');
           console.log('= TuneManagementResponse:');
-          console.log(response.toString());
+          console.log(response.toJson());
 
           console.log('\n');
           console.log(util.format('= Count: %d', count));
-          next();
+          return next();
         }
-      });
-
-      count_request.once('error', function onError(response) {
-        return next(response);
-      });
-
+      );
     },
     taskFind: function (next) {
       console.log('\n');
@@ -125,7 +144,8 @@ try {
       console.log(' Find Advertiser Report Click Logs.                       ');
       console.log('==========================================================');
       console.log('\n');
-      var find_request = advertiserReport.find(
+
+      advertiserReport.find(
         startDate,
         endDate,
         arrayFieldsRecommended,                         // fields
@@ -133,25 +153,22 @@ try {
         5,                                              // limit
         null,                                           // page
         { 'created': 'DESC' },                          // sort
-        strResponseTimezone
-      );
-      find_request.once('success', function onSuccess(response) {
-        if ((response.getHttpCode() !== 200) || (response.getErrors() !== null)) {
-          next(response);
-        } else {
+        strResponseTimezone,
+        function (error, response) {
+          if (error) {
+            return next(error);
+          }
 
-          console.log('\n');
+          if ((response.getHttpCode() !== 200) || (response.getErrors() !== null)) {
+            return next(response);
+          }
+
           console.log('= Status: "success"');
           console.log('= TuneManagementResponse:');
-          console.log(response.toString());
-          next();
+          console.log(response.toJson());
+          return next();
         }
-      });
-
-      find_request.once('error', function onError(response) {
-        return next(response);
-      });
-
+      );
     },
     taskExportCsvReport: function (next) {
       console.log('\n');
@@ -159,35 +176,60 @@ try {
       console.log(' Export Advertiser Report Click Logs CSV report.          ');
       console.log('==========================================================');
       console.log('\n');
-      var export_request = advertiserReport.exportReport(
+
+      advertiserReport.exportReport(
         startDate,
         endDate,
         arrayFieldsRecommended,                         // fields
         null,                                           // filter
         'csv',                                          // format
-        strResponseTimezone
-      );
-      export_request.once('success', function onSuccess(response) {
-        if ((response.getHttpCode() !== 200) || (response.getErrors() !== null)) {
-          next(response);
-        } else {
+        strResponseTimezone,
+        function (error, response) {
+          if (error) {
+            return next(error);
+          }
 
-          console.log('\n');
+          if ((response.getHttpCode() !== 200) || (response.getErrors() !== null)) {
+            return next(response);
+          }
+
           console.log('= Status: "success"');
           console.log('= TuneManagementResponse:');
-          console.log(response.toString());
+          console.log(response.toJson());
 
           csvJobId = advertiserReport.parseResponseReportJobId(response);
 
           console.log('\n');
           console.log(util.format('= CSV Report Job ID: "%s"', csvJobId));
-          next();
+          return next();
         }
-      });
+      );
+    },
+    taskStatusCsvReport: function (next) {
+      console.log('\n');
+      console.log('==========================================================');
+      console.log(' Status Advertiser Report Click Logs CSV report.          ');
+      console.log('==========================================================');
+      console.log('\n');
 
-      export_request.once('error', function onError(response) {
-        return next(response);
-      });
+      advertiserReport.statusReport(
+        csvJobId,
+        function (error, response) {
+          if (error) {
+            return next(error);
+          }
+
+          if ((response.getHttpCode() !== 200) || (response.getErrors() !== null)) {
+            return next(response);
+          }
+
+          console.log('= Status: "success"');
+          var json = response.toJson();
+          console.log(json.response_json.data);
+
+          return next();
+        }
+      );
     },
     taskFetchCsvReport: function (next) {
       console.log('\n');
@@ -195,33 +237,32 @@ try {
       console.log(' Fetch Advertiser Report Click Logs CSV report.           ');
       console.log('==========================================================');
       console.log('\n');
-      var fetch_request = advertiserReport.fetchReport(
+
+      advertiserReport.fetchReport(
         csvJobId,
-        true        // verbose
-      );
+        true,                                 // verbose
+        10,                                   // sleep
+        function (error, response) {
+          if (error) {
+            return next(error);
+          }
 
-      fetch_request.once('success', function onSuccess(response) {
-        if ((response.getHttpCode() !== 200) || (response.getErrors() !== null)) {
-          next(response);
-        } else {
+          if ((response.getHttpCode() !== 200) || (response.getErrors() !== null)) {
+            return next(response);
+          }
 
-          console.log('\n');
           console.log('= Status: "success"');
           console.log('= TuneManagementResponse:');
-          console.log(response.toString());
+          console.log(response.toJson());
 
-          csv_report_url = advertiserReport.parseResponseReportUrl(response);
+          csvReportUrl = advertiserReport.parseResponseReportUrl(response);
 
           console.log('\n');
-          console.log(util.format('= CSV Report URL: "%s"', csv_report_url));
+          console.log(util.format('= CSV Report URL: "%s"', csvReportUrl));
 
-          next();
+          return next();
         }
-      });
-
-      fetch_request.once('error', function onError(response) {
-        return next(response);
-      });
+      );
     },
     taskReadCsvReport: function (next) {
 
@@ -231,7 +272,7 @@ try {
       console.log('==========================================================');
       console.log('\n');
       var
-        csv_reader = new ReportReaderCSV(csv_report_url),
+        csv_reader = new ReportReaderCSV(csvReportUrl),
         print_request = csv_reader.prettyprint(5);
 
       print_request.once('success', function onSuccess(response) {
@@ -242,7 +283,6 @@ try {
       print_request.once('error', function onError(response) {
         return next(response);
       });
-
     },
     taskExportJsonReport: function (next) {
       console.log('\n');
@@ -250,69 +290,93 @@ try {
       console.log(' Export Advertiser Report Click Logs JSON report.         ');
       console.log('==========================================================');
       console.log('\n');
-      var export_request = advertiserReport.exportReport(
+
+      advertiserReport.exportReport(
         startDate,
         endDate,
         arrayFieldsRecommended,                         // fields
         null,                                           // filter
         'json',                                         // format
-        strResponseTimezone
-      );
-      export_request.once('success', function onSuccess(response) {
-        if ((response.getHttpCode() !== 200) || (response.getErrors() !== null)) {
-          next(response);
-        } else {
+        strResponseTimezone,
+        function (error, response) {
+          if (error) {
+            return next(error);
+          }
 
-          console.log('\n');
+          if ((response.getHttpCode() !== 200) || (response.getErrors() !== null)) {
+            return next(response);
+          }
+
           console.log('= Status: "success"');
           console.log('= TuneManagementResponse:');
-          console.log(response.toString());
+          console.log(response.toJson());
 
-          json_job_id = advertiserReport.parseResponseReportJobId(response);
+          jsonJobId = advertiserReport.parseResponseReportJobId(response);
 
           console.log('\n');
-          console.log(util.format('= JSON Report Job ID: "%s"', json_job_id));
-          next();
+          console.log(util.format('= JSON Report Job ID: "%s"', jsonJobId));
+          return next();
         }
-      });
+      );
+    },
+    taskStatusJsonReport: function (next) {
+      console.log('\n');
+      console.log('==========================================================');
+      console.log(' Status Advertiser Report Click Logs JSON report.          ');
+      console.log('==========================================================');
+      console.log('\n');
 
-      export_request.once('error', function onError(response) {
-        return next(response);
-      });
+      advertiserReport.statusReport(
+        jsonJobId,
+        function (error, response) {
+          if (error) {
+            return next(error);
+          }
+
+          if ((response.getHttpCode() !== 200) || (response.getErrors() !== null)) {
+            return next(response);
+          }
+
+          console.log('= Status: "success"');
+          var json = response.toJson();
+          console.log(json.response_json.data);
+
+          return next();
+        }
+      );
     },
     taskFetchJsonReport: function (next) {
       console.log('\n');
       console.log('==========================================================');
-      console.log(' Fetch Advertiser Report Click Logs JSON report.          ');
+      console.log(' Fetch Advertiser Report Click Logs JSON report.           ');
       console.log('==========================================================');
       console.log('\n');
-      var fetch_request = advertiserReport.fetchReport(
-        json_job_id,
-        true        // verbose
-      );
 
-      fetch_request.once('success', function onSuccess(response) {
-        if ((response.getHttpCode() !== 200) || (response.getErrors() !== null)) {
-          next(response);
-        } else {
+      advertiserReport.fetchReport(
+        jsonJobId,
+        true,                                 // verbose
+        10,                                   // sleep
+        function (error, response) {
+          if (error) {
+            return next(error);
+          }
 
-          console.log('\n');
+          if ((response.getHttpCode() !== 200) || (response.getErrors() !== null)) {
+            return next(response);
+          }
+
           console.log('= Status: "success"');
           console.log('= TuneManagementResponse:');
-          console.log(response.toString());
+          console.log(response.toJson());
 
-          json_report_url = advertiserReport.parseResponseReportUrl(response);
+          jsonReportUrl = advertiserReport.parseResponseReportUrl(response);
 
           console.log('\n');
-          console.log(util.format('= JSON Report URL: "%s"', json_report_url));
+          console.log(util.format('= JSON Report URL: "%s"', jsonReportUrl));
 
-          next();
+          return next();
         }
-      });
-
-      fetch_request.once('error', function onError(response) {
-        return next(response);
-      });
+      );
     },
     taskReadJsonReport: function (next) {
 
@@ -322,7 +386,7 @@ try {
       console.log('==========================================================');
       console.log('\n');
       var
-        json_reader = new ReportReaderJSON(json_report_url),
+        json_reader = new ReportReaderJSON(jsonReportUrl),
         print_request = json_reader.prettyprint(5);
 
       print_request.once('success', function onSuccess(response) {
@@ -347,14 +411,17 @@ try {
     function (err) {
       if (err) {
         console.log('\n');
+        console.log('======================================================'.red);
         console.log('= Status: "error"'.red);
-        console.log('= TuneManagementResponse:');
         console.log(err);
+        console.log('======================================================'.red);
       }
     });
 } catch (err) {
   console.log('\n');
+  console.log('======================================================'.red);
   console.log('= Exception: "error"'.red);
   console.log(err);
   console.log(stackTrace.parse(err));
+  console.log('======================================================'.red);
 }

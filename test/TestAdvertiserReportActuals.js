@@ -17,7 +17,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-22 13:38:30 $
+ * @version   $Date: 2014-12-23 15:54:36 $
  * @link      http://developers.mobileapptracking.com/tune-reporting-sdks/ @endlink
  */
 "use strict";
@@ -33,7 +33,7 @@ var
 describe('test AdvertiserReportActuals', function () {
   this.timeout(30000);
   var
-    advertiserReportActuals,
+    advertiserReport,
     apiKey,
     csvJobId,
 
@@ -46,72 +46,52 @@ describe('test AdvertiserReportActuals', function () {
 
   before(function () {
     apiKey = process.env.API_KEY;
-    advertiserReportActuals = new AdvertiserReportActuals(
+    advertiserReport = new AdvertiserReportActuals(
       apiKey
     );
   });
 
   it('fields all', function (done) {
-    var fields_request = advertiserReportActuals.getFields(
-      EndpointBase.TUNE_FIELDS_ALL
+    advertiserReport.getFields(
+      EndpointBase.TUNE_FIELDS_ALL,
+      function (error, response) {
+        expect(error).to.be.null;
+        expect(response).to.be.not.null;
+        done();
+      }
     );
-    fields_request.on('success', function onSuccess(result) {
-      expect(result).to.be.not.null;
-      expect(result).to.be.a('array');
-      expect(result).to.be.not.empty;
-      done();
-    });
-
-    fields_request.on('error', function onError(error) {
-      expect(error).to.be.not.null;
-      done(error);
-    });
   });
 
   it('fields recommended', function (done) {
-    var fields_request = advertiserReportActuals.getFields(
-      EndpointBase.TUNE_FIELDS_RECOMMENDED
+    advertiserReport.getFields(
+      EndpointBase.TUNE_FIELDS_RECOMMENDED,
+      function (error, response) {
+        expect(error).to.be.null;
+        expect(response).to.be.not.null;
+        fieldsRecommended = response;
+        expect(fieldsRecommended).to.be.not.empty;
+        done();
+      }
     );
-    fields_request.on('success', function onSuccess(result) {
-      expect(result).to.be.not.null;
-      expect(result).to.be.a('array');
-      fieldsRecommended = result;
-      expect(fieldsRecommended).to.be.not.empty;
-      done();
-    });
-
-    fields_request.on('error', function onError(error) {
-      expect(error).to.be.not.null;
-      done(error);
-    });
   });
 
   it('count', function (done) {
-    var count_request = advertiserReportActuals.count(
+    advertiserReport.count(
       startDate,
       endDate,
       'site_id,publisher_id',                         // group
       '(publisher_id > 0)',                           // filter
-      strResponseTimezone
+      strResponseTimezone,
+      function (error, response) {
+        expect(error).to.be.null;
+        expect(response).to.be.not.null;
+        done();
+      }
     );
-    count_request.on('success', function onSuccess(result) {
-      expect(result).to.be.not.null;
-      expect(result.getData()).to.be.not.null;
-      expect(result.getErrors()).to.be.null;
-      expect(result.getHttpCode()).eql(200);
-      var count = result.getData();
-      expect(count).least(0);
-      done();
-    });
-
-    count_request.on('error', function onError(error) {
-      expect(error).to.be.not.null;
-      done(error);
-    });
   });
 
   it('find', function (done) {
-    var find_request = advertiserReportActuals.find(
+    advertiserReport.find(
       startDate,
       endDate,
       fieldsRecommended,                             // fields
@@ -121,24 +101,17 @@ describe('test AdvertiserReportActuals', function () {
       null,                                           // page
       { 'paid_installs': 'DESC' },                         // sort
       'datehour',                                     // timestamp
-      strResponseTimezone
+      strResponseTimezone,
+      function (error, response) {
+        expect(error).to.be.null;
+        expect(response).to.be.not.null;
+        done();
+      }
     );
-    find_request.on('success', function onSuccess(result) {
-      expect(result).to.be.not.null;
-      expect(result.getData()).to.be.not.null;
-      expect(result.getErrors()).to.be.null;
-      expect(result.getHttpCode()).eql(200);
-      done();
-    });
-
-    find_request.on('error', function onError(error) {
-      expect(error).to.be.not.null;
-      done(error);
-    });
   });
 
-  it('exportCsvReport', function (done) {
-    var export_request = advertiserReportActuals.exportReport(
+  it('exportReport CSV', function (done) {
+    advertiserReport.exportReport(
       startDate,
       endDate,
       fieldsRecommended,                             // fields
@@ -146,65 +119,29 @@ describe('test AdvertiserReportActuals', function () {
       '(publisher_id > 0)',                           // filter
       'datehour',                                     // timestamp
       'csv',                                          // format
-      strResponseTimezone
+      strResponseTimezone,
+      function (error, response) {
+        expect(error).to.be.null;
+        expect(response).to.be.not.null;
+
+        csvJobId = advertiserReport.parseResponseReportJobId(response);
+        expect(csvJobId).to.be.not.null;
+        expect(csvJobId).to.be.a('string');
+        expect(csvJobId).to.be.not.empty;
+
+        done();
+      }
     );
-    export_request.on('success', function onSuccess(result) {
-      expect(result).to.be.not.null;
-      expect(result.getData()).to.be.not.null;
-      expect(result.getErrors()).to.be.null;
-      expect(result.getHttpCode()).eql(200);
-
-      csvJobId = advertiserReportActuals.parseResponseReportJobId(result);
-      expect(csvJobId).to.be.not.null;
-      expect(csvJobId).to.be.a('string');
-      expect(csvJobId).to.be.not.empty;
-      done();
-    });
-
-    export_request.on('error', function onError(error) {
-      expect(error).to.be.not.null;
-      done(error);
-    });
   });
 
   it('statusCsvReport', function (done) {
-    var status_request = advertiserReportActuals.statusReport(
-      csvJobId
+    advertiserReport.statusReport(
+      csvJobId,
+      function (error, response) {
+        expect(error).to.be.null;
+        expect(response).to.be.not.null;
+        done();
+      }
     );
-    status_request.on('success', function onSuccess(result) {
-      expect(result).to.be.not.null;
-      expect(result.getData()).to.be.not.null;
-      expect(result.getErrors()).to.be.null;
-      expect(result.getHttpCode()).eql(200);
-      done();
-    });
-
-    status_request.on('error', function onError(error) {
-      expect(error).to.be.not.null;
-      done(error);
-    });
   });
-
-  //it('fetchCsvReport', function (done) {
-  //  var status_request = advertiserReportActuals.fetchReport(
-  //    csvJobId
-  //  );
-  //  status_request.on('success', function onSuccess(result) {
-  //    expect(result).to.be.not.null;
-  //    expect(result.getData()).to.be.not.null;
-  //    expect(result.getErrors()).to.be.null;
-  //    expect(result.getHttpCode()).eql(200);
-  //
-  //    var csvReportUrl = advertiserReportActuals.parseResponseReportUrl(result);
-  //    expect(csvReportUrl).to.be.not.null;
-  //    expect(csvReportUrl).to.be.a('string');
-  //    expect(csvReportUrl).to.be.not.empty;
-  //    done();
-  //  });
-  //
-  //  status_request.on('error', function onError(error) {
-  //    expect(error).to.be.not.null;
-  //    done(error);
-  //  });
-  //});
 });
