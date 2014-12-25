@@ -6,7 +6,7 @@
 /* jshint -W030 -W036 */
 
 /**
- * TestAdvertiserReportLogsClick.js, Test of TUNE Reporting API.
+ * TestAdvertiserReportLogEventItems.js, Test of TUNE Reporting API.
  *
  * @module tune-reporting
  * @submodule test
@@ -26,11 +26,11 @@ require('../lib/helpers/Date');
 
 var
   tuneReporting = require('../lib'),
-  AdvertiserReportLogsClick = tuneReporting.api.AdvertiserReportLogsClick,
+  AdvertiserReportLogEventItems = tuneReporting.api.AdvertiserReportLogEventItems,
   EndpointBase = tuneReporting.base.endpoints.EndpointBase,
   expect = require('chai').expect;
 
-describe('test AdvertiserReportLogsClick', function () {
+describe('test AdvertiserReportLogEventItems', function () {
   this.timeout(10000);
   var
     advertiserReport,
@@ -43,7 +43,7 @@ describe('test AdvertiserReportLogsClick', function () {
 
   before(function () {
     apiKey = process.env.API_KEY;
-    advertiserReport = new AdvertiserReportLogsClick(
+    advertiserReport = new AdvertiserReportLogEventItems(
       apiKey
     );
   });

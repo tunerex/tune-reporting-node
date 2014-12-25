@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * ExampleAdvertiserReportLogsClick.js, Example of TUNE Reporting API.
+ * ExampleAdvertiserReportLogEvents.js, Example of TUNE Reporting API.
  *
  * @module examples
  * @main tune-reporting
@@ -22,7 +22,7 @@ var
   async = require('async'),
   stackTrace = require('stack-trace'),
   async = require('async'),
-  AdvertiserReportLogsPostback = tuneReporting.api.AdvertiserReportLogsPostback,
+  AdvertiserReportLogEvents = tuneReporting.api.AdvertiserReportLogEvents,
   EndpointBase = tuneReporting.base.endpoints.EndpointBase,
   ReportReaderCSV = tuneReporting.helpers.ReportReaderCSV,
   ReportReaderJSON = tuneReporting.helpers.ReportReaderJSON,
@@ -39,7 +39,7 @@ try {
 
   var
     apiKey = args[0],
-    advertiserReport = new AdvertiserReportLogsPostback(
+    advertiserReport = new AdvertiserReportLogEvents(
       apiKey,
       true
     ),
@@ -58,7 +58,7 @@ try {
     taskStartExample: function (next) {
       console.log('\n');
       console.log('======================================================'.blue.bold);
-      console.log(' Begin: TUNE Advertiser Report Logs Postback          '.blue.bold);
+      console.log(' Begin: TUNE Advertiser Report Log Events             '.blue.bold);
       console.log('======================================================'.blue.bold);
       console.log('\n');
       next();
@@ -66,7 +66,7 @@ try {
     taskDefine: function (next) {
       console.log('\n');
       console.log('==========================================================');
-      console.log(' Define Metadata of Advertiser Report Logs Postback.         ');
+      console.log(' Define Metadata of Advertiser Report Log Events.         ');
       console.log('==========================================================');
       console.log('\n');
 
@@ -85,7 +85,7 @@ try {
     taskFieldsRecommended: function (next) {
       console.log('\n');
       console.log('==========================================================');
-      console.log(' Recommended Fields of Advertiser Report Logs Postback.      ');
+      console.log(' Recommended Fields of Advertiser Report Log Events.      ');
       console.log('==========================================================');
       console.log('\n');
 
@@ -108,7 +108,7 @@ try {
     taskCount: function (next) {
       console.log('\n');
       console.log('==========================================================');
-      console.log(' Count Advertiser Report Logs Postback.                      ');
+      console.log(' Count Advertiser Report Log Events.                      ');
       console.log('==========================================================');
       console.log('\n');
 
@@ -141,7 +141,7 @@ try {
     taskFind: function (next) {
       console.log('\n');
       console.log('==========================================================');
-      console.log(' Find Advertiser Report Logs Postback.                       ');
+      console.log(' Find Advertiser Report Log Events.                       ');
       console.log('==========================================================');
       console.log('\n');
 
@@ -173,7 +173,7 @@ try {
     taskExportCsvReport: function (next) {
       console.log('\n');
       console.log('==========================================================');
-      console.log(' Export Advertiser Report Logs Postback CSV report.          ');
+      console.log(' Export Advertiser Report Log Events CSV report.          ');
       console.log('==========================================================');
       console.log('\n');
 
@@ -208,7 +208,7 @@ try {
     taskStatusCsvReport: function (next) {
       console.log('\n');
       console.log('==========================================================');
-      console.log(' Status Advertiser Report Logs Postback CSV report.          ');
+      console.log(' Status Advertiser Report Log Events CSV report.          ');
       console.log('==========================================================');
       console.log('\n');
 
@@ -234,7 +234,7 @@ try {
     taskFetchCsvReport: function (next) {
       console.log('\n');
       console.log('==========================================================');
-      console.log(' Fetch Advertiser Report Logs Postback CSV report.           ');
+      console.log(' Fetch Advertiser Report Log Events CSV report.           ');
       console.log('==========================================================');
       console.log('\n');
 
@@ -268,7 +268,7 @@ try {
 
       console.log('\n');
       console.log('==========================================================');
-      console.log(' Read Advertiser Report Logs Postback CSV report.            ');
+      console.log(' Read Advertiser Report Log Events CSV report.            ');
       console.log('==========================================================');
       console.log('\n');
       var
@@ -287,7 +287,7 @@ try {
     taskExportJsonReport: function (next) {
       console.log('\n');
       console.log('==========================================================');
-      console.log(' Export Advertiser Report Logs Postback JSON report.         ');
+      console.log(' Export Advertiser Report Log Events JSON report.         ');
       console.log('==========================================================');
       console.log('\n');
 
@@ -322,7 +322,7 @@ try {
     taskStatusJsonReport: function (next) {
       console.log('\n');
       console.log('==========================================================');
-      console.log(' Status Advertiser Report Logs Postback JSON report.          ');
+      console.log(' Status Advertiser Report Log Events JSON report.          ');
       console.log('==========================================================');
       console.log('\n');
 
@@ -348,7 +348,7 @@ try {
     taskFetchJsonReport: function (next) {
       console.log('\n');
       console.log('==========================================================');
-      console.log(' Fetch Advertiser Report Logs Postback JSON report.           ');
+      console.log(' Fetch Advertiser Report Log Events JSON report.           ');
       console.log('==========================================================');
       console.log('\n');
 
@@ -382,7 +382,7 @@ try {
 
       console.log('\n');
       console.log('==========================================================');
-      console.log(' Read Advertiser Report Logs Postback JSON report.           ');
+      console.log(' Read Advertiser Report Log Events JSON report.           ');
       console.log('==========================================================');
       console.log('\n');
       var

@@ -6,7 +6,7 @@
 /* jshint -W030 -W036 */
 
 /**
- * TestAdvertiserReportLogsPostback.js, Test of TUNE Reporting API.
+ * TestAdvertiserReportLogEvents.js, Test of TUNE Reporting API.
  *
  * @module tune-reporting
  * @submodule test
@@ -26,12 +26,12 @@ require('../lib/helpers/Date');
 
 var
   tuneReporting = require('../lib'),
-  AdvertiserReportLogsPostback = tuneReporting.api.AdvertiserReportLogsPostback,
+  AdvertiserReportLogEvents = tuneReporting.api.AdvertiserReportLogEvents,
   EndpointBase = tuneReporting.base.endpoints.EndpointBase,
   expect = require('chai').expect;
 
-describe('test AdvertiserReportLogsPostback', function () {
-  this.timeout(20000);
+describe('test AdvertiserReportLogEvents', function () {
+  this.timeout(10000);
   var
     advertiserReport,
     apiKey,
@@ -43,7 +43,7 @@ describe('test AdvertiserReportLogsPostback', function () {
 
   before(function () {
     apiKey = process.env.API_KEY;
-    advertiserReport = new AdvertiserReportLogsPostback(
+    advertiserReport = new AdvertiserReportLogEvents(
       apiKey
     );
   });
@@ -90,6 +90,7 @@ describe('test AdvertiserReportLogsPostback', function () {
         expect(error).to.be.null;
         expect(response).to.be.not.null;
         expect(response.getHttpCode()).eql(200);
+
         done();
       }
     );
@@ -112,6 +113,7 @@ describe('test AdvertiserReportLogsPostback', function () {
         expect(csvJobId).to.be.not.null;
         expect(csvJobId).to.be.a('string');
         expect(csvJobId).to.be.not.empty;
+
         done();
       }
     );
@@ -121,13 +123,13 @@ describe('test AdvertiserReportLogsPostback', function () {
     expect(csvJobId).to.be.not.null;
     expect(csvJobId).to.be.a('string');
     expect(csvJobId).to.be.not.empty;
-
     advertiserReport.statusReport(
       csvJobId,
       function (error, response) {
         expect(error).to.be.null;
         expect(response).to.be.not.null;
         expect(response.getHttpCode()).eql(200);
+
         done();
       }
     );
