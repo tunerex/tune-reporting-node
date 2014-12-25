@@ -6,7 +6,7 @@
 /* jshint -W030 -W036 */
 
 /**
- * TestAdvertiserReportLogsEvent.js, Test of TUNE Reporting API.
+ * TestAdvertiserReportLogInstalls.js, Test of TUNE Reporting API.
  *
  * @module tune-reporting
  * @submodule test
@@ -26,11 +26,11 @@ require('../lib/helpers/Date');
 
 var
   tuneReporting = require('../lib'),
-  AdvertiserReportLogsEvent = tuneReporting.api.AdvertiserReportLogsEvent,
+  AdvertiserReportLogInstalls = tuneReporting.api.AdvertiserReportLogInstalls,
   EndpointBase = tuneReporting.base.endpoints.EndpointBase,
   expect = require('chai').expect;
 
-describe('test AdvertiserReportLogsEvent', function () {
+describe('test AdvertiserReportLogInstalls', function () {
   this.timeout(10000);
   var
     advertiserReport,
@@ -43,7 +43,7 @@ describe('test AdvertiserReportLogsEvent', function () {
 
   before(function () {
     apiKey = process.env.API_KEY;
-    advertiserReport = new AdvertiserReportLogsEvent(
+    advertiserReport = new AdvertiserReportLogInstalls(
       apiKey
     );
   });
@@ -90,7 +90,6 @@ describe('test AdvertiserReportLogsEvent', function () {
         expect(error).to.be.null;
         expect(response).to.be.not.null;
         expect(response.getHttpCode()).eql(200);
-
         done();
       }
     );
@@ -120,16 +119,12 @@ describe('test AdvertiserReportLogsEvent', function () {
   });
 
   it('statusCsvReport', function (done) {
-    expect(csvJobId).to.be.not.null;
-    expect(csvJobId).to.be.a('string');
-    expect(csvJobId).to.be.not.empty;
     advertiserReport.statusReport(
       csvJobId,
       function (error, response) {
         expect(error).to.be.null;
         expect(response).to.be.not.null;
         expect(response.getHttpCode()).eql(200);
-
         done();
       }
     );

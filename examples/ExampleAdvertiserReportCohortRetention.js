@@ -70,7 +70,7 @@ try {
       console.log('==========================================================');
       console.log('\n');
 
-      advertiserReport.getDefine(function (error, response) {
+      (function (error, response) {
         if (error) {
           return next(error);
         }
