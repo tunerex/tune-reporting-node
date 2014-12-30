@@ -47,12 +47,15 @@ examples:
 	node ./examples/ExampleAdvertiserReportCohortValue $(api_key)
 
 test-install:
-	npm install mocha, chai, should, sinon -g
+	npm install mocha
+	npm install chai
+	npm install should
+	npm install sinon
 
-test:
+test: test-install
 	@NODE_ENV=test ./node_modules/.bin/mocha
 
-test-w:
+test-w: test-install
 	@NODE_ENV=test ./node_modules/.bin/mocha \
 		--growl \
 		--watch
@@ -68,6 +71,9 @@ lint:
 
 npm-install:
 	npm install
+
+npm-publish:
+	npm publish
 
 nvm-install:
 	unset NVM_DIR
