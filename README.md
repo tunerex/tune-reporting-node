@@ -1,8 +1,8 @@
 <h2>tune-reporting</h2>
 <h2>TUNE Reporting SDK for Node</h2>
 <h3>Incorporate TUNE Reporting services.</h3>
-<h4>Update:  $Date: 2014-12-24 16:14:14 $</h4>
-<h4>Version: 0.1.11</h4>
+<h4>Update:  $Date: 2014-12-30 08:50:38 $</h4>
+<h4>Version: 0.1.13</h4>
 ===
 
 <a id="TOP"></a>

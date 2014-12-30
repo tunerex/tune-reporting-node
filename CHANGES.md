@@ -1,7 +1,7 @@
 <h2>tune-reporting Change Log</h2>
 <h2>TUNE Reporting SDK for Node.js</h2>
 <h3>Incorporate TUNE Reporting services.</h3>
-<h4>Update:  $Date: 2014-12-24 16:14:14 $</h4>
+<h4>Update:  $Date: 2014-12-30 08:50:38 $</h4>
 =======================
 
 Here you can see the full list of changes between each tune-api-php release.
@@ -60,3 +60,9 @@ Version 0.1.12
 Beta public release on December 24, 2014
 * Refactor Log and Cohort classes
 * TUNE Management API request contains SDK type and version.
+
+Version 0.1.13
+--------------
+
+Beta public release on December 30, 2014
+* TUNE Management API request contains 'sdk' and 'ver'.
