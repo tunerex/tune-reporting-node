@@ -2,7 +2,7 @@
 <h2>TUNE Reporting SDK for Node</h2>
 <h3>Incorporate TUNE Reporting services.</h3>
 <h4>Update:  $Date: 2015-01-02 10:24:03 $</h4>
-<h4>Version: 0.1.15</h4>
+<h4>Version: 0.1.16</h4>
 ===
 
 <a id="TOP"></a>

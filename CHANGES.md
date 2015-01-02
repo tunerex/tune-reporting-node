@@ -78,3 +78,9 @@ Version 0.1.15
 
 Beta public release on January 02, 2015
 * Keywords.
+
+Version 0.1.16
+--------------
+
+Beta public release on January 02, 2015
+* Accidentally removed examples.
