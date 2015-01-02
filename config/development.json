@@ -1,0 +1,8 @@
+{
+  "tune": {
+    "reporting": {
+      "api_key": "API_KEY",
+      "validate_fields": true
+    }
+  }
+}

@@ -17,7 +17,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-23 15:54:36 $
+ * @version   $Date: 2015-01-02 10:24:03 $
  * @link      http://developers.mobileapptracking.com/tune-reporting-sdks/ @endlink
  */
 "use strict";
@@ -34,7 +34,6 @@ describe('test AdvertiserReportLogEvents', function () {
   this.timeout(10000);
   var
     advertiserReport,
-    apiKey,
     csvJobId,
     startDate = new Date().setYesterday().setStartTime().getIsoDateTime(),
     endDate = new Date().setYesterday().setEndTime().getIsoDateTime(),
@@ -42,10 +41,7 @@ describe('test AdvertiserReportLogEvents', function () {
     fieldsRecommended = null;
 
   before(function () {
-    apiKey = process.env.API_KEY;
-    advertiserReport = new AdvertiserReportLogEvents(
-      apiKey
-    );
+    advertiserReport = new AdvertiserReportLogEvents();
   });
 
   it('fields recommended', function (done) {

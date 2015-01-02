@@ -1,8 +1,8 @@
 <h2>tune-reporting</h2>
 <h2>TUNE Reporting SDK for Node</h2>
 <h3>Incorporate TUNE Reporting services.</h3>
-<h4>Update:  $Date: 2014-12-30 08:50:38 $</h4>
-<h4>Version: 0.1.13</h4>
+<h4>Update:  $Date: 2015-01-02 10:24:03 $</h4>
+<h4>Version: 0.1.15</h4>
 ===
 
 <a id="TOP"></a>
@@ -359,13 +359,13 @@ Helper class for both the Library and Examples are defined within folder **/lib/
 lib/
 ├── api
 │   ├── AdvertiserReportActuals.js
-│   ├── AdvertiserReportLogClicks.js
+│   ├── AdvertiserReportCohortRetention.js
 │   ├── AdvertiserReportCohortValue.js
+│   ├── AdvertiserReportLogClicks.js
 │   ├── AdvertiserReportLogEventItems.js
 │   ├── AdvertiserReportLogEvents.js
 │   ├── AdvertiserReportLogInstalls.js
 │   ├── AdvertiserReportLogPostbacks.js
-│   ├── AdvertiserReportCohortRetention.js
 │   ├── Export.js
 │   └── index.js
 ├── base
@@ -410,13 +410,13 @@ Each Advertiser Report class defined in **/lib/api/** has an example:
 ```
 examples/
 ├── ExampleAdvertiserReportActuals.js
-├── ExampleAdvertiserReportClicks.js
-├── ExampleAdvertiserReportCohort.js
-├── ExampleAdvertiserReportEventItems.js
-├── ExampleAdvertiserReportEvents.js
-├── ExampleAdvertiserReportInstalls.js
-├── ExampleAdvertiserReportPostbacks.js
-├── ExampleAdvertiserReportRetention.js
+├── ExampleAdvertiserReportCohortRetention.js
+├── ExampleAdvertiserReportCohortValue.js
+├── ExampleAdvertiserReportLogClicks.js
+├── ExampleAdvertiserReportLogEventItems.js
+├── ExampleAdvertiserReportLogEvents.js
+├── ExampleAdvertiserReportLogInstalls.js
+├── ExampleAdvertiserReportLogPostbacks.js
 └── ExampleTuneManagementClient.js
 ```
 
@@ -434,14 +434,13 @@ Each Advertiser Report class defined in **/lib/api/** has a test:
 ```
 test/
 ├── TestAdvertiserReportActuals.js
-├── TestAdvertiserReportClicks.js
-├── TestAdvertiserReportCohort.js
-├── TestAdvertiserReportEventItems.js
-├── TestAdvertiserReportEvents.js
-├── TestAdvertiserReportInstalls.js
-├── TestAdvertiserReportPostbacks.js
-├── TestAdvertiserReportRetention.js
-├── TestEnvApiKey.js
+├── TestAdvertiserReportCohortRetention.js
+├── TestAdvertiserReportCohortValue.js
+├── TestAdvertiserReportLogClicks.js
+├── TestAdvertiserReportLogEventItems.js
+├── TestAdvertiserReportLogEvents.js
+├── TestAdvertiserReportLogInstalls.js
+├── TestAdvertiserReportLogPostbacks.js
 └── TestTuneManagementClient.js
 ```
 
@@ -529,10 +528,7 @@ Finds all existing records matching provided filter criteria and returns total c
 
 <!-- Node.js -->
 ```javascript
-    var advertiserReport = new AdvertiserReportLogClicks(
-      apiKey,
-      true
-    );
+    var advertiserReport = new AdvertiserReportLogClicks();
 
     var count_request = advertiserReport.count(
       startDate,
@@ -572,10 +568,7 @@ Gathers all existing records that match filter criteria and returns an array of 
 
 <!-- Node.js -->
 ```javascript
-    var advertiserReport = new AdvertiserReportLogClicks(
-      apiKey,
-      true
-    );
+    var advertiserReport = new AdvertiserReportLogClicks();
 
     var find_request = advertiserReport.find(
       startDate,
@@ -615,10 +608,7 @@ Provides the same signature as function find(), accept parameters <code>limit</c
 
 <!-- Node.js -->
 ```javascript
-    var advertiserReport = new AdvertiserReportLogClicks(
-      apiKey,
-      true
-    );
+    var advertiserReport = new AdvertiserReportLogClicks();
 
     var export_request = advertiserReport.exportReport(
       startDate,
@@ -655,7 +645,7 @@ Provides the same signature as function find(), accept parameters <code>limit</c
 ##### Method <code>status()</code>
 
 
-As discussed in <a href="#exporting-reports">Exporting Advertise Reports</a>, for gathering report export status records' classes <strong>Cohort (AdvertiserReportCohorts)</strong> and <strong>AdvertiserReportCohortRetention</strong> uses it own method <code>status()</code>. Its purpose is the same as method <code>Export::download()</code>.
+As discussed in <a href="#exporting-reports">Exporting Advertise Reports</a>, for gathering report export status records' classes <strong>Cohort (AdvertiserReportCohortValue)</strong> and <strong>AdvertiserReportCohortRetention</strong> uses it own method <code>status()</code>. Its purpose is the same as method <code>Export::download()</code>.
 
 
 <a id="sdk_method_fetch" name="sdk_method_fetch"></a>
@@ -668,14 +658,10 @@ A helper function that creates a threaded worker that handles the status request
 
 <!-- Node.js -->
 ```javascript
-    var advertiserReport = new AdvertiserReportLogClicks(
-      apiKey,
-      true
-    );
+    var advertiserReport = new AdvertiserReportLogClicks();
 
     var fetch_request = advertiserReport.fetchReport(
-      csvJobId,
-      true        // verbose
+      csvJobId
     );
 
     fetch_request.once('success', function onSuccess(response) {
@@ -756,14 +742,14 @@ Another tool is to pre-build your request using <a href="/management-api/explore
 <img src="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-node/master/docs/images/api_explorer_record_fields-600x436.png" alt="API Explorer -- Record and Related Record&#039;s Fields for a specific endpoint." width="600" height="436" title="Click to Expand" /></a>
 
 <ul>
+    <li>AdvertiserReportActuals' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats/">/advertiser/stats fields</a></li>
+    <li>AdvertiserReportCohortRetention' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__retention/">/advertiser/stats/retention fields</a></li>
+    <li>AdvertiserReportCohortValue' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__ltv/">/advertiser/stats/ltv fields</a></li>
     <li>AdvertiserReportLogClicks' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__clicks/">/advertiser/stats/clicks fields</a></li>
     <li>AdvertiserReportLogEventItems' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__event__items/">/advertiser/stats/event/items fields</a></li>
     <li>AdvertiserReportLogEvents' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__events/">/advertiser/stats/events fields</a></li>
     <li>AdvertiserReportLogInstalls' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__installs/">/advertiser/stats/installs fields</a></li>
     <li>AdvertiserReportLogPostbacks' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__postbacks/">/advertiser/stats/postbacks fields</a></li>
-    <li>AdvertiserReportActuals' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats/">/advertiser/stats fields</a></li>
-    <li>AdvertiserReportCohorts' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__ltv/">/advertiser/stats/ltv fields</a></li>
-    <li>AdvertiserReportCohortRetention' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__retention/">/advertiser/stats/retention fields</a></li>
 </ul>
 
 <p>

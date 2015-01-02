@@ -2,7 +2,6 @@
 *.komodoproject
 
 # Code build files
-config.js
 node_modules
 
 # Code documentation
