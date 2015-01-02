@@ -26,37 +26,33 @@
 # author    Jeff Tanner <jefft@tune.com>
 # copyright 2014 TUNE, Inc. (http://www.tune.com)
 # license   http://opensource.org/licenses/MIT The MIT License (MIT)
-# version   $Date: 2014-12-24 16:14:14 $
+# version   $Date: 2015-01-02 10:24:03 $
 # link      http://developers.mobileapptracking.com/tune-api-sdks/
 #
-
-export API_KEY=$(api_key)
 
 clean:
 	sudo rm -fR ./docs/jsdoc/*
 	sudo rm -fR ./docs/yuidoc/*
 
 examples:
-	node ./examples/ExampleAdvertiserReportLogClicks $(api_key)
-	node ./examples/ExampleAdvertiserReportLogEventItems $(api_key)
-	node ./examples/ExampleAdvertiserReportLogEvents $(api_key)
-	node ./examples/ExampleAdvertiserReportLogInstalls $(api_key)
-	node ./examples/ExampleAdvertiserReportLogPostbacks $(api_key)
-	node ./examples/ExampleAdvertiserReportActuals $(api_key)
-	node ./examples/ExampleAdvertiserReportCohortRetention $(api_key)
-	node ./examples/ExampleAdvertiserReportCohortValue $(api_key)
+	node ./examples/ExampleTuneManagementClient --tune_reporting_api_key=$(api_key)
+	node ./examples/ExampleAdvertiserReportLogClicks --tune_reporting_api_key=$(api_key)
+	node ./examples/ExampleAdvertiserReportLogEventItems --tune_reporting_api_key=$(api_key)
+	node ./examples/ExampleAdvertiserReportLogEvents --tune_reporting_api_key=$(api_key)
+	node ./examples/ExampleAdvertiserReportLogInstalls --tune_reporting_api_key=$(api_key)
+	node ./examples/ExampleAdvertiserReportLogPostbacks --tune_reporting_api_key=$(api_key)
+	node ./examples/ExampleAdvertiserReportActuals --tune_reporting_api_key=$(api_key)
+	node ./examples/ExampleAdvertiserReportCohortRetention --tune_reporting_api_key=$(api_key)
+	node ./examples/ExampleAdvertiserReportCohortValue --tune_reporting_api_key=$(api_key)
 
 test-install:
-	npm install mocha
-	npm install chai
-	npm install should
-	npm install sinon
+	npm install mocha, chai, should, sinon -g
 
-test: test-install
-	@NODE_ENV=test ./node_modules/.bin/mocha
+test:
+	env NODE_ENV=test TUNE_REPORTING_API_KEY=$(api_key) ./node_modules/.bin/mocha
 
-test-w: test-install
-	@NODE_ENV=test ./node_modules/.bin/mocha \
+test-w:
+	env NODE_ENV=test TUNE_REPORTING_API_KEY=$(api_key) ./node_modules/.bin/mocha \
 		--growl \
 		--watch
 
@@ -67,7 +63,7 @@ lib-cov:
 	@jscoverage lib lib-cov
 
 lint:
-	nodelint --config config.js ./lib/ ./examples/ | more
+	nodelint --config config/nodelint.js ./lib/ ./examples/ | more
 
 npm-install:
 	npm install
@@ -76,7 +72,6 @@ npm-publish:
 	npm publish
 
 nvm-install:
-	unset NVM_DIR
 	curl https://raw.githubusercontent.com/creationix/nvm/v0.10.0/install.sh | sh
 	nvm ls-remote
 	nvm install 0.10.33

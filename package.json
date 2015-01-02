@@ -1,7 +1,7 @@
 {
   "name": "tune-reporting",
   "description": "TUNE Reporting SDK for Node.js",
-  "version": "0.1.13",
+  "version": "0.1.15",
   "author": {
     "name": "Jeff Tanner",
     "email": "jefft@tune.com"
@@ -9,13 +9,13 @@
   "homepage": "http://developers.mobileapptracking.com/tune-reporting-sdks/",
   "maintainers": [
     {
-      "name": "jefft",
+      "name": "Jeff Tanner",
       "email": "jefft@tune.com"
     }
   ],
   "contributors": [
     {
-      "name": "jefft",
+      "name": "Jeff Tanner",
       "email": "jefft@tune.com"
     }
   ],
@@ -35,6 +35,7 @@
     "cli-table": "^0.3.1",
     "clone": "^0.1.19",
     "colors": "^1.0.3",
+    "convict": "^0.6.0",
     "events": "~1.0.2",
     "jsuri": "^1.3.0-beta.1",
     "prettyjson": "^1.0.0",
@@ -61,13 +62,16 @@
   "_from": "tune@0.1.x",
   "_npmVersion": "1.4.28",
   "_npmUser": {
-    "name": "jefft",
+    "name": "jefftune",
     "email": "jefft@tune.com"
   },
   "keywords": [
     "tune",
-    "api",
-    "management"
+    "reporting",
+    "tune reporting",
+    "tune management api",
+    "management",
+    "api"
   ],
   "license": "MIT"
 }
