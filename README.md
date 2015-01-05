@@ -1,8 +1,8 @@
 <h2>tune-reporting</h2>
 <h2>TUNE Reporting SDK for Node</h2>
 <h3>Incorporate TUNE Reporting services.</h3>
-<h4>Update:  $Date: 2015-01-02 10:24:03 $</h4>
-<h4>Version: 0.1.16</h4>
+<h4>Update:  $Date: 2015-01-05 10:18:08 $</h4>
+<h4>Version: 0.1.17</h4>
 ===
 
 <a id="TOP"></a>
@@ -543,12 +543,12 @@ Finds all existing records matching provided filter criteria and returns total c
         var count = response.getData();
 
         console.log('\n');
-        console.log('= Status: "success"');
-        console.log('= TuneManagementResponse:');
+        console.log(' Status: "success"');
+        console.log(' TuneManagementResponse:');
         console.log(response.toString());
 
         console.log('\n');
-        console.log(util.format('= Count: %d', count));
+        console.log(util.format(' Count: %d', count));
         next();
       }
     });
@@ -586,8 +586,8 @@ Gathers all existing records that match filter criteria and returns an array of 
       } else {
 
         console.log('\n');
-        console.log('= Status: "success"');
-        console.log('= TuneManagementResponse:');
+        console.log(' Status: "success"');
+        console.log(' TuneManagementResponse:');
         console.log(response.toString());
         next();
       }
@@ -624,14 +624,14 @@ Provides the same signature as function find(), accept parameters <code>limit</c
       } else {
 
         console.log('\n');
-        console.log('= Status: "success"');
-        console.log('= TuneManagementResponse:');
+        console.log(' Status: "success"');
+        console.log(' TuneManagementResponse:');
         console.log(response.toString());
 
         csvJobId = advertiserReport.parseResponseReportJobId(response);
 
         console.log('\n');
-        console.log(util.format('= CSV Report Job ID: "%s"', csvJobId));
+        console.log(util.format(' CSV Report Job ID: "%s"', csvJobId));
         next();
       }
     });
@@ -670,14 +670,14 @@ A helper function that creates a threaded worker that handles the status request
       } else {
 
         console.log('\n');
-        console.log('= Status: "success"');
-        console.log('= TuneManagementResponse:');
+        console.log(' Status: "success"');
+        console.log(' TuneManagementResponse:');
         console.log(response.toString());
 
         csvReportUrl = advertiserReport.parseResponseReportUrl(response);
 
         console.log('\n');
-        console.log(util.format('= CSV Report URL: "%s"', csvReportUrl));
+        console.log(util.format(' CSV Report URL: "%s"', csvReportUrl));
 
         next();
       }
@@ -705,8 +705,8 @@ Method <strong>fields()</strong> returns a listing of all the fields that can be
     );
     fields_request.once('success', function onSuccess(response) {
       console.log('\n');
-      console.log('= Status: "success"');
-      console.log('= TuneManagementResponse:');
+      console.log(' Status: "success"');
+      console.log(' TuneManagementResponse:');
       console.log(response);
       fieldsRecommended = response;
       next();

@@ -8,9 +8,9 @@
  * @category  tune-reporting-node
  *
  * @author    Jeff Tanner <jefft@tune.com>
- * @copyright 2014 TUNE, Inc. (http://www.tune.com)
+ * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-01-02 10:24:03 $
+ * @version   $Date: 2015-01-05 10:18:08 $
  * @link      http://developers.mobileapptracking.com/tune-reporting-sdks/ @endlink
  */
 "use strict";
@@ -66,9 +66,11 @@ try {
         }
 
         console.log('\n');
-        console.log('= Status: "success"');
-        console.log('= TuneManagementResponse:');
+        console.log(' Status: "success"');
+        console.log(' TuneManagementResponse:');
         console.log(response);
+        console.log(' JSON:');
+        console.log(response.toJson());
         return next();
       });
     },
@@ -87,9 +89,11 @@ try {
           }
 
           console.log('\n');
-          console.log('= Status: "success"');
-          console.log('= TuneManagementResponse:');
+          console.log(' Status: "success"');
+          console.log(' TuneManagementResponse:');
           console.log(response);
+          console.log(' JSON:');
+          console.log(response.toJson());
           arrayFieldsRecommended = response;
           return next();
         }
@@ -118,12 +122,14 @@ try {
 
           var count = response.getData();
 
-          console.log('= Status: "success"');
-          console.log('= TuneManagementResponse:');
+          console.log(' Status: "success"');
+          console.log(' TuneManagementResponse:');
+          console.log(response);
+          console.log(' JSON:');
           console.log(response.toJson());
 
           console.log('\n');
-          console.log(util.format('= Count: %d', count));
+          console.log(util.format(' Count: %d', count));
           return next();
         }
       );
@@ -153,8 +159,10 @@ try {
             return next(response);
           }
 
-          console.log('= Status: "success"');
-          console.log('= TuneManagementResponse:');
+          console.log(' Status: "success"');
+          console.log(' TuneManagementResponse:');
+          console.log(response);
+          console.log(' JSON:');
           console.log(response.toJson());
           return next();
         }
@@ -183,14 +191,14 @@ try {
             return next(response);
           }
 
-          console.log('= Status: "success"');
-          console.log('= TuneManagementResponse:');
+          console.log(' Status: "success"');
+          console.log(' TuneManagementResponse:');
           console.log(response.toJson());
 
           csvJobId = advertiserReport.parseResponseReportJobId(response);
 
           console.log('\n');
-          console.log(util.format('= CSV Report Job ID: "%s"', csvJobId));
+          console.log(util.format(' CSV Report Job ID: "%s"', csvJobId));
           return next();
         }
       );
@@ -213,7 +221,7 @@ try {
             return next(response);
           }
 
-          console.log('= Status: "success"');
+          console.log(' Status: "success"');
           var json = response.toJson();
           console.log(json.response_json.data);
 
@@ -239,14 +247,16 @@ try {
             return next(response);
           }
 
-          console.log('= Status: "success"');
-          console.log('= TuneManagementResponse:');
+          console.log(' Status: "success"');
+          console.log(' TuneManagementResponse:');
+          console.log(response);
+          console.log(' JSON:');
           console.log(response.toJson());
 
           csvReportUrl = advertiserReport.parseResponseReportUrl(response);
 
           console.log('\n');
-          console.log(util.format('= CSV Report URL: "%s"', csvReportUrl));
+          console.log(util.format(' CSV Report URL: "%s"', csvReportUrl));
 
           return next();
         }
@@ -295,14 +305,16 @@ try {
             return next(response);
           }
 
-          console.log('= Status: "success"');
-          console.log('= TuneManagementResponse:');
+          console.log(' Status: "success"');
+          console.log(' TuneManagementResponse:');
+          console.log(response);
+          console.log(' JSON:');
           console.log(response.toJson());
 
           jsonJobId = advertiserReport.parseResponseReportJobId(response);
 
           console.log('\n');
-          console.log(util.format('= JSON Report Job ID: "%s"', jsonJobId));
+          console.log(util.format(' JSON Report Job ID: "%s"', jsonJobId));
           return next();
         }
       );
@@ -325,7 +337,7 @@ try {
             return next(response);
           }
 
-          console.log('= Status: "success"');
+          console.log(' Status: "success"');
           var json = response.toJson();
           console.log(json.response_json.data);
 
@@ -351,14 +363,16 @@ try {
             return next(response);
           }
 
-          console.log('= Status: "success"');
-          console.log('= TuneManagementResponse:');
+          console.log(' Status: "success"');
+          console.log(' TuneManagementResponse:');
+          console.log(response);
+          console.log(' JSON:');
           console.log(response.toJson());
 
           jsonReportUrl = advertiserReport.parseResponseReportUrl(response);
 
           console.log('\n');
-          console.log(util.format('= JSON Report URL: "%s"', jsonReportUrl));
+          console.log(util.format(' JSON Report URL: "%s"', jsonReportUrl));
 
           return next();
         }
@@ -397,14 +411,14 @@ try {
     function (err) {
       if (err) {
         console.log('\n');
-        console.log('= Status: "error"'.red);
-        console.log('= TuneManagementResponse:');
+        console.log(' Status: "error"'.red);
+        console.log(' TuneManagementResponse:');
         console.log(err);
       }
     });
 } catch (err) {
   console.log('\n');
-  console.log('= Exception: "error"'.red);
+  console.log(' Exception: "error"'.red);
   console.log(err);
   console.log(stackTrace.parse(err));
 }
