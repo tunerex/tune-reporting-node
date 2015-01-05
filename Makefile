@@ -46,7 +46,11 @@ examples:
 	node ./examples/ExampleAdvertiserReportCohortValue --tune_reporting_api_key=$(api_key)
 
 test-install:
-	npm install mocha, chai, should, sinon -g
+	npm install mocha --save
+	npm install chai --save
+	npm install should --save
+	npm install sinon --save
+	npm install convict --save
 
 test:
 	env NODE_ENV=test TUNE_REPORTING_API_KEY=$(api_key) ./node_modules/.bin/mocha
