@@ -8,9 +8,9 @@
  * @category  tune-reporting-node
  *
  * @author    Jeff Tanner <jefft@tune.com>
- * @copyright 2014 TUNE, Inc. (http://www.tune.com)
+ * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-01-02 10:24:03 $
+ * @version   $Date: 2015-01-05 10:18:08 $
  * @link      http://developers.mobileapptracking.com/tune-reporting-sdks/ @endlink
  */
 "use strict";
@@ -26,8 +26,8 @@ var
 
 function conclude(status, response) {
   console.log('\n');
-  console.log('= Status: "' + status + '"');
-  console.log('= TuneManagementResponse:');
+  console.log(' Status: "' + status + '"');
+  console.log(' TuneManagementResponse:');
   console.log(response.toString());
 }
 
@@ -63,14 +63,16 @@ try {
         client_request = client.request(function (error, response) {
           if (error) {
             console.log('\n');
-            console.log('= Callback: "error"');
+            console.log(' Callback: "error"');
             console.log(error);
             next(error);
           } else {
             console.log('\n');
-            console.log('= Callback: "success"');
-            console.log('= TuneManagementResponse:');
-            console.log(response.toString());
+            console.log(' Callback: "success"');
+            console.log(' TuneManagementResponse:');
+            console.log(response);
+            console.log(' JSON:');
+            console.log(response.toJson());
             next();
           }
         });
@@ -86,15 +88,17 @@ try {
 
       client_request.on('success', function onSuccess(response) {
         console.log('\n');
-        console.log('= Event: "success"');
-        console.log('= TuneManagementResponse:');
-        console.log(response.toString());
+        console.log(' Event: "success"');
+        console.log(' TuneManagementResponse:');
+        console.log(response);
+        console.log(' JSON:');
+        console.log(response.toJson());
         next();
       });
 
       client_request.on('error', function onError(response) {
         console.log('\n');
-        console.log('= Event: "error"');
+        console.log(' Event: "error"');
         console.log(response);
         return next(response);
       });
@@ -112,8 +116,8 @@ try {
 
       if (err) {
         console.log('\n');
-        console.log('= Status: "error"'.red);
-        console.log('= TuneManagementResponse:');
+        console.log(' Status: "error"'.red);
+        console.log(' TuneManagementResponse:');
         console.log(err);
       }
     });
@@ -121,7 +125,7 @@ try {
 } catch (err) {
 
   console.log('\n');
-  console.log('= Exception: "error"'.red);
+  console.log(' Exception: "error"'.red);
   console.log(err);
   console.log(stackTrace.parse(err));
 }

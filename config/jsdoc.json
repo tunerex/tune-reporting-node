@@ -16,7 +16,7 @@
         },
         "systemName"      : "TUNE Reporting SDK for Node.js",
         "footer"          : "Jeff Tanner, jefft@tune.com",
-        "copyright"       : "TUNE Reporting SDK Copyright © 2014, TUNE, Inc.",
+        "copyright"       : "TUNE Reporting SDK Copyright © 2015, TUNE, Inc.",
         "navType"         : "vertical",
         "theme"           : "cerulean",
         "linenums"        : true,
