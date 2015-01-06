@@ -17,23 +17,26 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-01-05 10:18:08 $
- * @link      http://developers.mobileapptracking.com/tune-reporting-sdks/ @endlink
+ * @version   $Date: 2015-01-06 14:33:18 $
+ * @link      http://developers.mobileapptracking.com @endlink
  */
 "use strict";
 
 require('../lib/helpers/Date');
 
 var
+  config = require('../config.js'),
   tuneReporting = require('../lib'),
   AdvertiserReportLogClicks = tuneReporting.api.AdvertiserReportLogClicks,
   EndpointBase = tuneReporting.base.endpoints.EndpointBase,
+  SessionAuthenticate = tuneReporting.api.SessionAuthenticate,
   expect = require('chai').expect;
 
 describe('test AdvertiserReportLogClicks', function () {
   this.timeout(10000);
   var
     advertiserReport,
+    apiKey = undefined,
     csvJobId,
     startDate = new Date().setYesterday().setStartTime().getIsoDateTime(),
     endDate = new Date().setYesterday().setEndTime().getIsoDateTime(),
@@ -41,6 +44,9 @@ describe('test AdvertiserReportLogClicks', function () {
     fieldsRecommended = null;
 
   before(function () {
+    apiKey = process.env.API_KEY;
+    config.set('tune.reporting.auth_key', apiKey);
+    config.set('tune.reporting.auth_type', 'api_key');
     advertiserReport = new AdvertiserReportLogClicks();
   });
 

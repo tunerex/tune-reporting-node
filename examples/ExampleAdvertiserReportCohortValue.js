@@ -10,13 +10,13 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-01-05 10:18:08 $
- * @link      http://developers.mobileapptracking.com/tune-reporting-sdks/ @endlink
+ * @version   $Date: 2015-01-06 14:33:18 $
+ * @link      http://developers.mobileapptracking.com @endlink
  */
 "use strict";
 
-require('../lib/helpers/Date');
 var
+  config = require('../config.js'),
   tuneReporting = require('../lib'),
   _ = require('underscore'),
   util = require('util'),
@@ -24,13 +24,21 @@ var
   stackTrace = require('stack-trace'),
   async = require('async'),
   AdvertiserReportCohortValue = tuneReporting.api.AdvertiserReportCohortValue,
+  SessionAuthenticate = tuneReporting.api.SessionAuthenticate,
   EndpointBase = tuneReporting.base.endpoints.EndpointBase,
   ReportReaderCSV = tuneReporting.helpers.ReportReaderCSV,
   ReportReaderJSON = tuneReporting.helpers.ReportReaderJSON,
   response;
 
+require('../lib/helpers/Date');
+
 try {
   var
+    apiKey = undefined,
+    authKey = config.get('tune.reporting.auth_key'),
+    authType = config.get('tune.reporting.auth_type'),
+    sessionAuthenticate = new SessionAuthenticate(),
+    sessionToken = undefined,
     advertiserReport = new AdvertiserReportCohortValue(),
 
     startDate = new Date().setOneWeekAgo().setStartTime().getIsoDateTime(),
@@ -43,6 +51,18 @@ try {
     jsonJobId = null,
     jsonReportUrl = null;
 
+    if (!authKey || !_.isString(authKey) || (0 === authKey.length)) {
+      throw new InvalidArgument(
+        'authKey'
+      );
+    }
+    if (!authType || !_.isString(authType) || (0 === authType.length)) {
+      throw new InvalidArgument(
+        'authType'
+      );
+    }
+    apiKey = authKey;
+
   async.series({
     taskStartExample: function (next) {
       console.log('\n');
@@ -51,6 +71,25 @@ try {
       console.log('======================================================'.blue.bold);
       console.log('\n');
       next();
+    },
+    taskSessionToken: function (next) {
+      console.log('\n');
+      console.log('==========================================================');
+      console.log(' Get Session Token.                                       ');
+      console.log('==========================================================');
+      console.log('\n');
+
+      sessionAuthenticate.getSessionToken(apiKey, function (error, response) {
+        if (error) {
+          return next(error);
+        }
+
+        console.log(' Status: "success"');
+        sessionToken = response.getData();
+        console.log(' session_token:');
+        console.log(sessionToken);
+        return next();
+      });
     },
     taskDefine: function (next) {
       console.log('\n');
@@ -64,10 +103,11 @@ try {
           return next(error);
         }
 
-        console.log('\n');
         console.log(' Status: "success"');
         console.log(' TuneManagementResponse:');
-        console.log(response);
+        console.log(response.toJson());
+        console.log(' Data:');
+        console.log(response.getData());
         return next();
       });
     },
@@ -85,7 +125,6 @@ try {
             return next(error);
           }
 
-          console.log('\n');
           console.log(' Status: "success"');
           console.log(' TuneManagementResponse:');
           console.log(response);
@@ -280,6 +319,43 @@ try {
       print_request.once('error', function onError(response) {
         return next(response);
       });
+    },
+    taskCountSessionToken: function (next) {
+      console.log('\n');
+      console.log('==========================================================');
+      console.log(' Count Advertiser Report Cohort Value session_token       ');
+      console.log('==========================================================');
+      console.log('\n');
+
+      config.set('tune.reporting.auth_key', sessionToken);
+      config.set('tune.reporting.auth_type', 'session_token');
+
+      advertiserReport.count(
+        startDate,
+        endDate,
+        'site_id,publisher_id',                         // group
+        '(publisher_id > 0)',                           // filter
+        strResponseTimezone,
+        function (error, response) {
+          if (error) {
+            return next(error);
+          }
+
+          if ((response.getHttpCode() !== 200) || (response.getErrors() !== null)) {
+            return next(response);
+          }
+
+          var count = response.getData();
+
+          console.log(' Status: "success"');
+          console.log(' TuneManagementResponse:');
+          console.log(response.toJson());
+
+          console.log('\n');
+          console.log(util.format(' Count: %d', count));
+          return next();
+        }
+      );
     },
     taskEndExample: function (next) {
       console.log('\n');

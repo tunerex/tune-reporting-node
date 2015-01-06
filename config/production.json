@@ -1,7 +1,8 @@
 {
   "tune": {
     "reporting": {
-      "api_key": "API_KEY"
+      "auth_key": "UNDEFINED",
+      "auth_type": "api_key"
     }
   }
 }
