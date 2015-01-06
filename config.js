@@ -10,15 +10,15 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-01-05 10:18:08 $
- * @link      http://developers.mobileapptracking.com/tune-reporting-sdks/ @endlink
+ * @version   $Date: 2015-01-06 14:33:18 $
+ * @link      http://developers.mobileapptracking.com @endlink
  */
 
 var convict = require("convict");
 
 var config = convict({
   env: {
-    doc: "The applicaton environment.",
+    doc: "TUNE Reporting SDK environment.",
     format: ["production", "development", "test"],
     default: "development",
     env: "NODE_ENV",
@@ -26,12 +26,17 @@ var config = convict({
   },
   tune: {
     reporting: {
-      api_key: {
-        doc: "TUNE MobileAppTracking Platform generated API Key.",
+      auth_key: {
+        doc: "TUNE Reporting Authentication Key: MobileAppTracking API_KEY or Session token.",
         format: String,
-        default: "API_KEY",
-        env: "TUNE_REPORTING_API_KEY",
-        arg: "tune_reporting_api_key"
+        default: "UNDEFINED",
+        arg: "tune_reporting_auth_key"
+      },
+      auth_type: {
+        doc: "TUNE Reporting Authentication Type: api_key OR session_token.",
+        format: String,
+        default: "api_key",
+        arg: "tune_reporting_auth_type"
       },
       validate_fields: {
         doc: "Validate use TUNE Management API fields used within action parameters.",
@@ -53,7 +58,7 @@ var config = convict({
           arg: "tune_reporting_status_timeout"
         },
         verbose: {
-          doc: "TUNE reporting export fetch timeout (seconds).",
+          doc: "TUNE reporting export fetch verbose output.",
           format: Boolean,
           default: false,
           arg: "tune_reporting_status_verbose"

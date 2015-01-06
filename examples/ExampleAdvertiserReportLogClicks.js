@@ -10,12 +10,13 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-01-05 10:18:08 $
- * @link      http://developers.mobileapptracking.com/tune-reporting-sdks/ @endlink
+ * @version   $Date: 2015-01-06 14:33:18 $
+ * @link      http://developers.mobileapptracking.com @endlink
  */
 "use strict";
 
 var
+  config = require('../config.js'),
   tuneReporting = require('../lib'),
   _ = require('underscore'),
   util = require('util'),
@@ -23,6 +24,7 @@ var
   stackTrace = require('stack-trace'),
   async = require('async'),
   AdvertiserReportLogClicks = tuneReporting.api.AdvertiserReportLogClicks,
+  SessionAuthenticate = tuneReporting.api.SessionAuthenticate,
   EndpointBase = tuneReporting.base.endpoints.EndpointBase,
   ReportReaderCSV = tuneReporting.helpers.ReportReaderCSV,
   ReportReaderJSON = tuneReporting.helpers.ReportReaderJSON,
@@ -32,6 +34,11 @@ require('../lib/helpers/Date');
 
 try {
   var
+    apiKey = undefined,
+    authKey = config.get('tune.reporting.auth_key'),
+    authType = config.get('tune.reporting.auth_type'),
+    sessionAuthenticate = new SessionAuthenticate(),
+    sessionToken = undefined,
     advertiserReport = new AdvertiserReportLogClicks(),
 
     startDate = new Date().setYesterday().setStartTime().getIsoDateTime(),
@@ -44,6 +51,18 @@ try {
     jsonJobId = null,
     jsonReportUrl = null;
 
+    if (!authKey || !_.isString(authKey) || (0 === authKey.length)) {
+      throw new InvalidArgument(
+        'authKey'
+      );
+    }
+    if (!authType || !_.isString(authType) || (0 === authType.length)) {
+      throw new InvalidArgument(
+        'authType'
+      );
+    }
+    apiKey = authKey;
+
   async.series({
     taskStartExample: function (next) {
       console.log('\n');
@@ -53,47 +72,24 @@ try {
       console.log('\n');
       next();
     },
-    taskDefine: function (next) {
+    taskSessionToken: function (next) {
       console.log('\n');
       console.log('==========================================================');
-      console.log(' Define Metadata of Advertiser Report Log Clicks.         ');
+      console.log(' Get Session Token.                                       ');
       console.log('==========================================================');
       console.log('\n');
 
-      advertiserReport.getDefine(function (error, response) {
+      sessionAuthenticate.getSessionToken(apiKey, function (error, response) {
         if (error) {
           return next(error);
         }
 
-        console.log('\n');
         console.log(' Status: "success"');
-        console.log(' TuneManagementResponse:');
-        console.log(response);
+        sessionToken = response.getData();
+        console.log(' session_token:');
+        console.log(sessionToken);
         return next();
       });
-    },
-    taskFieldsRecommended: function (next) {
-      console.log('\n');
-      console.log('==========================================================');
-      console.log(' Recommended Fields of Advertiser Report Log Clicks.      ');
-      console.log('==========================================================');
-      console.log('\n');
-
-      advertiserReport.getFields(
-        EndpointBase.TUNE_FIELDS_RECOMMENDED,
-        function (error, response) {
-          if (error) {
-            return next(error);
-          }
-
-          console.log('\n');
-          console.log(' Status: "success"');
-          console.log(' TuneManagementResponse:');
-          console.log(response);
-          arrayFieldsRecommended = response;
-          return next();
-        }
-      );
     },
     taskCount: function (next) {
       console.log('\n');
@@ -120,10 +116,71 @@ try {
 
           console.log(' Status: "success"');
           console.log(' TuneManagementResponse:');
-          console.log(response.toJson());
+          console.log(response.toJson().response_json.data);
 
           console.log('\n');
           console.log(util.format(' Count: %d', count));
+          return next();
+        }
+      );
+    },
+    taskCountSessionToken: function (next) {
+      console.log('\n');
+      console.log('==========================================================');
+      console.log(' Count Advertiser Report Log Clicks session_token         ');
+      console.log('==========================================================');
+      console.log('\n');
+
+      config.set('tune.reporting.auth_key', sessionToken);
+      config.set('tune.reporting.auth_type', 'session_token');
+
+      advertiserReport.count(
+        startDate,
+        endDate,
+        null,                                           // filter
+        strResponseTimezone,
+        function (error, response) {
+          if (error) {
+            return next(error);
+          }
+
+          if ((response.getHttpCode() !== 200) || (response.getErrors() !== null)) {
+            return next(response);
+          }
+
+          var count = response.getData();
+
+          console.log(' Status: "success"');
+          console.log(' TuneManagementResponse:');
+          console.log(response.toJson().response_json.data);
+
+          console.log('\n');
+          console.log(util.format(' Count: %d', count));
+          return next();
+        }
+      );
+    },
+    taskFieldsRecommended: function (next) {
+      console.log('\n');
+      console.log('==========================================================');
+      console.log(' Recommended Fields of Advertiser Report Log Clicks.      ');
+      console.log('==========================================================');
+      console.log('\n');
+
+      config.set('tune.reporting.auth_key', apiKey);
+      config.set('tune.reporting.auth_type', 'api_key');
+
+      advertiserReport.getFields(
+        EndpointBase.TUNE_FIELDS_RECOMMENDED,
+        function (error, response) {
+          if (error) {
+            return next(error);
+          }
+
+          console.log(' Status: "success"');
+          console.log(' TuneManagementResponse:');
+          console.log(response);
+          arrayFieldsRecommended = response;
           return next();
         }
       );
@@ -155,7 +212,7 @@ try {
 
           console.log(' Status: "success"');
           console.log(' TuneManagementResponse:');
-          console.log(response.toJson());
+          console.log(response.toJson().response_json.data);
           return next();
         }
       );
@@ -185,9 +242,7 @@ try {
 
           console.log(' Status: "success"');
           console.log(' TuneManagementResponse:');
-          console.log(response);
-          console.log(' JSON:');
-          console.log(response.toJson());
+          console.log(response.toJson().response_json.data);
 
           csvJobId = advertiserReport.parseResponseReportJobId(response);
 
@@ -243,9 +298,7 @@ try {
 
           console.log(' Status: "success"');
           console.log(' TuneManagementResponse:');
-          console.log(response);
-          console.log(' JSON:');
-          console.log(response.toJson());
+          console.log(response.toJson().response_json.data);
 
           csvReportUrl = advertiserReport.parseResponseReportUrl(response);
 
@@ -301,7 +354,7 @@ try {
 
           console.log(' Status: "success"');
           console.log(' TuneManagementResponse:');
-          console.log(response.toJson());
+          console.log(response.toJson().response_json.data);
 
           jsonJobId = advertiserReport.parseResponseReportJobId(response);
 
@@ -357,9 +410,7 @@ try {
 
           console.log(' Status: "success"');
           console.log(' TuneManagementResponse:');
-          console.log(response);
-          console.log(' JSON:');
-          console.log(response.toJson());
+          console.log(response.toJson().response_json.data);
 
           jsonReportUrl = advertiserReport.parseResponseReportUrl(response);
 

@@ -1,7 +1,7 @@
 <h2>tune-reporting Change Log</h2>
 <h2>TUNE Reporting SDK for Node.js</h2>
 <h3>Incorporate TUNE Reporting services.</h3>
-<h4>Update:  $Date: 2015-01-05 10:18:08 $</h4>
+<h4>Update:  $Date: 2015-01-06 14:33:18 $</h4>
 =======================
 
 Here you can see the full list of changes between each tune-api-php release.
@@ -90,3 +90,16 @@ Version 0.1.17
 
 Beta public release on January 05, 2015
 * to JSON
+
+Version 0.1.17
+--------------
+
+Beta public release on January 05, 2015
+* to JSON
+
+Version 0.1.18
+--------------
+
+Beta public release on January 06, 2015
+* SDK Authentication: TUNE MobileAppTracking API Key and Session Token.
+* SessionAuthenticate.

@@ -1,8 +1,8 @@
 <h2>tune-reporting</h2>
 <h2>TUNE Reporting SDK for Node</h2>
 <h3>Incorporate TUNE Reporting services.</h3>
-<h4>Update:  $Date: 2015-01-05 10:18:08 $</h4>
-<h4>Version: 0.1.17</h4>
+<h4>Update:  $Date: 2015-01-06 14:33:18 $</h4>
+<h4>Version: 0.1.18</h4>
 ===
 
 <a id="TOP"></a>
@@ -33,6 +33,7 @@
                 </ul>
             </li>
             <li><a href="#sdk_install_library">Library</a></li>
+            <li><a href="#sdk_install_config">Configuration</a></li>
         </ul>
     </li>
 
@@ -202,6 +203,87 @@ Install as follows
     $ npm install .
 ```
 
+<a id="sdk_install_config" name="sdk_install_config"></a>
+#### TUNE Reporting SDK Configuration
+
+##### SDK Configuration file
+
+The TUNE Reporting SDK configuration is set within file ```./config.js```.
+
+And the appropriate environment settings:
+```
+config
+├── development.json
+├── production.json
+└── test.json
+```
+
+With generated API_KEY from TUNE MobileAppTracking Platform account, replace `UNDEFINED`.
+
+```
+; TUNE MobileAppTracking Platform generated API Key. Replace UNDEFINED.
+tune.reporting.auth_key=UNDEFINED
+; TUNE Reporting Authentication Type: api_key OR session_token.
+tune.reporting.auth_type=api_key
+; Validate use TUNE Management API fields used within action parameters.
+tune.reporting.verify_fields_boolean=false
+; TUNE reporting export status sleep (seconds).
+tune.reporting.status.sleep=10
+; TUNE reporting export fetch timeout (seconds).
+tune.reporting.status.timeout=240
+; TUNE reporting export fetch verbose output.
+tune.reporting.status.verbose=false
+```
+
+##### SDK Configuration module
+
+The TUNE Reporting SDK reads configuration through module ```./config.js``` with the
+current environment SDK configuration file.
+
+```javascript
+  var
+    authKey = config.get('tune.reporting.auth_key'),
+    authType = config.get('tune.reporting.auth_type');
+```
+
+By default, configuration is assumed using ```api_key``` authentication type.
+
+To override 'api_key' authentication type:
+
+```javascript
+    config.set('tune.reporting.auth_key', apiKey);
+    config.set('tune.reporting.auth_type', 'api_key');
+```
+
+To override authentication type using ```session_token```:
+
+```javascript
+    config.set('tune.reporting.auth_key', sessionToken);
+    config.set('tune.reporting.auth_type', 'session_token');
+```
+
+If you wish to generate your own session_token, class ```SessionAuthentication``` is provided:
+
+```javascript
+  var
+    apiKey = config.get('tune.reporting.auth_key'),
+    sessionAuthenticate = new SessionAuthenticate();
+
+    sessionAuthenticate.getSessionToken(apiKey, function (error, response) {
+      if (error) {
+        return next(error);
+      }
+
+      console.log(' Status: "success"');
+      sessionToken = response.getData();
+      console.log(' session_token:');
+      console.log(sessionToken);
+      return next();
+    });
+```
+
+and you're good to go!
+
 <p>
 <a href="#TOP">
 <img alt="Return to Top" src="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-node/master/docs/images/b_top.gif" border="0">
@@ -333,6 +415,16 @@ The key contents of SDK is **src**, which contains the library; followed by the 
 File **Makefile** provides shortcuts for executing examples and tests.
 
 ```
+.
+├── AUTHORS.md
+├── CHANGES.md
+├── config
+│   ├── development.json
+│   ├── jsdoc.json
+│   ├── nodelint.js
+│   ├── production.json
+│   ├── test.json
+│   └── yuidoc.json
 ├── config.js
 ├── docs
 ├── examples
@@ -341,9 +433,7 @@ File **Makefile** provides shortcuts for executing examples and tests.
 ├── Makefile
 ├── package.json
 ├── README.md
-├── test
-└── yuidoc.json
-```
+└── test
 
 <a id="sdk_sources_lib" name="sdk_sources_lib"></a>
 #### Library
@@ -355,6 +445,7 @@ Library folder **lib** contains the key functionality related to **Advertiser Re
 Client classes that connect with the **TUNE Advertiser Report Service** are defined within folder **/lib/base/service/**.
 
 Helper class for both the Library and Examples are defined within folder **/lib/helpers/**.
+
 ```
 lib/
 ├── api
@@ -367,15 +458,16 @@ lib/
 │   ├── AdvertiserReportLogInstalls.js
 │   ├── AdvertiserReportLogPostbacks.js
 │   ├── Export.js
-│   └── index.js
+│   ├── index.js
+│   └── SessionAuthenticate.js
 ├── base
 │   ├── endpoints
-│   │   ├── EndpointBase.js
-│   │   ├── index.js
 │   │   ├── AdvertiserReportActualsBase.js
 │   │   ├── AdvertiserReportBase.js
 │   │   ├── AdvertiserReportCohortBase.js
-│   │   └── AdvertiserReportLogBase.js
+│   │   ├── AdvertiserReportLogBase.js
+│   │   ├── EndpointBase.js
+│   │   └── index.js
 │   ├── index.js
 │   └── service
 │       ├── index.js
@@ -402,7 +494,7 @@ lib/
 
 Run the following script to view execution of all examples:
 ```bash
-    $ make api_key=[API_KEY] ant-examplesfieldsRecommended
+    $ make examples api_key=[API_KEY]
 ```
 
 Each Advertiser Report class defined in **/lib/api/** has an example:
@@ -426,7 +518,7 @@ examples/
 
 Run the following script to view execution of all unittests:
 ```bash
-    $ make api_key=[API_KEY] ant-tests
+    $ make test api_key=[API_KEY]
 ```
 
 Each Advertiser Report class defined in **/lib/api/** has a test:
