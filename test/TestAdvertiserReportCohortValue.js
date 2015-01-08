@@ -1,10 +1,4 @@
 #!/usr/bin/env node
-// define global objects:
-/*global describe, before, it*/
-
-// define jslint-options:
-/* jshint -W030 -W036 */
-
 /**
  * TestAdvertiserReportCohortValue.js, Test of TUNE Reporting API.
  *
@@ -17,7 +11,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-01-06 14:33:18 $
+ * @version   $Date: 2015-01-07 18:08:35 $
  * @link      http://developers.mobileapptracking.com @endlink
  */
 "use strict";
@@ -33,10 +27,10 @@ var
   expect = require('chai').expect;
 
 describe('test AdvertiserReportCohortValue', function () {
-  this.timeout(30000);
+  this.timeout(60000);
   var
     advertiserReport,
-    apiKey = undefined,
+    apiKey,
     csvJobId,
 
     // Set start date to the start of one week ago.
@@ -123,7 +117,7 @@ describe('test AdvertiserReportCohortValue', function () {
         expect(response).to.be.not.null;
         expect(response.getHttpCode()).eql(200);
 
-        csvJobId = advertiserReport.parseResponseReportJobId(response);
+        csvJobId = response.toJson().responseJson.data.job_id;
         expect(csvJobId).to.be.not.null;
         expect(csvJobId).to.be.a('string');
         expect(csvJobId).to.be.not.empty;

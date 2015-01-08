@@ -10,7 +10,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-01-06 14:33:18 $
+ * @version   $Date: 2015-01-07 18:08:35 $
  * @link      http://developers.mobileapptracking.com @endlink
  */
 
@@ -30,6 +30,7 @@ var config = convict({
         doc: "TUNE Reporting Authentication Key: MobileAppTracking API_KEY or Session token.",
         format: String,
         default: "UNDEFINED",
+        env: "TUNE_REPORTING_API_KEY",
         arg: "tune_reporting_auth_key"
       },
       auth_type: {
@@ -54,7 +55,7 @@ var config = convict({
         timeout: {
           doc: "TUNE reporting export fetch timeout (seconds).",
           format: "int",
-          default: 240,
+          default: 300,
           arg: "tune_reporting_status_timeout"
         },
         verbose: {
