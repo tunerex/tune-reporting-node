@@ -2,7 +2,7 @@
 <h2>TUNE Reporting SDK for Node</h2>
 <h3>Incorporate TUNE Reporting services.</h3>
 <h4>Update:  $Date: 2015-01-07 15:07:20 $</h4>
-<h4>Version: 0.1.19</h4>
+<h4>Version: 0.1.20</h4>
 ===
 
 <a id="TOP"></a>
@@ -211,6 +211,7 @@ Install as follows
 The TUNE Reporting SDK configuration is set within file ```./config.js```.
 
 And the appropriate environment settings:
+
 ```
 config
 ├── development.json
@@ -434,6 +435,7 @@ File **Makefile** provides shortcuts for executing examples and tests.
 ├── package.json
 ├── README.md
 └── test
+```
 
 <a id="sdk_sources_lib" name="sdk_sources_lib"></a>
 #### Library
@@ -471,8 +473,8 @@ lib/
 │   ├── index.js
 │   └── service
 │       ├── index.js
-│       ├── QueryStringBuilder.js
 │       ├── TuneManagementClient.js
+│       ├── TuneManagementQueryString.js
 │       ├── TuneManagementRequest.js
 │       └── TuneManagementResponse.js
 ├── helpers

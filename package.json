@@ -1,7 +1,7 @@
 {
   "name": "tune-reporting",
   "description": "TUNE Reporting SDK for Node.js",
-  "version": "0.1.19",
+  "version": "0.1.20",
   "author": {
     "name": "Jeff Tanner",
     "email": "jefft@tune.com"
@@ -33,7 +33,7 @@
   "dependencies": {
     "async": "^0.9.0",
     "cli-table": "^0.3.1",
-    "clone": "^0.1.19",
+    "clone": "^0.1.20",
     "colors": "^1.0.3",
     "convict": "^0.6.0",
     "events": "~1.0.2",
