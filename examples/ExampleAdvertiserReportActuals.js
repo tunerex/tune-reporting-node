@@ -10,7 +10,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-01-06 14:33:18 $
+ * @version   $Date: 2015-01-07 18:08:35 $
  * @link      http://developers.mobileapptracking.com @endlink
  */
 "use strict";
@@ -18,7 +18,7 @@
 var
   config = require('../config.js'),
   tuneReporting = require('../lib'),
-  _ = require('underscore'),
+  _ = require('lodash'),
   util = require('util'),
   async = require('async'),
   stackTrace = require('stack-trace'),
@@ -26,6 +26,7 @@ var
   AdvertiserReportActuals = tuneReporting.api.AdvertiserReportActuals,
   SessionAuthenticate = tuneReporting.api.SessionAuthenticate,
   EndpointBase = tuneReporting.base.endpoints.EndpointBase,
+  InvalidArgument = tuneReporting.helpers.InvalidArgument,
   ReportReaderCSV = tuneReporting.helpers.ReportReaderCSV,
   ReportReaderJSON = tuneReporting.helpers.ReportReaderJSON,
   response;
@@ -34,11 +35,11 @@ require('../lib/helpers/Date');
 
 try {
   var
-    apiKey = undefined,
+    apiKey,
     authKey = config.get('tune.reporting.auth_key'),
     authType = config.get('tune.reporting.auth_type'),
     sessionAuthenticate = new SessionAuthenticate(),
-    sessionToken = undefined,
+    sessionToken,
     advertiserReport = new AdvertiserReportActuals(),
 
     startDate = new Date().setOneWeekAgo().setStartTime().getIsoDateTime(),
@@ -51,17 +52,17 @@ try {
     jsonJobId = null,
     jsonReportUrl = null;
 
-    if (!authKey || !_.isString(authKey) || (0 === authKey.length)) {
-      throw new InvalidArgument(
-        'authKey'
-      );
-    }
-    if (!authType || !_.isString(authType) || (0 === authType.length)) {
-      throw new InvalidArgument(
-        'authType'
-      );
-    }
-    apiKey = authKey;
+  if (!authKey || !_.isString(authKey) || (0 === authKey.length)) {
+    throw new InvalidArgument(
+      'authKey'
+    );
+  }
+  if (!authType || !_.isString(authType) || (0 === authType.length)) {
+    throw new InvalidArgument(
+      'authType'
+    );
+  }
+  apiKey = authKey;
 
   async.series({
     taskStartExample: function (next) {
@@ -91,26 +92,6 @@ try {
         return next();
       });
     },
-    taskDefine: function (next) {
-      console.log('\n');
-      console.log('==========================================================');
-      console.log(' Define Metadata of Advertiser Report Click Logs.         ');
-      console.log('==========================================================');
-      console.log('\n');
-
-      advertiserReport.getDefine(function (error, response) {
-        if (error) {
-          return next(error);
-        }
-
-        console.log(' Status: "success"');
-        console.log(' TuneManagementResponse:');
-        console.log(response.toJson());
-        console.log(' Data:');
-        console.log(response.getData());
-        return next();
-      });
-    },
     taskFieldsRecommended: function (next) {
       console.log('\n');
       console.log('==========================================================');
@@ -127,7 +108,7 @@ try {
 
           console.log(' Status: "success"');
           console.log(' TuneManagementResponse:');
-          console.log(response.toJson());
+          console.log(response);
           arrayFieldsRecommended = response;
           return next();
         }
@@ -159,7 +140,7 @@ try {
 
           console.log(' Status: "success"');
           console.log(' TuneManagementResponse:');
-          console.log(response.toJson());
+          console.log(response.toJson().responseJson.data);
 
           console.log('\n');
           console.log(util.format(' Count: %d', count));
@@ -196,7 +177,7 @@ try {
 
           console.log(' Status: "success"');
           console.log(' TuneManagementResponse:');
-          console.log(response.toJson());
+          console.log(response.toJson().responseJson.data);
           return next();
         }
       );
@@ -230,7 +211,7 @@ try {
 
           console.log(' Status: "success"');
           console.log(' TuneManagementResponse:');
-          console.log(response.toJson());
+          console.log(response.toJson().responseJson.data);
           return next();
         }
       );
@@ -278,7 +259,7 @@ try {
 
           console.log(' Status: "success"');
           console.log(' TuneManagementResponse:');
-          console.log(response.toJson());
+          console.log(response.toJson().responseJson.data);
           return next();
         }
       );
@@ -286,7 +267,7 @@ try {
     taskExportCsvReport: function (next) {
       console.log('\n');
       console.log('==========================================================');
-      console.log(' Export Advertiser Report Actuals CSV report.         ');
+      console.log(' Export Advertiser Report Actuals CSV report.             ');
       console.log('==========================================================');
       console.log('\n');
 
@@ -310,9 +291,9 @@ try {
 
           console.log(' Status: "success"');
           console.log(' TuneManagementResponse:');
-          console.log(response.toJson());
+          console.log(response.toJson().responseJson.data);
 
-          csvJobId = advertiserReport.parseResponseReportJobId(response);
+          csvJobId = response.toJson().responseJson.data;
 
           console.log('\n');
           console.log(util.format(' CSV Report Job ID: "%s"', csvJobId));
@@ -323,7 +304,7 @@ try {
     taskStatusCsvReport: function (next) {
       console.log('\n');
       console.log('==========================================================');
-      console.log(' Status Advertiser Report Actuals Logs CSV report.          ');
+      console.log(' Status Advertiser Report Actuals Logs CSV report.        ');
       console.log('==========================================================');
       console.log('\n');
 
@@ -340,7 +321,7 @@ try {
 
           console.log(' Status: "success"');
           var json = response.toJson();
-          console.log(json.response_json.data);
+          console.log(json.responseJson.data);
 
           return next();
         }
@@ -349,9 +330,11 @@ try {
     taskFetchCsvReport: function (next) {
       console.log('\n');
       console.log('==========================================================');
-      console.log(' Fetch Advertiser Report Actuals CSV report.          ');
+      console.log(' Fetch Advertiser Report Actuals CSV report.              ');
       console.log('==========================================================');
       console.log('\n');
+
+      csvReportUrl = undefined;
 
       advertiserReport.fetchReport(
         csvJobId,
@@ -366,12 +349,16 @@ try {
 
           console.log(' Status: "success"');
           console.log(' TuneManagementResponse:');
-          console.log(response.toJson());
+          console.log(response.toJson().responseJson.data);
 
-          csvReportUrl = advertiserReport.parseResponseReportUrl(response);
+          if (100 === response.toJson().responseJson.data.percent_complete) {
+            csvReportUrl = advertiserReport.parseResponseReportUrl(response);
 
-          console.log('\n');
-          console.log(util.format(' CSV Report URL: "%s"', csvReportUrl));
+            console.log(util.format(' CSV Report URL: "%s"', csvReportUrl));
+          } else {
+            console.log(' Fetch CSV Report not completed:');
+            console.log(response.toJson().responseJson.data);
+          }
 
           return next();
         }
@@ -381,28 +368,35 @@ try {
 
       console.log('\n');
       console.log('==========================================================');
-      console.log(' Read Advertiser Report Actuals CSV report.           ');
+      console.log(' Read Advertiser Report Actuals CSV report.               ');
       console.log('==========================================================');
       console.log('\n');
-      var
-        csv_reader = new ReportReaderCSV(csvReportUrl),
-        print_request = csv_reader.prettyprint(5);
 
-      print_request.once('success', function onSuccess(response) {
-        console.log(response);
-        next();
-      });
+      if (csvReportUrl) {
+        var
+          csv_reader = new ReportReaderCSV(csvReportUrl),
+          print_request = csv_reader.prettyprint(5);
 
-      print_request.once('error', function onError(response) {
-        return next(response);
-      });
+        print_request.once('success', function onSuccess(response) {
+          console.log(response);
+          next();
+        });
+
+        print_request.once('error', function onError(response) {
+          return next(response);
+        });
+      } else {
+        console.log(' Failed to fetch CSV Report URL.');
+      }
     },
     taskExportJsonReport: function (next) {
       console.log('\n');
       console.log('==========================================================');
-      console.log(' Export Advertiser Report Actuals JSON report.        ');
+      console.log(' Export Advertiser Report Actuals JSON report.            ');
       console.log('==========================================================');
       console.log('\n');
+
+      jsonJobId = undefined;
 
       advertiserReport.exportReport(
         startDate,
@@ -424,9 +418,9 @@ try {
 
           console.log(' Status: "success"');
           console.log(' TuneManagementResponse:');
-          console.log(response.toJson());
+          console.log(response.toJson().responseJson.data);
 
-          jsonJobId = advertiserReport.parseResponseReportJobId(response);
+          jsonJobId = response.toJson().responseJson.data;
 
           console.log('\n');
           console.log(util.format(' JSON Report Job ID: "%s"', jsonJobId));
@@ -437,7 +431,7 @@ try {
     taskStatusJsonReport: function (next) {
       console.log('\n');
       console.log('==========================================================');
-      console.log(' Status Advertiser Report Actuals Logs JSON report.          ');
+      console.log(' Status Advertiser Report Actuals Logs JSON report.       ');
       console.log('==========================================================');
       console.log('\n');
 
@@ -454,7 +448,7 @@ try {
 
           console.log(' Status: "success"');
           var json = response.toJson();
-          console.log(json.response_json.data);
+          console.log(json.responseJson.data);
           return next();
         }
       );
@@ -462,9 +456,11 @@ try {
     taskFetchJsonReport: function (next) {
       console.log('\n');
       console.log('==========================================================');
-      console.log(' Fetch Advertiser Report Actuals JSON report.         ');
+      console.log(' Fetch Advertiser Report Actuals JSON report.             ');
       console.log('==========================================================');
       console.log('\n');
+
+      jsonReportUrl = undefined;
 
       advertiserReport.fetchReport(
         jsonJobId,
@@ -478,12 +474,16 @@ try {
           }
           console.log(' Status: "success"');
           console.log(' TuneManagementResponse:');
-          console.log(response.toJson());
+          console.log(response.toJson().responseJson.data);
 
-          jsonReportUrl = advertiserReport.parseResponseReportUrl(response);
+          if (100 === response.toJson().responseJson.data.percent_complete) {
+            jsonReportUrl = advertiserReport.parseResponseReportUrl(response);
 
-          console.log('\n');
-          console.log(util.format(' JSON Report URL: "%s"', jsonReportUrl));
+            console.log(util.format(' JSON Report URL: "%s"', jsonReportUrl));
+          } else {
+            console.log(' Fetch JSON Report not completed:');
+            console.log(response.toJson().responseJson.data);
+          }
 
           return next();
         }
@@ -493,21 +493,26 @@ try {
 
       console.log('\n');
       console.log('==========================================================');
-      console.log(' Read Advertiser Report Actuals JSON report.          ');
+      console.log(' Read Advertiser Report Actuals JSON report.              ');
       console.log('==========================================================');
       console.log('\n');
-      var
-        json_reader = new ReportReaderJSON(jsonReportUrl),
-        print_request = json_reader.prettyprint(5);
 
-      print_request.once('success', function onSuccess(response) {
-        console.log(response);
-        next();
-      });
+      if (jsonReportUrl) {
+        var
+          json_reader = new ReportReaderJSON(jsonReportUrl),
+          print_request = json_reader.prettyprint(5);
 
-      print_request.once('error', function onError(response) {
-        return next(response);
-      });
+        print_request.once('success', function onSuccess(response) {
+          console.log(response);
+          next();
+        });
+
+        print_request.once('error', function onError(response) {
+          return next(response);
+        });
+      } else {
+        console.log(' Failed to fetch JSON Report URL.');
+      }
 
     },
     taskCountSessionToken: function (next) {
@@ -561,7 +566,6 @@ try {
         console.log('\n');
         console.log('======================================================'.red);
         console.log(' Status: "error"'.red);
-        console.log(' TuneManagementResponse:'.red);
         console.log(err);
         console.log('======================================================'.red);
       }

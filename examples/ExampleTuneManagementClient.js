@@ -10,7 +10,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-01-06 14:33:18 $
+ * @version   $Date: 2015-01-07 18:08:35 $
  * @link      http://developers.mobileapptracking.com @endlink
  */
 "use strict";
@@ -18,12 +18,13 @@
 var
   config = require('../config.js'),
   tuneReporting = require('../lib'),
-  _ = require('underscore'),
+  _ = require('lodash'),
   util = require('util'),
   async = require('async'),
   stackTrace = require('stack-trace'),
   SessionAuthenticate = tuneReporting.api.SessionAuthenticate,
   TuneManagementClient = tuneReporting.base.service.TuneManagementClient,
+  InvalidArgument = tuneReporting.helpers.InvalidArgument,
   client;
 
 function conclude(status, response) {
@@ -35,11 +36,11 @@ function conclude(status, response) {
 
 try {
   var
-    apiKey = undefined,
+    apiKey,
     authKey = config.get('tune.reporting.auth_key'),
     authType = config.get('tune.reporting.auth_type'),
     sessionAuthenticate = new SessionAuthenticate(),
-    sessionToken = undefined,
+    sessionToken,
     client = new TuneManagementClient(
       'account/users',
       'find',
@@ -51,17 +52,17 @@ try {
       }
     );
 
-    if (!authKey || !_.isString(authKey) || (0 === authKey.length)) {
-      throw new InvalidArgument(
-        'authKey'
-      );
-    }
-    if (!authType || !_.isString(authType) || (0 === authType.length)) {
-      throw new InvalidArgument(
-        'authType'
-      );
-    }
-    apiKey = authKey;
+  if (!authKey || !_.isString(authKey) || (0 === authKey.length)) {
+    throw new InvalidArgument(
+      'authKey'
+    );
+  }
+  if (!authType || !_.isString(authType) || (0 === authType.length)) {
+    throw new InvalidArgument(
+      'authType'
+    );
+  }
+  apiKey = authKey;
 
   async.series({
     taskStartExample: function (next) {
@@ -86,9 +87,9 @@ try {
 
         console.log(' Status: "success"');
         console.log(' TuneManagementResponse:');
-        console.log(response.toJson().response_json.data);
+        console.log(response.toJson().responseJson.data);
 
-        sessionToken = response.toJson().response_json.data;
+        sessionToken = response.toJson().responseJson.data;
         console.log(' session_token:');
         console.log(sessionToken);
         return next();
@@ -130,7 +131,7 @@ try {
         console.log('\n');
         console.log(' Event: "success"');
         console.log(' TuneManagementResponse:');
-        console.log(response.toJson().response_json.data);
+        console.log(response.toJson().responseJson.data);
         next();
       });
 
@@ -157,7 +158,7 @@ try {
         console.log('\n');
         console.log(' Event: "success"');
         console.log(' TuneManagementResponse:');
-        console.log(response.toJson().response_json.data);
+        console.log(response.toJson().responseJson.data);
         next();
       });
 

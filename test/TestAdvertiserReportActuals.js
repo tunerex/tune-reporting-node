@@ -1,10 +1,4 @@
 #!/usr/bin/env node
-// define global objects:
-/*global describe, before, it*/
-
-// define jslint-options:
-/* jshint -W030 -W036 */
-
 /**
  * TestAdvertiserReportActuals.js, Test of TUNE Reporting API.
  *
@@ -17,7 +11,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-01-06 14:33:18 $
+ * @version   $Date: 2015-01-07 18:08:35 $
  * @link      http://developers.mobileapptracking.com @endlink
  */
 "use strict";
@@ -33,11 +27,11 @@ var
   expect = require('chai').expect;
 
 describe('test AdvertiserReportActuals', function () {
-  this.timeout(30000);
+  this.timeout(60000);
   var
     advertiserReport,
     csvJobId,
-    apiKey = undefined,
+    apiKey,
 
     // Set start date to the start of one week ago.
     startDate = new Date().setOneWeekAgo().setStartTime().getIsoDateTime(),
@@ -96,12 +90,12 @@ describe('test AdvertiserReportActuals', function () {
     advertiserReport.find(
       startDate,
       endDate,
-      fieldsRecommended,                             // fields
+      fieldsRecommended,                              // fields
       'site_id,publisher_id',                         // group
       '(publisher_id > 0)',                           // filter
       5,                                              // limit
       null,                                           // page
-      { 'paid_installs': 'DESC' },                         // sort
+      { 'paid_installs': 'DESC' },                    // sort
       'datehour',                                     // timestamp
       strResponseTimezone,
       function (error, response) {
@@ -116,7 +110,7 @@ describe('test AdvertiserReportActuals', function () {
     advertiserReport.exportReport(
       startDate,
       endDate,
-      fieldsRecommended,                             // fields
+      fieldsRecommended,                              // fields
       'site_id,publisher_id',                         // group
       '(publisher_id > 0)',                           // filter
       'datehour',                                     // timestamp
@@ -126,7 +120,7 @@ describe('test AdvertiserReportActuals', function () {
         expect(error).to.be.null;
         expect(response).to.be.not.null;
 
-        csvJobId = advertiserReport.parseResponseReportJobId(response);
+        csvJobId = response.toJson().responseJson.data;
         expect(csvJobId).to.be.not.null;
         expect(csvJobId).to.be.a('string');
         expect(csvJobId).to.be.not.empty;

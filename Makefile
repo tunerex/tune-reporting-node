@@ -26,7 +26,7 @@
 # author    Jeff Tanner <jefft@tune.com>
 # copyright 2014 TUNE, Inc. (http://www.tune.com)
 # license   http://opensource.org/licenses/MIT The MIT License (MIT)
-# version   $Date: 2015-01-06 14:33:18 $
+# version   $Date: 2015-01-07 15:07:20 $
 # link      http://developers.mobileapptracking.com/tune-api-sdks/
 #
 
@@ -37,15 +37,15 @@ clean:
 	sudo rm -fR ./docs/yuidoc/*
 
 examples:
-	node ./examples/ExampleTuneManagementClient --tune_reporting_auth_key=$(api_key) --tune_reporting_auth_type=api_key
-	node ./examples/ExampleAdvertiserReportLogClicks --tune_reporting_auth_key=$(api_key) --tune_reporting_auth_type=api_key
-	node ./examples/ExampleAdvertiserReportLogEventItems --tune_reporting_auth_key=$(api_key) --tune_reporting_auth_type=api_key
-	node ./examples/ExampleAdvertiserReportLogEvents --tune_reporting_auth_key=$(api_key) --tune_reporting_auth_type=api_key
-	node ./examples/ExampleAdvertiserReportLogInstalls --tune_reporting_auth_key=$(api_key) --tune_reporting_auth_type=api_key
-	node ./examples/ExampleAdvertiserReportLogPostbacks --tune_reporting_auth_key=$(api_key) --tune_reporting_auth_type=api_key
-	node ./examples/ExampleAdvertiserReportActuals --tune_reporting_auth_key=$(api_key) --tune_reporting_auth_type=api_key
-	node ./examples/ExampleAdvertiserReportCohortRetention --tune_reporting_auth_key=$(api_key) --tune_reporting_auth_type=api_key
-	node ./examples/ExampleAdvertiserReportCohortValue --tune_reporting_auth_key=$(api_key) --tune_reporting_auth_type=api_key
+	node ./examples/ExampleTuneManagementClient --env=test --tune_reporting_auth_key=$(api_key) --tune_reporting_auth_type=api_key
+	node ./examples/ExampleAdvertiserReportLogClicks --env=test --tune_reporting_auth_key=$(api_key) --tune_reporting_auth_type=api_key
+	node ./examples/ExampleAdvertiserReportLogEventItems --env=test --tune_reporting_auth_key=$(api_key) --tune_reporting_auth_type=api_key
+	node ./examples/ExampleAdvertiserReportLogEvents --env=test --tune_reporting_auth_key=$(api_key) --tune_reporting_auth_type=api_key
+	node ./examples/ExampleAdvertiserReportLogInstalls --env=test --tune_reporting_auth_key=$(api_key) --tune_reporting_auth_type=api_key
+	node ./examples/ExampleAdvertiserReportLogPostbacks --env=test --tune_reporting_auth_key=$(api_key) --tune_reporting_auth_type=api_key
+	node ./examples/ExampleAdvertiserReportActuals --env=test --tune_reporting_auth_key=$(api_key) --tune_reporting_auth_type=api_key
+	node ./examples/ExampleAdvertiserReportCohortRetention --env=test --tune_reporting_auth_key=$(api_key) --tune_reporting_auth_type=api_key
+	node ./examples/ExampleAdvertiserReportCohortValue --env=test --tune_reporting_auth_key=$(api_key) --tune_reporting_auth_type=api_key
 
 test-install:
 	npm install chai --save
