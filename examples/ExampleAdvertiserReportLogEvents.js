@@ -10,7 +10,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-01-07 18:08:35 $
+ * @version   $Date: 2015-01-12 22:43:06 $
  * @link      http://developers.mobileapptracking.com @endlink
  */
 "use strict";
@@ -269,6 +269,7 @@ try {
           if (100 === response.toJson().responseJson.data.percent_complete) {
             csvReportUrl = advertiserReport.parseResponseReportUrl(response);
 
+            console.log('\n');
             console.log(util.format(' CSV Report URL: "%s"', csvReportUrl));
           } else {
             console.log(' Fetch CSV Report not completed:');
@@ -392,6 +393,7 @@ try {
           if (100 === response.toJson().responseJson.data.percent_complete) {
             jsonReportUrl = advertiserReport.parseResponseReportUrl(response);
 
+            console.log('\n');
             console.log(util.format(' JSON Report URL: "%s"', jsonReportUrl));
           } else {
             console.log(' Fetch JSON Report not completed:');

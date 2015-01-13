@@ -3,7 +3,10 @@
     "reporting": {
       "auth_key": "UNDEFINED",
       "auth_type": "api_key",
-      "validate_fields": true
+      "validate_fields": true,
+      "status": {
+        "verbose": true 
+      }
     }
   }
 }
