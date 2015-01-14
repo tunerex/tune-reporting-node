@@ -26,7 +26,7 @@
 # author    Jeff Tanner <jefft@tune.com>
 # copyright 2014 TUNE, Inc. (http://www.tune.com)
 # license   http://opensource.org/licenses/MIT The MIT License (MIT)
-# version   $Date: 2015-01-07 15:07:20 $
+# version   $Date: 2015-01-13 21:00:00 $
 # link      http://developers.mobileapptracking.com/tune-api-sdks/
 #
 
@@ -85,11 +85,16 @@ nvm-install:
 	npm -v
 
 docs-jsdoc:
+	node -v
+	npm -v
+	npm install ink-docstrap
 	sudo rm -fR ./docs/jsdoc/*
 	jsdoc -c config/jsdoc.json
 	x-www-browser docs/jsdoc/index.html
 
 docs-yuidoc:
+	node -v
+	npm -v
 	sudo rm -fR ./docs/yuidoc/*
 	yuidoc ./lib/ -c config/yuidoc.json
 	x-www-browser docs/yuidoc/index.html
