@@ -124,3 +124,9 @@ Version 0.9.0
 Beta public release on January 12, 2015
 * Fixes to Readers to using native 'https'.
 * Fix to package.json.
+
+Version 0.9.1
+--------------
+
+Beta public release on January 13, 2015
+* Fixed .npmignore to not ignore config.js.
