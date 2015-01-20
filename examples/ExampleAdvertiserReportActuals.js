@@ -10,7 +10,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-01-12 22:43:06 $
+ * @version   $Date: 2015-01-20 14:17:43 $
  * @link      http://developers.mobileapptracking.com @endlink
  */
 "use strict";
@@ -107,7 +107,7 @@ try {
           }
 
           console.log(' Status: "success"');
-          console.log(' TuneManagementResponse:');
+          console.log(' Recommended Fields:');
           console.log(response);
           arrayFieldsRecommended = response;
           return next();
@@ -140,7 +140,7 @@ try {
 
           console.log(' Status: "success"');
           console.log(' TuneManagementResponse:');
-          console.log(response.toJson().responseJson.data);
+          console.log(response.toJson());
 
           console.log('\n');
           console.log(util.format(' Count: %d', count));
@@ -176,8 +176,12 @@ try {
           }
 
           console.log(' Status: "success"');
-          console.log(' TuneManagementResponse:');
+          console.log(' requestUrl:');
+          console.log(response.toJson().requestUrl);
+
+          console.log(' data:');
           console.log(response.toJson().responseJson.data);
+
           return next();
         }
       );
@@ -210,7 +214,10 @@ try {
           }
 
           console.log(' Status: "success"');
-          console.log(' TuneManagementResponse:');
+          console.log(' requestUrl:');
+          console.log(response.toJson().requestUrl);
+
+          console.log(' data:');
           console.log(response.toJson().responseJson.data);
           return next();
         }
@@ -258,7 +265,63 @@ try {
           }
 
           console.log(' Status: "success"');
-          console.log(' TuneManagementResponse:');
+          console.log(' requestUrl:');
+          console.log(response.toJson().requestUrl);
+
+          console.log(' data:');
+          console.log(response.toJson().responseJson.data);
+          return next();
+        }
+      );
+    },
+    taskFindFilter4: function (next) {
+      console.log('\n');
+      console.log('==========================================================');
+      console.log(' Find Advertiser Report Actuals with Filter #4.           ');
+      console.log('==========================================================');
+      console.log('\n');
+      var
+        fields = [
+          'site_id',
+          'site.name',
+          'publisher_id',
+          'publisher_sub_ad.name',
+          'publisher_sub_ad.ref',
+          'publisher.name',
+          'ad_impressions',
+          'ad_clicks',
+          'installs',
+          'opens',
+          'revenues_usd'
+        ],
+        filter = "(publisher_id > 0) AND (publisher.name = 'App Alliances') AND (publisher_sub_ad.ref = 48)",
+        group = 'site_id,publisher_id,publisher_sub_ad_ref';
+
+      advertiserReport.find(
+        startDate,
+        endDate,
+        fields,                                                         // fields
+        group,                                                          // group
+        filter,                                                         // filter
+        5,                                                              // limit
+        null,                                                           // page
+        { 'installs': 'DESC' },                                         // sort
+        'datehour',                                                     // timestamp
+        'UTC',                                                          // response_timezone
+        function (error, response) {
+          if (error) {
+            return next(error);
+          }
+
+          if ((response.getHttpCode() !== 200) || (response.getErrors() !== null)) {
+            return next(response);
+          }
+
+          console.log(' Status: "success"');
+          console.log(' requestUrl:');
+          console.log(response.toJson().requestUrl);
+
+          console.log(' data:');
           console.log(response.toJson().responseJson.data);
           return next();
         }
@@ -290,7 +353,10 @@ try {
           }
 
           console.log(' Status: "success"');
-          console.log(' TuneManagementResponse:');
+          console.log(' requestUrl:');
+          console.log(response.toJson().requestUrl);
+
+          console.log(' data:');
           console.log(response.toJson().responseJson.data);
 
           csvJobId = response.toJson().responseJson.data;

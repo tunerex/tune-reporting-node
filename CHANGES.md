@@ -1,7 +1,7 @@
 <h2>tune-reporting Change Log</h2>
 <h2>TUNE Reporting SDK for Node.js</h2>
 <h3>Incorporate TUNE Reporting services.</h3>
-<h4>Update:  $Date: 2015-01-12 22:43:06 $</h4>
+<h4>Update:  $Date: 2015-01-20 14:17:43 $</h4>
 =======================
 
 Here you can see the full list of changes between each tune-api-php release.
@@ -111,7 +111,10 @@ Beta public release on January 07, 2015
 * Fixed examples and tests.
 * Replace using module 'request' with native 'https'.
 * Replace using module 'underscore' with 'lodash'.
+<<<<<<< HEAD
+=======
 
+>>>>>>> fe70525fbf4806dead7b969a87555fdd7b3589a5
 Version 0.1.20
 --------------
 
@@ -123,6 +126,7 @@ Version 0.9.0
 
 Beta public release on January 12, 2015
 * Fixes to Readers to using native 'https'.
+<<<<<<< HEAD
 * Fix to package.json.
 
 Version 0.9.1
@@ -130,3 +134,13 @@ Version 0.9.1
 
 Beta public release on January 13, 2015
 * Fixed .npmignore to not ignore config.js.
+
+
+Version 0.9.3
+--------------
+
+Beta public release on January 20, 2015
+* Fix Fields
+=======
+* Fix to package.json.
+>>>>>>> fe70525fbf4806dead7b969a87555fdd7b3589a5
