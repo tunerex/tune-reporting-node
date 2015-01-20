@@ -26,7 +26,7 @@
 # author    Jeff Tanner <jefft@tune.com>
 # copyright 2014 TUNE, Inc. (http://www.tune.com)
 # license   http://opensource.org/licenses/MIT The MIT License (MIT)
-# version   $Date: 2015-01-13 21:00:00 $
+# version   $Date: 2015-01-20 14:17:43 $
 # link      http://developers.mobileapptracking.com/tune-api-sdks/
 #
 

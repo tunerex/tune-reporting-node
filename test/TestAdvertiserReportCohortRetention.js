@@ -11,7 +11,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-01-07 18:08:35 $
+ * @version   $Date: 2015-01-20 14:17:43 $
  * @link      http://developers.mobileapptracking.com @endlink
  */
 "use strict";
@@ -79,12 +79,14 @@ describe('test AdvertiserReportCohortRetention', function () {
   });
 
   it('find', function (done) {
+    expect(fieldsRecommended).to.be.not.null;
+    expect(fieldsRecommended).to.be.not.empty;
     advertiserReport.find(
       startDate,
       endDate,
       'click',                                        // cohortType
       'year_day',                                     // cohortInterval
-      fieldsRecommended,                             // fields
+      fieldsRecommended,                              // fields
       'site_id,install_publisher_id',                 // group
       '(install_publisher_id > 0)',                   // filter
       5,                                              // limit
