@@ -10,7 +10,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-01-12 22:43:06 $
+ * @version   $Date: 2015-01-20 14:17:43 $
  * @link      http://developers.mobileapptracking.com @endlink
  */
 "use strict";

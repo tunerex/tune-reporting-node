@@ -10,7 +10,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-01-12 22:43:06 $
+ * @version   $Date: 2015-01-20 14:17:43 $
  * @link      http://developers.mobileapptracking.com @endlink
  */
 "use strict";
@@ -107,7 +107,8 @@ try {
           }
 
           console.log(' Status: "success"');
-          console.log(' TuneManagementResponse:');
+          console.log(' Recommended Fields:');
+          console.log(response);
           arrayFieldsRecommended = response;
           return next();
         }
@@ -139,8 +140,11 @@ try {
           var count = response.getData();
 
           console.log(' Status: "success"');
-          console.log(' TuneManagementResponse:');
-          console.log(response.toJson());
+          console.log(' requestUrl:');
+          console.log(response.toJson().requestUrl);
+
+          console.log(' data:');
+          console.log(response.toJson().responseJson.data);
 
           console.log('\n');
           console.log(util.format(' Count: %d', count));
@@ -177,8 +181,11 @@ try {
           }
 
           console.log(' Status: "success"');
-          console.log(' TuneManagementResponse:');
-          console.log(response.toJson());
+          console.log(' requestUrl:');
+          console.log(response.toJson().requestUrl);
+
+          console.log(' data:');
+          console.log(response.toJson().responseJson.data);
           return next();
         }
       );
@@ -208,11 +215,13 @@ try {
           }
 
           console.log(' Status: "success"');
-          console.log(' TuneManagementResponse:');
+          console.log(' requestUrl:');
+          console.log(response.toJson().requestUrl);
+
+          console.log(' data:');
           console.log(response.toJson().responseJson.data);
 
           csvJobId = response.toJson().responseJson.data.job_id;
-
           console.log('\n');
           console.log(util.format(' CSV Report Job ID: "%s"', csvJobId));
           return next();
@@ -240,8 +249,11 @@ try {
           }
 
           console.log(' Status: "success"');
-          var json = response.toJson();
-          console.log(json.responseJson.data);
+          console.log(' requestUrl:');
+          console.log(response.toJson().requestUrl);
+
+          console.log(' data:');
+          console.log(response.toJson().responseJson.data);
 
           return next();
         }
@@ -341,10 +353,6 @@ try {
           var count = response.getData();
 
           console.log(' Status: "success"');
-          console.log(' TuneManagementResponse:');
-          console.log(response.toJson().responseJson.data);
-
-          console.log('\n');
           console.log(util.format(' Count: %d', count));
           return next();
         }
