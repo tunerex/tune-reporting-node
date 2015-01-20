@@ -87,17 +87,21 @@ describe('test AdvertiserReportActuals', function () {
   });
 
   it('find', function (done) {
+    var options = {
+      startDate: startDate,
+      endDate: endDate,
+      fields: fieldsRecommended,
+      group: 'site_id,publisher_id',                         // group
+      filter: '(publisher_id > 0)',                           // filter
+      limit: 5,                                              // limit
+      page: null,                                           // page
+      sort: { 'paid_installs': 'DESC' },                    // sort
+      timestamp: 'datehour',                                     // timestamp
+      responseTimezone: strResponseTimezone,
+    }
+
     advertiserReport.find(
-      startDate,
-      endDate,
-      fieldsRecommended,                              // fields
-      'site_id,publisher_id',                         // group
-      '(publisher_id > 0)',                           // filter
-      5,                                              // limit
-      null,                                           // page
-      { 'paid_installs': 'DESC' },                    // sort
-      'datehour',                                     // timestamp
-      strResponseTimezone,
+      options,
       function (error, response) {
         expect(error).to.be.null;
         expect(response).to.be.not.null;

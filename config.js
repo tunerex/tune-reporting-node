@@ -14,7 +14,34 @@
  * @link      http://developers.mobileapptracking.com @endlink
  */
 
-var convict = require("convict");
+var
+  fs = require("fs"),
+  path = require("path"),
+  convict = require("convict");
+
+/**
+ * Checks if the given configPath exists
+ *
+ * @param  convict c         convict config isntance
+ * @param  string configPath check if the given configPath exists.
+ *
+ * @return {Boolean}
+ */
+var loadConfigFile = function (c, configPath) {
+  if (fs.existsSync(configPath)) {
+    c.loadFile(configPath);
+    return true;
+  }
+
+  var newPath = path.join(__dirname, configPath);
+  if (fs.existsSync(configPath)) {
+    c.loadFile(newPath);
+    return true;
+  }
+
+  return false;
+};
+
 
 var config = convict({
   env: {
@@ -69,8 +96,8 @@ var config = convict({
   }
 });
 
-// load environment dependent configuration
-config.loadFile("./config/" + config.get("env") + ".json");
+// load environment dependent configurationk
+loadConfigFile(path.join("./config/", config.get("env") + ".json"));
 
 // validate
 config.validate();
