@@ -110,6 +110,26 @@ describe('test AdvertiserReportActuals', function () {
     );
   });
 
+  it('find2', function (done) {
+     advertiserReport.find(
+      startDate,
+      endDate,
+      fieldsRecommended,                              // fields
+      'site_id,publisher_id',                         // group
+      '(publisher_id > 0)',                           // filter
+      5,                                              // limit
+      null,                                           // page
+      { 'paid_installs': 'DESC' },                    // sort
+      'datehour',                                     // timestamp
+      strResponseTimezone,
+      function (error, response) {
+        expect(error).to.be.null;
+        expect(response).to.be.not.null;
+        done();
+      }
+    );
+  });
+
   it('exportReport CSV', function (done) {
     advertiserReport.exportReport(
       startDate,
