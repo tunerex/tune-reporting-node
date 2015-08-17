@@ -47,7 +47,7 @@ var config = convict({
   env: {
     doc: "TUNE Reporting SDK environment.",
     format: function (val) {
-      if (!/(^prod|^test|^dev|^stage)/.test(val)) {
+      if (!/(^prod|^test|^dev|^stage|^production|^staging|^development)/.test(val)) {
         throw new Error('Should be sensible environment value');
       }
     },
